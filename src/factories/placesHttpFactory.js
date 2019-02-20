@@ -24,11 +24,11 @@ module.exports = {
         })
     },
     get() { return placesHttp },
-    nearbySearch: async ({ coords, name, rankby='prominence' } = {}) => {
+    nearbySearch: async ({ location, name, rankby='prominence', radius=50000 } = {}) => {
         const config = configFactory.get()
         const query = {
-            location: coords,
-            radius: 50000,
+            location,
+            radius,
             name,
             rankby,
             language: LANGUAGE_MAPPINGS[config.locale]

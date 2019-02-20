@@ -17,7 +17,7 @@ module.exports = async function (msg, knownSlots = {}) {
 
     // Slot business_type
     if (!('business_type' in knownSlots)) {
-        const businessTypeSlot = message.getSlotsByName(msg, 'business_type', {
+        const businessTypeSlot = message.getSlotsByName(msg, 'location', {
             onlyMostConfident: true
         })
 

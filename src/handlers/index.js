@@ -21,5 +21,8 @@ const handlerWrapper = handler => (
 
 // Add handlers here, and wrap them.
 module.exports = {
-    pokemon: handlerWrapper(require('./pokemon'))
+    checkAround: handlerWrapper(require('./checkAround')),
+    findContact: handlerWrapper(require('./findContact')),
+    checkDistance: handlerWrapper(require('./checkDistance')),
+    checkHours: handlerWrapper(require('./checkHours'))
 }

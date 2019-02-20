@@ -15,9 +15,24 @@ module.exports = function ({
 
             const dialog = hermes.dialog()
 
-            // This is a placeholder! Replace that by something valid!
-            dialog.flow('pokemon', handlers.pokemon)
-
+            dialog.flows([
+                {
+                    intent: 'snips-assistant:CheckAround',
+                    action: handlers.checkAround
+                },
+                {
+                    intent: 'snips-assistant:FindContact',
+                    action: handlers.findContact
+                },
+                {
+                    intent: 'snips-assistant:CheckDistance',
+                    action: handlers.checkDistance
+                },
+                {
+                    intent: 'snips-assistant:CheckHours',
+                    action: handlers.checkHours
+                }
+            ])
         } catch (error) {
             // Output initialization errors to stderr and exit
             const message = await translation.errorMessage(error)

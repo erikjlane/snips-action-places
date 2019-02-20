@@ -1,20 +1,75 @@
 const { default: wretch } = require('wretch')
 const { dedupe } = require('wretch-middlewares')
+const configFactory = require('./configFactory')
+const {
+    LANGUAGE_MAPPINGS
+} = require('../constants')
 
-const BASE_URL = 'https://pokeapi.co/api/v2'
+const BASE_URL = 'https://maps.googleapis.com/maps/api/place'
 
-const http = wretch(BASE_URL)
-    // Add a dedupe middleware, throttling cache would also be useful to prevent excessive token usage.
-    // (https://github.com/elbywan/wretch-middlewares)
+let placesHttp = wretch(BASE_URL)
     .middlewares([
         dedupe()
     ])
 
 module.exports = {
     init(httpOptions = {}) {
+        const config = configFactory.get()
+
         wretch().polyfills({
             fetch: httpOptions.mock || require('node-fetch')
         })
+        placesHttp = placesHttp.query({
+            key: config.apiKey
+        })
     },
-    get() { return http }
+    get() { return placesHttp },
+    nearbySearch: async ({ coords, name, rankby='prominence' } = {}) => {
+        const config = configFactory.get()
+        const query = {
+            location: coords,
+            radius: 50000,
+            name,
+            rankby,
+            language: LANGUAGE_MAPPINGS[config.locale]
+        }
+
+        const results = await placesHttp
+            .url('/nearbysearch/json')
+            .query(query)
+            .get()
+            .json()
+            .catch(error => {
+                // Network error
+                if (error.name === 'TypeError')
+                    throw new Error('APIRequest')
+                // Other error
+                throw new Error('APIResponse')
+            })
+
+        return results
+    },
+    getDetails: async (placeId) => {
+        const config = configFactory.get()
+        const query = {
+            placeid: placeId,
+            region: config.currentRegion,
+            language: LANGUAGE_MAPPINGS[config.locale]
+        }
+
+        const results = await placesHttp
+            .url('/details/json')
+            .query(query)
+            .get()
+            .json()
+            .catch(error => {
+                // Network error
+                if (error.name === 'TypeError')
+                    throw new Error('APIRequest')
+                // Other error
+                throw new Error('APIResponse')
+            })
+
+        return results
+    }
 }

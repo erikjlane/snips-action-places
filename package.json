@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "test": "jest '^.*\\.spec\\.js$'"
   },
-  "author": "Thomas Bouvier &lt;contact@thomas-bouvier.io&gt;",
+  "author": "Thomas Bouvier <contact@thomas-bouvier.io>",
   "license": "MIT",
   "devDependencies": {
     "camelcase": "^5.0.0",

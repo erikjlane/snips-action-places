@@ -10,12 +10,12 @@ npm install
 ## Run
 
 ```
-node action.js
+node action-places.js
 ```
 
 ## Debug
 
-In the `action.js` file:
+In the `action-places.js` file:
 
 ```js
 // Uncomment this line to print everything
@@ -25,7 +25,7 @@ In the `action.js` file:
 When running from the terminal, to enable full depth object printing:
 
 ```bash
-env DEBUG_DEPTH=null action.js
+env DEBUG_DEPTH=null node action-places.js
 ```
 
 ## Test & Lint

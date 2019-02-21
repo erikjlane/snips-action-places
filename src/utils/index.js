@@ -4,5 +4,6 @@ module.exports = {
     message: require('./message'),
     translation: require('./translation'),
     math: require('./math'),
-    slot: require('./slot')
+    slot: require('./slot'),
+    places: require('./places')
 }

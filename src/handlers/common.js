@@ -13,40 +13,36 @@ module.exports = async function (msg, knownSlots = {}) {
         throw new Error('intentNotRecognized')
     }
 
-    let locationType, locationName, streetAddress
+    let locationTypes, locationNames
 
     // Slot location_type
-    if (!('location_type' in knownSlots)) {
-        const locationTypeSlot = message.getSlotsByName(msg, 'location_type', {
-            onlyMostConfident: true
+    if (!('location_types' in knownSlots)) {
+        const locationTypesSlot = message.getSlotsByName(msg, 'location_type', {
+            threshold: SLOT_CONFIDENCE_THRESHOLD
         })
 
-        if (locationTypeSlot) {
-            if (locationTypeSlot.confidence >= SLOT_CONFIDENCE_THRESHOLD) {
-                locationType = locationTypeSlot.value.value
-            }
+        if (locationTypesSlot) {
+            locationTypes  = locationTypesSlot.map(x => x.value.value)
         }
     } else {
-        locationType = knownSlots.location_type
+        locationType = knownSlots.location_types
     }
 
     // Slot location_name
-    if (!('location_name' in knownSlots)) {
-        const locationNameSlot = message.getSlotsByName(msg, 'location_name', {
-            onlyMostConfident: true
+    if (!('location_names' in knownSlots)) {
+        const locationNamesSlot = message.getSlotsByName(msg, 'location_name', {
+            threshold: SLOT_CONFIDENCE_THRESHOLD
         })
 
-        if (locationNameSlot) {
-            if (locationNameSlot.confidence >= SLOT_CONFIDENCE_THRESHOLD) {
-                locationName = locationNameSlot.value.value
-            }
+        if (locationNamesSlot) {
+            locationNames  = locationNamesSlot.map(x => x.value.value)
         }
     } else {
-        locationName = knownSlots.location_name
+        locationNames = knownSlots.location_names
     }
 
-    logger.info('\tlocation_type: ', locationType)
-    logger.info('\tlocation_name: ', locationName)
+    logger.info('\tlocation_types: ', locationTypes)
+    logger.info('\tlocation_names: ', locationNames)
 
-    return { locationType, locationName, streetAddress }
+    return { locationTypes, locationNames }
 }

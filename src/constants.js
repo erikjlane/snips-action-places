@@ -9,6 +9,7 @@ module.exports = {
         english: 'en',
         french: 'fr'
     },
+    SEARCH_RADIUS: 50000,
     INTENT_PROBABILITY_THRESHOLD: 0.5,
     INTENT_FILTER_PROBABILITY_THRESHOLD: 0,
     SLOT_CONFIDENCE_THRESHOLD: 0.5,

@@ -1,5 +1,5 @@
 const { i18nFactory, placesHttpFactory, configFactory } = require('../factories')
-const { logger, slot, message, translation } = require('../utils')
+const { logger, slot, message, translation, places } = require('../utils')
 const commonHandler = require('./common')
 const {
     SLOT_CONFIDENCE_THRESHOLD,
@@ -22,30 +22,29 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
     checkCurrentCoordinates()
 
     const {
-        locationType,
-        locationName
+        locationTypes,
+        locationNames
     } = await commonHandler(msg, knownSlots)
 
     // Get search_variable specific slot
-    let searchVariable
+    let searchVariables
 
-    if (!('search_variable' in knownSlots)) {
-        const searchVariableSlot = message.getSlotsByName(msg, 'search_variable', {
-            onlyMostConfident: true,
+    if (!('search_variables' in knownSlots)) {
+        const searchVariablesSlot = message.getSlotsByName(msg, 'search_variable', {
             threshold: SLOT_CONFIDENCE_THRESHOLD
         })
 
-        if (searchVariableSlot) {
-            searchVariable = searchVariableSlot.value.value
+        if (searchVariablesSlot) {
+            searchVariables = searchVariablesSlot.map(x => x.value.value)
         }
     } else {
-        searchVariable = knownSlots.search_variable
+        searchVariables = knownSlots.search_variables
     }
 
-    logger.info('\tsearch_variable: ', searchVariable)
+    logger.info('\tsearch_variables: ', searchVariables)
 
     // If both slots location_type and location_name are missing
-    if (slot.missing(locationType) && slot.missing(locationName)) {
+    if (slot.missing(locationTypes) && slot.missing(locationNames)) {
         if (knownSlots.depth === 0) {
             throw new Error('slotsNotRecognized')
         }
@@ -65,11 +64,11 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
             }
 
             // Adding the known slots, if more
-            if (!slot.missing(locationType)) {
-                slotsToBeSent.location_type = locationType
+            if (!slot.missing(locationTypes)) {
+                slotsToBeSent.location_types = locationTypes
             }
-            if (!slot.missing(locationName)) {
-                slotsToBeSent.location_name = locationName
+            if (!slot.missing(locationNames)) {
+                slotsToBeSent.location_names = locationNames
             }
 
             return require('./index').checkAround(msg, flow, slotsToBeSent)
@@ -84,18 +83,33 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
         
         return i18n('places.dialog.noLocation')
     } else {
-        const config = configFactory.get()
+        // Distance is the stronger choice
+        let rankby
+        if (searchVariables.includes('top rated')) {
+            rankby = 'prominence'
+        }
+        if (searchVariables.includes('nearby')) {
+            rankby = 'distance'
+        }
+
+        let opennow = false
+        if (searchVariables.includes('open')) {
+            opennow = true
+        }
+
+        const queryParameters = {
+            keyword: places.beautifyLocationName(locationTypes, locationNames),
+            rankby,
+            opennow
+        }
 
         // Get the data from Places API
-        const placesData = await placesHttpFactory.nearbySearch({
-            location: config.currentCoordinates,
-            name: `${ locationType } ${ locationName }`
-        })
+        const placesData = await placesHttpFactory.nearbySearch(queryParameters)
         logger.debug(placesData)
 
         let speech = ''
         try {
-            speech = translation.nearbySearchToSpeech(locationType, locationName, searchVariable, placesData)
+            speech = translation.nearbySearchToSpeech(locationTypes, locationNames, searchVariables, placesData)
         } catch (error) {
             logger.error(error)
             throw new Error('APIResponse')

@@ -14,18 +14,48 @@
             "noLocation": "I'm sorry, can you repeat what you are looking for?"
         },
         "checkAround": {
-            "noResults": [
-                "It seems that there is no {{ location }} around.",
-                "Unfortunately, I found no {{ location }} in the neighborhood.",
-                "Unfortunately, it seems that there is no {{ location }} around."
-            ],
-            "oneResult": [
-                "Cool, I found one {{ location }} in the neighborhood.",
-                "It seems that there is a {{ location }} in the neighborhood."
-            ],
-            "multipleResults": [
-                "I found {{ number }} {{ location }} around."
-            ]
+            "prominence": {
+                "noResults": [
+                    "It seems that there is no well rated {{- location }} around.",
+                    "Unfortunately, I found no well rated {{- location }} in the neighborhood.",
+                    "Unfortunately, it seems that there is no well rated {{- location }} around."
+                ],
+                "oneResult": [
+                    "Cool, I found one well rated {{- location }} in the neighborhood.",
+                    "It seems that there is a well rated {{- location }} in the neighborhood."
+                ],
+                "multipleResults": [
+                    "I found {{ number }} well rated {{- location }} around."
+                ]
+            },
+            "distance": {
+                "noResults": [
+                    "It seems that there is no {{- location }} close to your current location.",
+                    "Unfortunately, I found no {{- location }} nearby."
+                ],
+                "oneResult": [
+                    "Cool, I found one {{- location }} closeby."
+                ],
+                "multipleResults": [
+                    "I found {{ number }} {{ location }} close to your current location."
+                ]
+            },
+            "open": {
+                "noResults": [
+                    "It seems that there is no {{- location }} open at the moment around."
+                ],
+                "oneResult": [
+                    "Cool, I found one currently open {{- location }} in the neighborhood."
+                ],
+                "multipleResults": [
+                    "I found {{ number }} {{- location }} around which are open at the moment."
+                ]
+            }
+        },
+        "checkHours": {
+            "noOpeningHours": "Sorry, this location has not provided its opening hours.",
+            "openedNow": "{{- location }} is currently opened!",
+            "notOpenedNow": "{{- location }} is currently closed."
         }
     }
 }

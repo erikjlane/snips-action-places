@@ -6,9 +6,26 @@
         "intentNotRecognized": "Sorry, I did not understand your request.",
         "APIResponse": "Sorry, there was an issue with the service provider.",
         "APIRequest": "Sorry, the service provider is unreachable.",
-        "unspecific": "Oops, something went wrong."
+        "unspecific": "Oops, something went wrong.",
+        "noCurrentCoordinates": "Sorry, make sure you set up your current latitude and longitude."
     },
-    "pokemon": {
-        "info": "{{ name }}'s weight is {{ weight }} and its height is {{ height }}."
+    "places": {
+        "dialog": {
+            "noLocation": "I'm sorry, can you repeat what you are looking for?"
+        },
+        "checkAround": {
+            "noResults": [
+                "It seems that there is no {{ location }} around.",
+                "Unfortunately, I found no {{ location }} in the neighborhood.",
+                "Unfortunately, it seems that there is no {{ location }} around."
+            ],
+            "oneResult": [
+                "Cool, I found one {{ location }} in the neighborhood.",
+                "It seems that there is a {{ location }} in the neighborhood."
+            ],
+            "multipleResults": [
+                "I found {{ number }} {{ location }} around."
+            ]
+        }
     }
 }

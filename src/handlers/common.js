@@ -13,56 +13,40 @@ module.exports = async function (msg, knownSlots = {}) {
         throw new Error('intentNotRecognized')
     }
 
-    let businessType, businessName, streetAddress
+    let locationType, locationName, streetAddress
 
-    // Slot business_type
-    if (!('business_type' in knownSlots)) {
-        const businessTypeSlot = message.getSlotsByName(msg, 'location', {
+    // Slot location_type
+    if (!('location_type' in knownSlots)) {
+        const locationTypeSlot = message.getSlotsByName(msg, 'location_type', {
             onlyMostConfident: true
         })
 
-        if (businessTypeSlot) {
-            if (businessTypeSlot.confidence >= SLOT_CONFIDENCE_THRESHOLD) {
-                businessType = businessTypeSlot.value.value
+        if (locationTypeSlot) {
+            if (locationTypeSlot.confidence >= SLOT_CONFIDENCE_THRESHOLD) {
+                locationType = locationTypeSlot.value.value
             }
         }
     } else {
-        businessType = knownSlots.business_type
+        locationType = knownSlots.location_type
     }
 
-    // Slot business_name
-    if (!('business_name' in knownSlots)) {
-        const businessNameSlot = message.getSlotsByName(msg, 'business_name', {
+    // Slot location_name
+    if (!('location_name' in knownSlots)) {
+        const locationNameSlot = message.getSlotsByName(msg, 'location_name', {
             onlyMostConfident: true
         })
 
-        if (businessNameSlot) {
-            if (businessNameSlot.confidence >= SLOT_CONFIDENCE_THRESHOLD) {
-                businessName = businessNameSlot.value.value
+        if (locationNameSlot) {
+            if (locationNameSlot.confidence >= SLOT_CONFIDENCE_THRESHOLD) {
+                locationName = locationNameSlot.value.value
             }
         }
     } else {
-        businessName = knownSlots.business_name
+        locationName = knownSlots.location_name
     }
 
-    // Slot street_address
-    if (!('street_address' in knownSlots)) {
-        const streetAddressSlot = message.getSlotsByName(msg, 'street_address', { 
-            onlyMostConfident: true,
-        })
+    logger.info('\tlocation_type: ', locationType)
+    logger.info('\tlocation_name: ', locationName)
 
-        if (streetAddressSlot) {
-            if (streetAddressSlot.confidence >= SLOT_CONFIDENCE_THRESHOLD) {
-                streetAddress = streetAddressSlot.value.value
-            }
-        }
-    } else {
-        streetAddress = knownSlots.street_address
-    }
-
-    logger.info('\tbusiness_type: ', businessType)
-    logger.info('\tbusiness_name: ', businessName)
-    logger.info('\tstreet_address: ', streetAddress)
-
-    return { businessType, businessName, streetAddress }
+    return { locationType, locationName, streetAddress }
 }

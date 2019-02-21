@@ -1,4 +1,4 @@
-# snips-action-places
+# snips-action-places (WIP)
 #### Action code for the Snips local business skill
 
 ## Setup

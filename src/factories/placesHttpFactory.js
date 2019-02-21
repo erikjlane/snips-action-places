@@ -23,7 +23,6 @@ module.exports = {
             key: config.apiKey
         })
     },
-    get() { return placesHttp },
     nearbySearch: async ({ location, name, rankby='prominence', radius=50000 } = {}) => {
         const config = configFactory.get()
         const query = {
@@ -34,9 +33,10 @@ module.exports = {
             language: LANGUAGE_MAPPINGS[config.locale]
         }
 
-        const results = await placesHttp
-            .url('/nearbysearch/json')
-            .query(query)
+        const request = placesHttp.url('/nearbysearch/json').query(query)
+        console.log(request.url)
+
+        const results = await request
             .get()
             .json()
             .catch(error => {

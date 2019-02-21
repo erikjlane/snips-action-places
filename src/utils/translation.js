@@ -22,5 +22,30 @@ module.exports = {
         const possibleValues = i18n(key, { returnObjects: true, ...opts })
         const randomIndex = Math.floor(Math.random() * possibleValues.length)
         return possibleValues[randomIndex]
+    },
+
+    nearbySearchToSpeech (locationType, locationName, searchVariable, placesData) {
+        const { randomTranslation } = module.exports
+
+        const placesNumber = placesData.results.length
+
+        let tts = ''
+
+        if (placesNumber === 0) {
+            tts += randomTranslation('places.checkAround.noResults', {
+                location: `${ locationType } ${ locationName }`
+            })
+        } else if (placesNumber === 1) {
+            tts += randomTranslation('places.checkAround.oneResult', {
+                location: `${ locationType } ${ locationName }`
+            })
+        } else {
+            tts += randomTranslation('places.checkAround.multipleResults', {
+                location: `${ locationType } ${ locationName }`,
+                number: placesNumber
+            })
+        }
+
+        return tts
     }
 }

@@ -16,28 +16,40 @@
         "checkAround": {
             "prominence": {
                 "noResults": [
-                    "It seems that there is no well rated {{- location }} around.",
-                    "Unfortunately, I found no well rated {{- location }} in the neighborhood.",
-                    "Unfortunately, it seems that there is no well rated {{- location }} around."
+                    "It seems that there is no well rated {{- location_type }} around.",
+                    "Unfortunately, I found no well rated {{- location_type }} in the neighborhood.",
+                    "Unfortunately, it seems that there is no well rated {{- location_type }} around."
                 ],
                 "oneResult": [
-                    "Cool, I found one well rated {{- location }} in the neighborhood.",
-                    "It seems that there is a well rated {{- location }} in the neighborhood."
+                    "Cool, I found one well rated {{- location_type }} in the neighborhood. It is {{- location_name_1 }} on {{- location_street_1 }}.",
+                    "It seems that there is a well rated {{- location_type }} in the neighborhood. It is {{- location_name_1 }} on {{- location_street_1 }}."
+                ],
+                "twoResults": [
+                    "Cool, I found two well rated {{- location_type }} in the neighborhood. The first is {{- location_name_1 }} on {{- location_street_1 }}. The other is {{- location_name_2 }} on {{- location_street_2 }}.",
+                    "It seems that there is a well rated {{- location_type }} in the neighborhood. It is {{- location_name_1 }} on {{- location_street_1 }}. The other is {{- location_name_2 }} on {{- location_street_2 }}."
                 ],
                 "multipleResults": [
-                    "I found {{ number }} well rated {{- location }} around."
+                    "I found a few well rated {{- location_type }} around. The first is {{- location_name_1 }} on {{- location_street_1 }}. The second is {{- location_name_2 }} on {{- location_street_2 }}. The third is {{- location_name_3 }} on {{- location_street_3 }}.",
+                    "I found several interesting {{- location_type }} around. The first is {{- location_name_1 }} on {{- location_street_1 }}. The second is {{- location_name_2 }} on {{- location_street_2 }}. The third is {{- location_name_3 }} on {{-location_street_3 }}.",
+                    "I have a few {{- location_type }}. The first is {{- location_name_1 }} on {{- location_street_1 }}. The second is {{- location_name_2 }} on {{- location_street_2 }}. The third is {{- location_name_3 }} on {{- location_street_3 }}."
                 ]
             },
             "distance": {
                 "noResults": [
-                    "It seems that there is no {{- location }} close to your current location.",
-                    "Unfortunately, I found no {{- location }} nearby."
+                    "It seems that there is no {{- location_type }} close to your current location.",
+                    "Unfortunately, I found no {{- location_type }} nearby."
                 ],
                 "oneResult": [
-                    "Cool, I found one {{- location }} closeby."
+                    "Cool, I found one {{- location_type }} closeby. It is {{- location_name_1 }} on {{- location_street_1 }}."
+                ],
+                "twoResults": [
+                    "Cool, I found two {{- location_type }} in the neighborhood. The first is {{- location_name_1 }} on {{- location_street_1 }}. The other is {{- location_name_2 }} on {{- location_street_2 }}.",
+                    "It seems that there are two {{- location_type }} in the neighborhood. The first is {{- location_name_1 }} on {{- location_street_1 }}. The other is {{- location_name_2 }} on {{- location_street_2 }}."
                 ],
                 "multipleResults": [
-                    "I found {{ number }} {{ location }} close to your current location."
+                    "I found a few {{ location_type }} around. The first is {{- location_name_1 }} on {{- location_street_1 }}. The second is {{- location_name_2 }} on {{- location_street_2 }}. The third is {{- location_name_3 }} on {{- location_street_3 }}.",
+                    "I found several {{ location_type }} close to your current location. The first is {{- location_name_1 }} on {{- location_street_1 }}. The second is {{- location_name_2 }} on {{- location_street_2 }}. The third is {{- location_name_3 }} on {{-location_street_3 }}.",
+                    "I have a few {{ location_type }} near your location. The first is {{- location_name_1 }} on {{- location_street_1 }}. The second is {{- location_name_2 }} on {{- location_street_2 }}. The third is {{- location_name_3 }} on {{- location_street_3 }}."
                 ]
             },
             "open": {

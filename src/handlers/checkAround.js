@@ -83,13 +83,13 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
         
         return i18n('places.dialog.noLocation')
     } else {
-        // Distance is the stronger choice
+        // Top rated is the stronger choice
         let rankby
-        if (searchVariables.includes('top rated')) {
-            rankby = 'prominence'
-        }
         if (searchVariables.includes('nearby')) {
             rankby = 'distance'
+        }
+        if (searchVariables.includes('top rated')) {
+            rankby = 'prominence'
         }
 
         let opennow = false

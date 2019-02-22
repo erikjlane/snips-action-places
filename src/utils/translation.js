@@ -1,5 +1,6 @@
 const i18nFactory = require('../factories/i18nFactory')
 const { beautifyLocationName } = require('./places')
+const beautify = require('./beautify')
 
 module.exports = {
     // Outputs an error message based on the error object, or a default message if not found.
@@ -29,24 +30,39 @@ module.exports = {
         const { randomTranslation } = module.exports
 
         const placesNumber = placesData.results.length
-        let tts = '', searchVariable = 'prominence'
+        let tts = '', searchVariable = 'distance'
 
-        if (searchVariables.includes('nearby')) {
-            searchVariable = 'distance'
+        if (searchVariables.includes('top rated')) {
+            searchVariable = 'prominence'
         }
 
         if (placesNumber === 0) {
             tts += randomTranslation(`places.checkAround.${ searchVariable }.noResults`, {
-                location: beautifyLocationName(locationTypes, locationNames)
+                location_type: locationTypes[0] || 'place like this'
             })
         } else if (placesNumber === 1) {
             tts += randomTranslation(`places.checkAround.${ searchVariable }.oneResult`, {
-                location: beautifyLocationName(locationTypes, locationNames)
+                location_type: locationTypes[0] || 'place like this',
+                location_name_1: placesData.results[0].name,
+                location_street_1: beautify.address(placesData.results[0].vicinity),
             })
-        } else {
+        } else if (placesNumber === 2) {
+            tts += randomTranslation(`places.checkAround.${ searchVariable }.twoResults`, {
+                location_type: locationTypes[0] || 'places',
+                location_name_1: placesData.results[0].name,
+                location_street_1: beautify.address(placesData.results[0].vicinity),
+                location_name_2: placesData.results[1].name,
+                location_street_2: beautify.address(placesData.results[1].vicinity),
+            })
+        } else if (placesNumber > 2) {
             tts += randomTranslation(`places.checkAround.${ searchVariable }.multipleResults`, {
-                location: beautifyLocationName(locationTypes, locationNames),
-                number: placesNumber
+                location_type: locationTypes[0] || 'places',
+                location_name_1: placesData.results[0].name,
+                location_street_1: beautify.address(placesData.results[0].vicinity),
+                location_name_2: placesData.results[1].name,
+                location_street_2: beautify.address(placesData.results[1].vicinity),
+                location_name_3: placesData.results[2].name,
+                location_street_3: beautify.address(placesData.results[2].vicinity)
             })
         }
 

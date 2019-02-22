@@ -7,7 +7,8 @@
         "APIResponse": "Sorry, there was an issue with the service provider.",
         "APIRequest": "Sorry, the service provider is unreachable.",
         "unspecific": "Oops, something went wrong.",
-        "noCurrentCoordinates": "Sorry, make sure you set up your current latitude and longitude."
+        "noCurrentCoordinates": "Sorry, make sure you set up your current latitude and longitude.",
+        "place": "Sorry, the location you asked for is unknown to me."
     },
     "places": {
         "dialog": {
@@ -66,8 +67,9 @@
         },
         "checkHours": {
             "noOpeningHours": "Sorry, this location has not provided its opening hours.",
-            "openedNow": "{{- location }} is currently opened!",
-            "notOpenedNow": "{{- location }} is currently closed."
+            "openNow": "{{- location }} is currently opened!",
+            "notOpenNow": "{{- location }} is currently closed.",
+            "openingHoursToday": "Today, {{- location }} is open from {{ open_date }} to {{ close_date }}."
         }
     }
 }

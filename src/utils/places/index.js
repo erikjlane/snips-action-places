@@ -1,3 +1,4 @@
 module.exports = {
-    beautifyLocationName: require('./beautify').beautifyLocationName
+    beautifyLocationName: require('./beautify').beautifyLocationName,
+    extractOpeningHours: require('./helpers').extractOpeningHours
 }

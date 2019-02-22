@@ -31,12 +31,26 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
 
     if (!('date_time' in knownSlots)) {
         const dateTimeSlot = message.getSlotsByName(msg, 'date_time', {
-            onlyMostConfident: true
+            onlyMostConfident: true,
+            threshold: SLOT_CONFIDENCE_THRESHOLD
         })
 
         if (dateTimeSlot) {
-            if (dateTimeSlot.confidence >= SLOT_CONFIDENCE_THRESHOLD) {
-                searchVariables = dateTimeSlot.value.value
+            // Is it an InstantTime object?
+            if (dateTimeSlot.value.value_type === 4) {
+                dateTime = new Date(dateTimeSlot.value.value.value)
+            }
+            // Or is it a TimeInterval object?
+            else if (dateTimeSlot.value.value_type === 5) {
+                const to = dateTimeSlot.value.value.to
+                if (to) {
+                    dateTime = new Date(to)
+                } else {
+                    const from = dateTimeSlot.value.value.from
+                    if (from) {
+                        dateTime = new Date(from)
+                    }
+                }
             }
         }
     } else {
@@ -95,10 +109,9 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
         try {
             const placeId = placeData.candidates[0].place_id
             const placeDetailsData = await placesHttpFactory.getDetails(placeId)
-
-            logger.debug(placeDetailsData)
-
-            speech = translation.checkHoursToSpeech(locationTypes, locationNames, dateTime, placeDetailsData.result)
+            
+            const openingHours = places.extractOpeningHours(dateTime, placeDetailsData)
+            speech = translation.checkHoursToSpeech(locationTypes, locationNames, openingHours, placeDetailsData)
         } catch (error) {
             logger.error(error)
             throw new Error('APIResponse')

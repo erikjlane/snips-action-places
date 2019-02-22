@@ -48,6 +48,12 @@ module.exports = {
                 throw new Error('APIResponse')
             })
 
+        if (results) {
+            if (results.status === 'ZERO_RESULTS' || results.status === 'NOT FOUND') {
+                throw new Error('place')
+            }
+        }
+
         return results
     },
 
@@ -82,6 +88,12 @@ module.exports = {
                 throw new Error('APIResponse')
             })
 
+        if (results) {
+            if (results.status === 'ZERO_RESULTS' || results.status === 'NOT FOUND') {
+                throw new Error('place')
+            }
+        }
+
         return results
     },
 
@@ -105,6 +117,12 @@ module.exports = {
                 // Other error
                 throw new Error('APIResponse')
             })
+
+        if (results) {
+            if (results.status === 'ZERO_RESULTS' || results.status === 'NOT FOUND') {
+                throw new Error('place')
+            }
+        }
 
         return results
     }

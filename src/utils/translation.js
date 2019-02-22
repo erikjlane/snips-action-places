@@ -69,26 +69,17 @@ module.exports = {
         return tts
     },
 
-    checkHoursToSpeech (locationTypes, locationNames, dateTime, placeData) {
+    checkHoursToSpeech (locationTypes, locationNames, openingHours, placeDetailsData) {
         const i18n = i18nFactory.get()
 
         let tts = ''
 
-        if (placeData && placeData.opening_hours) {
-            if (dateTime) {
-                // Is dateTime in range opening_hours?
-                tts += placeData.opening_hours.weekday_text[0]
-            } else {
-                if (placeData.opening_hours.open_now) {
-                    tts += i18n('places.checkHours.openedNow', {
-                        location: beautifyLocationName(locationTypes, locationNames)
-                    })
-                } else {
-                    tts += i18n('places.checkHours.notOpenedNow', {
-                        location: beautifyLocationName(locationTypes, locationNames)
-                    })
-                }
-            }
+        if (openingHours.openDate && openingHours.closeDate) {
+            tts += i18n('places.checkHours.openingHoursToday', {
+                location: placeDetailsData.result.name,
+                open_date: beautify.time(openingHours.openDate),
+                close_date: beautify.time(openingHours.closeDate)
+            })
         } else {
             tts += i18n('places.checkHours.noOpeningHours')
         }

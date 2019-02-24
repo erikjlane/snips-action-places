@@ -109,7 +109,7 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
 
         let speech = ''
         try {
-            speech = translation.nearbySearchToSpeech(locationTypes, locationNames, searchVariables, placesData)
+            speech = translation.nearbySearchToSpeech(locationTypes, searchVariables, placesData)
         } catch (error) {
             logger.error(error)
             throw new Error('APIResponse')

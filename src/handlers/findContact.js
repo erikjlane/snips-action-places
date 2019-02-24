@@ -1,8 +1,7 @@
 const { i18nFactory, placesHttpFactory, configFactory } = require('../factories')
-const { logger, slot, message, places } = require('../utils')
+const { logger, translation, slot, places } = require('../utils')
 const commonHandler = require('./common')
 const {
-    SLOT_CONFIDENCE_THRESHOLD,
     INTENT_FILTER_PROBABILITY_THRESHOLD
 } = require('../constants')
 
@@ -14,7 +13,7 @@ function checkCurrentCoordinates() {
     }
 }
 
-module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
+module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
     const i18n = i18nFactory.get()
 
     logger.info('FindContact')
@@ -22,31 +21,12 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
     checkCurrentCoordinates()
 
     const {
-        locationType,
-        locationName
+        locationTypes,
+        locationNames
     } = await commonHandler(msg, knownSlots)
 
-    // Get date_time specific slot
-    let dateTime
-
-    if (!('date_time' in knownSlots)) {
-        const dateTimeSlot = message.getSlotsByName(msg, 'date_time', {
-            onlyMostConfident: true
-        })
-
-        if (dateTimeSlot) {
-            if (dateTimeSlot.confidence >= SLOT_CONFIDENCE_THRESHOLD) {
-                searchVariables = dateTimeSlot.value.value
-            }
-        }
-    } else {
-        dateTime = knownSlots.date_time
-    }
-
-    logger.info('\tdate_time: ', dateTime)
-
     // If the slots location_type and location_name are missing
-    if (slot.missing(locationType) && slot.missing(locationName)) {
+    if (slot.missing(locationTypes) && slot.missing(locationNames)) {
         if (knownSlots.depth === 0) {
             throw new Error('slotsNotRecognized')
         }
@@ -66,11 +46,11 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
             }
 
             // Adding the known slots, if more
-            if (!slot.missing(locationType)) {
-                slotsToBeSent.location_type = locationType
+            if (!slot.missing(locationTypes)) {
+                slotsToBeSent.location_types = locationTypes
             }
-            if (!slot.missing(locationName)) {
-                slotsToBeSent.location_name = locationName
+            if (!slot.missing(locationNames)) {
+                slotsToBeSent.location_names = locationNames
             }
 
             return require('./index').findContact(msg, flow, slotsToBeSent)
@@ -87,7 +67,7 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
     } else {
         // Get the data from Places API
         const placeData = await placesHttpFactory.findPlace({
-            keyword: places.beautifyLocationName(locationType, locationName)
+            keyword: places.beautifyLocationName(locationTypes, locationNames)
         })
         logger.debug(placeData)
 
@@ -98,7 +78,9 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
 
             logger.debug(placeDetailsData)
 
-            speech = placeDetailsData.result.formatted_phone_number
+            const locationName = placeDetailsData.result.name
+            const phoneNumber = placeDetailsData.result.formatted_phone_number
+            speech = translation.findContactToSpeech(locationName, phoneNumber)
         } catch (error) {
             logger.error(error)
             throw new Error('APIResponse')

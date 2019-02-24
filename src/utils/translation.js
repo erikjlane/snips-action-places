@@ -1,5 +1,4 @@
 const i18nFactory = require('../factories/i18nFactory')
-const { beautifyLocationName } = require('./places')
 const beautify = require('./beautify')
 
 module.exports = {
@@ -26,7 +25,7 @@ module.exports = {
         return possibleValues[randomIndex]
     },
 
-    nearbySearchToSpeech (locationTypes, locationNames, searchVariables, placesData) {
+    nearbySearchToSpeech (locationTypes, searchVariables, placesData) {
         const { randomTranslation } = module.exports
 
         const placesNumber = placesData.results.length
@@ -69,20 +68,36 @@ module.exports = {
         return tts
     },
 
-    checkHoursToSpeech (locationTypes, locationNames, openingHours, placeDetailsData) {
+    checkHoursToSpeech (locationName, openingHours) {
         const i18n = i18nFactory.get()
 
         let tts = ''
 
         if (openingHours.openDate && openingHours.closeDate) {
             tts += i18n('places.checkHours.openingHoursToday', {
-                location: placeDetailsData.result.name,
+                location: locationName,
                 open_date: beautify.time(openingHours.openDate),
                 close_date: beautify.time(openingHours.closeDate)
             })
         } else {
             tts += i18n('places.checkHours.noOpeningHours')
         }
+
+        return tts
+    },
+
+    findContactToSpeech (locationName, phoneNumber) {
+        let tts = ''
+
+        tts += phoneNumber
+
+        return tts
+    },
+
+    checkDistanceToSpeech (locationName, distance) {
+        let tts = ''
+
+        tts += distance
 
         return tts
     }

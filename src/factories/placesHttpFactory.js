@@ -6,9 +6,9 @@ const {
     SEARCH_RADIUS
 } = require('../constants')
 
-const BASE_URL = 'https://maps.googleapis.com/maps/api/place'
+const BASE_URL = 'https://maps.googleapis.com/maps/api'
 
-let placesHttp = wretch(BASE_URL)
+let http = wretch(BASE_URL)
     .middlewares([
         dedupe()
     ])
@@ -20,7 +20,8 @@ module.exports = {
         wretch().polyfills({
             fetch: httpOptions.mock || require('node-fetch')
         })
-        placesHttp = placesHttp.query({
+        http = http.query({
+            language: LANGUAGE_MAPPINGS[config.locale],
             key: config.apiKey
         })
     },
@@ -30,11 +31,10 @@ module.exports = {
         const query = {
             inputtype: 'textquery',
             input: keyword,
-            locationbias: `circle:${ SEARCH_RADIUS }@${ config.currentCoordinates }`,
-            language: LANGUAGE_MAPPINGS[config.locale]
+            locationbias: `circle:${ SEARCH_RADIUS }@${ config.currentCoordinates }`
         }
 
-        const request = placesHttp.url('/findplacefromtext/json').query(query)
+        const request = http.url('/place/findplacefromtext/json').query(query)
         console.log(request)
 
         const results = await request
@@ -63,8 +63,7 @@ module.exports = {
             location: config.currentCoordinates,
             keyword,
             rankby,
-            opennow,
-            language: LANGUAGE_MAPPINGS[config.locale]
+            opennow
         }
 
         if (rankby !== 'distance') {
@@ -74,7 +73,7 @@ module.exports = {
             }
         }
 
-        const request = placesHttp.url('/nearbysearch/json').query(query)
+        const request = http.url('/place/nearbysearch/json').query(query)
         console.log(request)
 
         const results = await request
@@ -101,12 +100,39 @@ module.exports = {
         const config = configFactory.get()
         const query = {
             placeid: placeId,
-            region: config.currentRegion,
-            language: LANGUAGE_MAPPINGS[config.locale]
+            region: config.currentRegion
         }
 
-        const results = await placesHttp
-            .url('/details/json')
+        const results = await http
+            .url('/place/details/json')
+            .query(query)
+            .get()
+            .json()
+            .catch(error => {
+                // Network error
+                if (error.name === 'TypeError')
+                    throw new Error('APIRequest')
+                // Other error
+                throw new Error('APIResponse')
+            })
+
+        if (results) {
+            if (results.status === 'ZERO_RESULTS' || results.status === 'NOT FOUND') {
+                throw new Error('place')
+            }
+        }
+
+        return results
+    },
+
+    calculateRoute: async (origin, placeId) => {
+        const query = {
+            origin,
+            destination: `place_id:${ placeId }`
+        }
+
+        const results = await http
+            .url('/directions/json')
             .query(query)
             .get()
             .json()

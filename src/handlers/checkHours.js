@@ -109,9 +109,12 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
         try {
             const placeId = placeData.candidates[0].place_id
             const placeDetailsData = await placesHttpFactory.getDetails(placeId)
+
+            logger.debug(placeDetailsData)
             
+            const locationName = placeDetailsData.result.name
             const openingHours = places.extractOpeningHours(dateTime, placeDetailsData)
-            speech = translation.checkHoursToSpeech(locationTypes, locationNames, openingHours, placeDetailsData)
+            speech = translation.checkHoursToSpeech(locationName, openingHours)
         } catch (error) {
             logger.error(error)
             throw new Error('APIResponse')

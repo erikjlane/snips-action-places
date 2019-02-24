@@ -25,7 +25,7 @@ module.exports = async function (msg, knownSlots = {}) {
             locationTypes  = locationTypesSlot.map(x => x.value.value)
         }
     } else {
-        locationType = knownSlots.location_types
+        locationTypes = knownSlots.location_types
     }
 
     // Slot location_name

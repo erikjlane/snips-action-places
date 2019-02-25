@@ -86,19 +86,25 @@ module.exports = {
         return tts
     },
 
-    findContactToSpeech (locationName, phoneNumber) {
-        let tts = ''
-
-        tts += phoneNumber
-
-        return tts
+    findContactToSpeech (locationName, {phoneNumber, address}) {
+        if (phoneNumber) {
+            return i18n('places.findContact.phoneNumber', {
+                location: locationName,
+                phone_number: phoneNumber
+            })
+        }
+        if (address) {
+            return i18n('places.findContact.address', {
+                location: locationName,
+                address: address
+            })
+        }
     },
 
     checkDistanceToSpeech (locationName, distance) {
-        let tts = ''
-
-        tts += distance
-
-        return tts
+        return i18n('places.checkDistance.distance', {
+            location: locationName,
+            distance: distance
+        })
     }
 }

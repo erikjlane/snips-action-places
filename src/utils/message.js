@@ -3,9 +3,9 @@ module.exports = {
     // You can also use the onlyMostConfident boolean to return only a single slot with the highest confidence.
     // If no slot match the criterias, then returns null.
     getSlotsByName: (message, slotName, { threshold = 0, onlyMostConfident = false } = {}) => {
-        if(onlyMostConfident) {
+        if (onlyMostConfident) {
             return message.slots.reduce((acc, slot) => {
-                if(slot.slot_name === slotName && slot.confidence > threshold) {
+                if (slot.slot_name === slotName && slot.confidence > threshold) {
                     if(!acc || acc.confidence < slot.confidence)
                         return slot
                 }

@@ -88,6 +88,9 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
         if (searchVariables.includes('nearby')) {
             rankby = 'distance'
         }
+        if (searchVariables.includes('popular')) {
+            rankby = 'prominence'
+        }
         if (searchVariables.includes('top rated')) {
             rankby = 'prominence'
         }

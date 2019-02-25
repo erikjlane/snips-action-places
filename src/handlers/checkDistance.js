@@ -37,7 +37,7 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
             return require('./index').checkDistance(msg, flow, knownSlots)
         })
 
-        flow.continue('snips-assistant:GetNavigationTime', (msg, flow) => {
+        flow.continue('snips-assistant:CheckDistance', (msg, flow) => {
             if (msg.intent.probability < INTENT_FILTER_PROBABILITY_THRESHOLD) {
                 throw new Error('intentNotRecognized')
             }
@@ -81,7 +81,7 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
             const directionsData = await placesHttpFactory.calculateRoute(config.currentCoordinates, placeId)
 
             const locationName = placeDetailsData.result.name
-            const distance = directionsData.routes[0].legs[0].distance
+            const distance = directionsData.routes[0].legs[0].distance.value
             speech = translation.checkDistanceToSpeech(locationName, distance)
         } catch (error) {
             logger.error(error)

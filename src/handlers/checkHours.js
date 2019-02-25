@@ -42,13 +42,13 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
             }
             // Or is it a TimeInterval object?
             else if (dateTimeSlot.value.value_type === 5) {
-                const to = dateTimeSlot.value.value.to
-                if (to) {
-                    dateTime = new Date(to)
+                const from = dateTimeSlot.value.value.from
+                if (from) {
+                    dateTime = new Date(from)
                 } else {
-                    const from = dateTimeSlot.value.value.from
-                    if (from) {
-                        dateTime = new Date(from)
+                    const to = dateTimeSlot.value.value.to
+                    if (to) {
+                        dateTime = new Date(to)
                     }
                 }
             }
@@ -60,7 +60,7 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
     logger.info('\tdate_time: ', dateTime)
 
     // If the slots location_type and location_name are missing
-    if (slot.missing(locationTypes) && slot.missing(locationNames)) {
+    if ((slot.missing(locationTypes) && slot.missing(locationNames)) || slot.missing(dateTime)) {
         if (knownSlots.depth === 0) {
             throw new Error('slotsNotRecognized')
         }
@@ -86,6 +86,9 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
             if (!slot.missing(locationNames)) {
                 slotsToBeSent.location_names = locationNames
             }
+            if (!slot.missing(dateTime)) {
+                slotsToBeSent.date_time = dateTime
+            }
 
             return require('./index').checkHours(msg, flow, slotsToBeSent)
         })
@@ -96,8 +99,12 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
         flow.continue('snips-assistant:Stop', (_, flow) => {
             flow.end()
         })
-        
-        return i18n('places.dialog.noLocation')
+
+        if (slot.missing(locationTypes) && slot.missing(locationNames)) {
+            return i18n('places.dialog.noLocation')
+        } else {
+            return i18n('places.dialog.noHourToCheck')
+        }
     } else {
         // Get the data from Places API
         const placeData = await placesHttpFactory.findPlace(

@@ -107,8 +107,13 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
         }
 
         // Get the data from Places API
-        const placesData = await placesHttpFactory.nearbySearch(queryParameters)
+        let placesData = await placesHttpFactory.nearbySearch(queryParameters)
         logger.debug(placesData)
+
+        // Keep the top-rated places only
+        if (searchVariables.includes('top rated')) {
+            placesData = places.topRatedFilter(placesData)
+        } 
 
         let speech = ''
         try {

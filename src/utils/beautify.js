@@ -1,4 +1,4 @@
-const { configFactory } = require('../factories')
+const { configFactory, i18nFactory } = require('../factories')
 
 module.exports = {
     time: date => {
@@ -26,5 +26,37 @@ module.exports = {
         }
 
         return address
+    },
+
+    distance: distance => {
+        const i18n = i18nFactory.get()
+        const config = configFactory.get()
+    
+        if (config.unitSystem === 'imperial') {
+            distance = metersToFeet(distance)
+    
+            if (distance > 5280) {
+                distance = +(Math.round(distance / 5280 + 'e+1') + 'e-1')
+                return i18n('units.distance.imperial.miles', { distance: distance })
+            } else {
+                distance = 100 * Math.floor(distance / 100)
+                return i18n('units.distance.imperial.feet', { distance: distance })
+            }
+        } else {
+            if (distance > 999) {
+                distance /= 1000
+
+                if (distance > 20) {
+                    distance = Math.round(distance)
+                } else {
+                    distance = +(Math.round(distance + 'e+1') + 'e-1')
+                }
+
+                return i18n('units.distance.metric.kilometers', { distance: distance })
+            } else {
+                distance = 10 * Math.floor(distance / 10)
+                return i18n('units.distance.metric.meters', { distance: distance })
+            }
+        }
     }
 }

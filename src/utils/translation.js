@@ -87,6 +87,8 @@ module.exports = {
     },
 
     findContactToSpeech (locationName, {phoneNumber, address}) {
+        const i18n = i18nFactory.get()
+
         if (phoneNumber) {
             return i18n('places.findContact.phoneNumber', {
                 location: locationName,
@@ -102,9 +104,11 @@ module.exports = {
     },
 
     checkDistanceToSpeech (locationName, distance) {
+        const i18n = i18nFactory.get()
+
         return i18n('places.checkDistance.distance', {
             location: locationName,
-            distance: distance
+            distance: beautify.distance(distance)
         })
     }
 }

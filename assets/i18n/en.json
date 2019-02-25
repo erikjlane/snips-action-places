@@ -12,7 +12,8 @@
     },
     "places": {
         "dialog": {
-            "noLocation": "I'm sorry, can you repeat what you are looking for?"
+            "noLocation": "I'm sorry, can you repeat what you are looking for?",
+            "noHourToCheck": "I'm sorry, can you repeat what time do you want to check if your location is open?"
         },
         "checkAround": {
             "prominence": {
@@ -89,6 +90,18 @@
         },
         "checkDistance": {
             "distance": "{{- location }} is at {{ distance }} from your current location."
+        }
+    },
+    "units": {
+        "distance": {
+            "metric": {
+                "meters": "{{ distance }} meters",
+                "kilometers": "{{ distance }} kilometers"
+            },
+            "imperial": {
+                "miles": "{{ distance }} miles",
+                "feet": "{{ distance }} feet"
+            }
         }
     }
 }

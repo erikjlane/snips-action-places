@@ -1,4 +1,4 @@
-const { i18nFactory, placesHttpFactory, configFactory } = require('../factories')
+const { i18nFactory, httpFactory, configFactory } = require('../factories')
 const { logger, slot, message, translation, places } = require('../utils')
 const commonHandler = require('./common')
 const {
@@ -107,7 +107,7 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
         }
 
         // Get the data from Places API
-        let placesData = await placesHttpFactory.nearbySearch(queryParameters)
+        let placesData = await httpFactory.nearbySearch(queryParameters)
         logger.debug(placesData)
 
         // Keep the top-rated places only

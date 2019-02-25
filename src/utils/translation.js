@@ -1,5 +1,6 @@
 const i18nFactory = require('../factories/i18nFactory')
 const beautify = require('./beautify')
+const time = require('./time')
 
 module.exports = {
     // Outputs an error message based on the error object, or a default message if not found.
@@ -68,34 +69,59 @@ module.exports = {
         return tts
     },
 
-    checkHoursToSpeech (locationName, openingHours) {
+    checkHoursToSpeech (locationName, address, dateTime, openingHours) {
         const i18n = i18nFactory.get()
-
-        let tts = ''
 
         if (openingHours.openDate && openingHours.closeDate) {
-            tts += i18n('places.checkHours.openingHoursToday', {
-                location: locationName,
-                open_date: beautify.time(openingHours.openDate),
-                close_date: beautify.time(openingHours.closeDate)
-            })
+            if (time.isToday(dateTime)) {
+                return i18n('places.checkHours.openingHours.openRangeToday', {
+                    location: locationName,
+                    address: beautify.address(address),
+                    open_date: beautify.time(openingHours.openDate),
+                    close_date: beautify.time(openingHours.closeDate)
+                })
+            } else if (!time.moreThanAWeek(dateTime)) {
+                return i18n('places.checkHours.nearFutureOpeningHours.openRangeToday', {
+                    location: locationName,
+                    address: beautify.address(address),
+                    open_date: beautify.time(openingHours.openDate),
+                    close_date: beautify.time(openingHours.closeDate),
+                    day_in_week: time.dayToText(dateTime.getDay())
+                })
+            } else {
+                return i18n('places.checkHours.futureOpeningHours.openRangeToday', {
+                    location: locationName,
+                    address: beautify.address(address),
+                    open_date: beautify.time(openingHours.openDate),
+                    close_date: beautify.time(openingHours.closeDate),
+                    day_in_week: `${ time.dayToText(dateTime.getDay()) }s`
+                })
+            }
         } else {
-            tts += i18n('places.checkHours.noOpeningHours')
+            return i18n('places.checkHours.noOpeningHours', {
+                location: locationName,
+                address: beautify.address(address)
+            })
         }
-
-        return tts
     },
 
-    findContactToSpeech (locationName, {phoneNumber, address}) {
+    findContactToSpeech (locationName, contactForm, phoneNumber, address) {
         const i18n = i18nFactory.get()
 
-        if (phoneNumber) {
-            return i18n('places.findContact.phoneNumber', {
-                location: locationName,
-                phone_number: phoneNumber
-            })
-        }
-        if (address) {
+        if (contactForm === 'number') {
+            if (phoneNumber) {
+                return i18n('places.findContact.phoneNumber', {
+                    location: locationName,
+                    address: beautify.address(address),
+                    phone_number: phoneNumber
+                })
+            } else {
+                return i18n('places.findContact.noPhoneNumber', {
+                    location: locationName,
+                    address: beautify.address(address)
+                })
+            }
+        } else {
             return i18n('places.findContact.address', {
                 location: locationName,
                 address: address
@@ -103,11 +129,12 @@ module.exports = {
         }
     },
 
-    checkDistanceToSpeech (locationName, distance) {
+    checkDistanceToSpeech (locationName, address, distance) {
         const i18n = i18nFactory.get()
 
         return i18n('places.checkDistance.distance', {
             location: locationName,
+            address: beautify.address(address),
             distance: beautify.distance(distance)
         })
     }

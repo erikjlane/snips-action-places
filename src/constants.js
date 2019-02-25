@@ -9,6 +9,8 @@ module.exports = {
         english: 'en',
         french: 'fr'
     },
+    DAY_MILLISECONDS: 1000 * 60 * 60 * 24,
+    WEEK_MILLISECONDS: 1000 * 60 * 60 * 24 * 7,
     SEARCH_RADIUS: 50000,
     TOP_RATED_THRESHOLD: 4.2,
     INTENT_PROBABILITY_THRESHOLD: 0.2,

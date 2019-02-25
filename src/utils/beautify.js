@@ -1,5 +1,9 @@
 const { configFactory, i18nFactory } = require('../factories')
 
+function metersToFeet(distance) {
+    return distance * 3.28084
+}
+
 module.exports = {
     time: date => {
         const config = configFactory.get()

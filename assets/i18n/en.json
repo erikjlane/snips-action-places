@@ -73,23 +73,29 @@
                 "notOpenNow": "{{- location }} is currently closed."
             },
             "openingHours": {
-                "closedToday": "It seems that {{- location }} is closed today.",
-                "openRangeToday": "Today, {{- location }} is open from {{ open_date }} to {{ close_date }}.",
-                "openRangesToday": "In the morning, {{- location }} is open from {{ open_date_1 }} to {{ close_date_1 }}. In the afternoon, it is open from {{ open_date_2 }} to {{ close_date_2 }}."
+                "closedToday": "It seems that {{- location }} on {{- address }} is closed today.",
+                "openRangeToday": "Today, {{- location }} on {{- address }} is open from {{ open_date }} to {{ close_date }}.",
+                "openRangesToday": "Today, {{- location }} on {{- address }} is open from {{ open_date_1 }} to {{ close_date_1 }}, and again from {{ open_date_2 }} to {{ close_date_2 }}."
             },
-            "openingHoursLongRange": {
-                "closedToday": "Usually, {{- location }} is closed on {{ day_in_week }}.",
-                "openRangeToday": "Usually, {{- location }} is open from {{ open_date }} to {{ close_date }} on {{ day_in_week }}.",
-                "openRangesToday": "Usually, {{- location }} is open from {{ open_date_1 }} to {{ close_date_1 }} in the morning and from {{ open_date_2 }} to {{ close_date_2 }} in the afternoon."
+            "nearFutureOpeningHours": {
+                "closedToday": "On {{ day_in_week }}, {{- location }} on {{- address }} will be closed.",
+                "openRangeToday": "On {{ day_in_week }}, {{- location }} on {{- address }} will be open from {{ open_date }} to {{ close_date }}.",
+                "openRangesToday": "On {{ day_in_week }}, {{- location }} on {{- address }} will be open from {{ open_date_1 }} to {{ close_date_1 }} in the morning and from {{ open_date_2 }} to {{ close_date_2 }} in the afternoon."
+            },
+            "futureOpeningHours": {
+                "closedToday": "Usually, {{- location }} on {{- address }} is closed on {{ day_in_week }}.",
+                "openRangeToday": "Usually, {{- location }} on {{- address }} is open from {{ open_date }} to {{ close_date }} on {{ day_in_week }}.",
+                "openRangesToday": "Usually, {{- location }} on {{- address }} is open from {{ open_date_1 }} to {{ close_date_1 }} in the morning and from {{ open_date_2 }} to {{ close_date_2 }} in the afternoon."
             },
             "nextTimeOpen": "Next time it will be open is {{ day_in_week }} at {{ open_date }}."
         },
         "findContact": {
-            "phoneNumber": "{{- location }} has the following phone number: {{- phone_number }}.",
-            "address": "{{- location }} has the following address: {{- address }}."
+            "phoneNumber": "{{- location }} on {{- address }} can be contacted on {{- phone_number }}.",
+            "noPhoneNumber": "Unfortunately, I haven't been able to find a phone number for {{- location }} on {{- address }}.",
+            "address": "The address for {{- location }} is {{- address }}."
         },
         "checkDistance": {
-            "distance": "{{- location }} is at {{ distance }} from your current location."
+            "distance": "{{- location }} on {{- address }} is {{ distance }} away from your current location."
         }
     },
     "units": {
@@ -103,5 +109,14 @@
                 "feet": "{{ distance }} feet"
             }
         }
+    },
+    "days": {
+        "monday": "monday",
+        "tuesday": "tuesday",
+        "wednesday": "wednesday",
+        "thursday": "thursday",
+        "friday": "friday",
+        "saturday": "saturday",
+        "sunday": "sunday"
     }
 }

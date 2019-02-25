@@ -1,4 +1,4 @@
-const { i18nFactory, placesHttpFactory, configFactory } = require('../factories')
+const { i18nFactory, httpFactory, configFactory } = require('../factories')
 const { logger, translation, places, slot } = require('../utils')
 const commonHandler = require('./common')
 const {
@@ -67,7 +67,7 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
         return i18n('places.dialog.noLocation')
     } else {
         // Get the data from Places API
-        const placeData = await placesHttpFactory.findPlace(
+        const placeData = await httpFactory.findPlace(
             places.beautifyLocationName(locationTypes, locationNames)
         )
         logger.debug(placeData)
@@ -77,12 +77,13 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
             const config = configFactory.get()
             
             const placeId = placeData.candidates[0].place_id
-            const placeDetailsData = await placesHttpFactory.getDetails(placeId)
-            const directionsData = await placesHttpFactory.calculateRoute(config.currentCoordinates, placeId)
+            const placeDetailsData = await httpFactory.getDetails(placeId)
+            const directionsData = await httpFactory.calculateRoute(config.currentCoordinates, placeId)
 
             const locationName = placeDetailsData.result.name
+            const address = placeDetailsData.result.vicinity
             const distance = directionsData.routes[0].legs[0].distance.value
-            speech = translation.checkDistanceToSpeech(locationName, distance)
+            speech = translation.checkDistanceToSpeech(locationName, address, distance)
         } catch (error) {
             logger.error(error)
             throw new Error('APIResponse')

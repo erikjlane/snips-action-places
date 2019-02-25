@@ -1,4 +1,4 @@
-const { i18nFactory, placesHttpFactory, configFactory } = require('../factories')
+const { i18nFactory, httpFactory, configFactory } = require('../factories')
 const { logger, slot, message, places, translation } = require('../utils')
 const commonHandler = require('./common')
 const {
@@ -52,6 +52,8 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
                     }
                 }
             }
+        } else {
+            dateTime = new Date()
         }
     } else {
         dateTime = knownSlots.date_time
@@ -60,7 +62,7 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
     logger.info('\tdate_time: ', dateTime)
 
     // If the slots location_type and location_name are missing
-    if ((slot.missing(locationTypes) && slot.missing(locationNames)) || slot.missing(dateTime)) {
+    if ((slot.missing(locationTypes) && slot.missing(locationNames))) {
         if (knownSlots.depth === 0) {
             throw new Error('slotsNotRecognized')
         }
@@ -107,7 +109,7 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
         }
     } else {
         // Get the data from Places API
-        const placeData = await placesHttpFactory.findPlace(
+        const placeData = await httpFactory.findPlace(
             places.beautifyLocationName(locationTypes, locationNames)
         )
         logger.debug(placeData)
@@ -115,13 +117,14 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
         let speech = ''
         try {
             const placeId = placeData.candidates[0].place_id
-            const placeDetailsData = await placesHttpFactory.getDetails(placeId)
+            const placeDetailsData = await httpFactory.getDetails(placeId)
 
             logger.debug(placeDetailsData)
             
             const locationName = placeDetailsData.result.name
+            const address = placeDetailsData.result.vicinity
             const openingHours = places.extractOpeningHours(dateTime, placeDetailsData)
-            speech = translation.checkHoursToSpeech(locationName, openingHours)
+            speech = translation.checkHoursToSpeech(locationName, address, dateTime, openingHours)
         } catch (error) {
             logger.error(error)
             throw new Error('APIResponse')

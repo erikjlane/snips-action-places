@@ -1,4 +1,4 @@
-const { message, logger, math } = require('../utils')
+const { message, logger } = require('../utils')
 const {
     INTENT_PROBABILITY_THRESHOLD,
     SLOT_CONFIDENCE_THRESHOLD,
@@ -6,12 +6,16 @@ const {
 } = require('../constants')
 
 module.exports = async function (msg, knownSlots = {}) {
-    if (msg.intent.probability < INTENT_PROBABILITY_THRESHOLD) {
-        throw new Error('intentNotRecognized')
+    if (msg.intent) {
+        if (msg.intent.confidenceScore < INTENT_PROBABILITY_THRESHOLD) {
+            throw new Error('intentNotRecognized')
+        }
+        if (message.getAsrConfidence(msg) < ASR_UTTERANCE_CONFIDENCE_THRESHOLD) {
+            throw new Error('intentNotRecognized')
+        }
     }
-    if (math.geometricMean(msg.asr_tokens.map(token => token.confidence)) < ASR_UTTERANCE_CONFIDENCE_THRESHOLD) {
-        throw new Error('intentNotRecognized')
-    }
+
+    console.log(msg)
 
     let locationTypes, locationNames
 
@@ -22,7 +26,7 @@ module.exports = async function (msg, knownSlots = {}) {
         })
 
         if (locationTypesSlot) {
-            locationTypes  = locationTypesSlot.map(x => x.value.value)
+            locationTypes = locationTypesSlot.map(x => x.value.value)
         }
     } else {
         locationTypes = knownSlots.location_types
@@ -35,7 +39,7 @@ module.exports = async function (msg, knownSlots = {}) {
         })
 
         if (locationNamesSlot) {
-            locationNames  = locationNamesSlot.map(x => x.value.value)
+            locationNames = locationNamesSlot.map(x => x.value.value)
         }
     } else {
         locationNames = knownSlots.location_names
@@ -43,6 +47,8 @@ module.exports = async function (msg, knownSlots = {}) {
 
     logger.info('\tlocation_types: ', locationTypes)
     logger.info('\tlocation_names: ', locationNames)
+
+    console.log(locationNames)
 
     return { locationTypes, locationNames }
 }

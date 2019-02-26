@@ -33,7 +33,8 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
         }
 
         flow.notRecognized((msg, flow) => {
-            knownSlots.depth = knownSlots.depth - 1
+            knownSlots.depth -= 1
+            msg.slots = []
             return require('./index').checkDistance(msg, flow, knownSlots)
         })
 

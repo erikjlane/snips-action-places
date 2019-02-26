@@ -50,7 +50,8 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
         }
 
         flow.notRecognized((msg, flow) => {
-            knownSlots.depth = knownSlots.depth - 1
+            knownSlots.depth -= 1
+            msg.slots = []
             return require('./index').checkAround(msg, flow, knownSlots)
         })
         
@@ -108,12 +109,12 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
 
         // Get the data from Places API
         let placesData = await httpFactory.nearbySearch(queryParameters)
-        logger.debug(placesData)
 
         // Keep the top-rated places only
         if (searchVariables.includes('top rated')) {
-            placesData = places.topRatedFilter(placesData)
+            placesData.results = places.topRatedFilter(placesData)
         } 
+        logger.debug(placesData)
 
         let speech = ''
         try {

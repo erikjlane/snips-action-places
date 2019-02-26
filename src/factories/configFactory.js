@@ -32,7 +32,15 @@ function init () {
     }
 }
 
+async function mock (mockedConfig) {
+    config = {
+        ...config,
+        ...camelizeKeys(mockedConfig)
+    }
+}
+
 module.exports = {
     init,
+    mock,
     get: () => config
 }

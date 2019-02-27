@@ -24,5 +24,6 @@ module.exports = {
     checkAround: handlerWrapper(require('./checkAround')),
     findContact: handlerWrapper(require('./findContact')),
     checkDistance: handlerWrapper(require('./checkDistance')),
-    checkHours: handlerWrapper(require('./checkHours'))
+    checkHours: handlerWrapper(require('./checkHours')),
+    buildQueryParameters: require('./utils').buildQueryParameters
 }

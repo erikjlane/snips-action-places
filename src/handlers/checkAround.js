@@ -1,9 +1,10 @@
 const { i18nFactory, httpFactory, configFactory } = require('../factories')
-const { logger, slot, translation, places } = require('../utils')
+const { logger, slot, translation } = require('../utils')
 const commonHandler = require('./common')
 const {
     INTENT_FILTER_PROBABILITY_THRESHOLD
 } = require('../constants')
+const { buildQueryParameters } = require('./utils')
 
 function checkCurrentCoordinates() {
     const config = configFactory.get()
@@ -70,31 +71,10 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
         
         return i18n('places.dialog.noLocation')
     } else {
-        // Top rated is the stronger choice
-        let rankby
-        if (searchVariables.includes('nearby')) {
-            rankby = 'distance'
-        }
-        if (searchVariables.includes('popular')) {
-            rankby = 'prominence'
-        }
-        if (searchVariables.includes('top rated')) {
-            rankby = 'prominence'
-        }
-
-        let opennow = false
-        if (searchVariables.includes('open')) {
-            opennow = true
-        }
-
-        const queryParameters = {
-            keyword: places.beautifyLocationName(locationTypes, locationNames),
-            rankby,
-            opennow
-        }
-
         // Get the data from Places API
-        let placesData = await httpFactory.nearbySearch(queryParameters)
+        let placesData = await httpFactory.nearbySearch(
+            buildQueryParameters(locationTypes, locationNames, searchVariables)
+        )
 
         // Keep the top-rated places only
         /*

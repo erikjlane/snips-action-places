@@ -6,6 +6,7 @@ const {
     INTENT_FILTER_PROBABILITY_THRESHOLD
 } = require('../constants')
 const { Dialog } = require('hermes-javascript')
+const { buildQueryParameters } = require('./utils')
 
 function checkCurrentCoordinates() {
     const config = configFactory.get()
@@ -115,17 +116,26 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
         }
     } else {
         // Get the data from Places API
-        const placeData = await httpFactory.findPlace(
+        let placesData = await httpFactory.nearbySearch(
+            buildQueryParameters(locationTypes, locationNames, searchVariables)
+        )
+
+        // Other endpoint
+        /*
+        const placesData = await httpFactory.findPlace(
             places.beautifyLocationName(locationTypes, locationNames)
         )
-        logger.debug(placeData)
+        */
 
         let speech = ''
         try {
-            const placeId = placeData.candidates[0].place_id
-            const placeDetailsData = await httpFactory.getDetails(placeId)
+            // Other endpoint
+            /*
+            const placeId = placesData.candidates[0].place_id
+            */
 
-            logger.debug(placeDetailsData)
+            const placeId = placesData.results[0].place_id
+            const placeDetailsData = await httpFactory.getDetails(placeId)
             
             const locationName = placeDetailsData.result.name
             const address = placeDetailsData.result.vicinity

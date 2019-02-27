@@ -1,9 +1,10 @@
 const { i18nFactory, httpFactory, configFactory } = require('../factories')
-const { logger, translation, places, slot } = require('../utils')
+const { logger, translation, slot } = require('../utils')
 const commonHandler = require('./common')
 const {
     INTENT_FILTER_PROBABILITY_THRESHOLD
 } = require('../constants')
+const { buildQueryParameters } = require('./utils')
 
 function checkCurrentCoordinates() {
     const config = configFactory.get()
@@ -72,16 +73,27 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
         return i18n('places.dialog.noLocation')
     } else {
         // Get the data from Places API
-        const placeData = await httpFactory.findPlace(
+        let placesData = await httpFactory.nearbySearch(
+            buildQueryParameters(locationTypes, locationNames, searchVariables)
+        )
+
+        // Other endpoint
+        /*
+        const placesData = await httpFactory.findPlace(
             places.beautifyLocationName(locationTypes, locationNames)
         )
-        logger.debug(placeData)
+        */
 
         let speech = ''
         try {
             const config = configFactory.get()
+
+            // Other endpoint
+            /*
+            const placeId = placesData.candidates[0].place_id
+            */
             
-            const placeId = placeData.candidates[0].place_id
+            const placeId = placesData.results[0].place_id
             const placeDetailsData = await httpFactory.getDetails(placeId)
             const directionsData = await httpFactory.calculateRoute(config.currentCoordinates, placeId)
 

@@ -5,6 +5,7 @@ const {
     SLOT_CONFIDENCE_THRESHOLD,
     INTENT_FILTER_PROBABILITY_THRESHOLD
 } = require('../constants')
+const { buildQueryParameters } = require('./utils')
 
 function checkCurrentCoordinates() {
     const config = configFactory.get()
@@ -91,16 +92,26 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
         
         return i18n('places.dialog.noLocation')
     } else {
-        logger.info(places.beautifyLocationName(locationTypes, locationNames))
         // Get the data from Places API
-        const placeData = await httpFactory.findPlace(
+        let placesData = await httpFactory.nearbySearch(
+            buildQueryParameters(locationTypes, locationNames, searchVariables)
+        )
+
+        // Other endpoint
+        /*
+        const placesData = await httpFactory.findPlace(
             places.beautifyLocationName(locationTypes, locationNames)
         )
-        logger.debug(placeData)
+        */
 
         let speech = ''
         try {
-            const placeId = placeData.candidates[0].place_id
+            // Other endpoint
+            /*
+            const placeId = placesData.candidates[0].place_id
+            */
+
+            const placeId = placesData.results[0].place_id
             const placeDetailsData = await httpFactory.getDetails(placeId)
 
             logger.debug(placeDetailsData)

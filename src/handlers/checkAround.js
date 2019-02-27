@@ -1,8 +1,7 @@
 const { i18nFactory, httpFactory, configFactory } = require('../factories')
-const { logger, slot, message, translation, places } = require('../utils')
+const { logger, slot, translation, places } = require('../utils')
 const commonHandler = require('./common')
 const {
-    SLOT_CONFIDENCE_THRESHOLD,
     INTENT_FILTER_PROBABILITY_THRESHOLD
 } = require('../constants')
 
@@ -23,25 +22,9 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
 
     const {
         locationTypes,
-        locationNames
+        locationNames,
+        searchVariables
     } = await commonHandler(msg, knownSlots)
-
-    // Get search_variable specific slot
-    let searchVariables
-
-    if (!('search_variables' in knownSlots)) {
-        const searchVariablesSlot = message.getSlotsByName(msg, 'search_variable', {
-            threshold: SLOT_CONFIDENCE_THRESHOLD
-        })
-
-        if (searchVariablesSlot) {
-            searchVariables = searchVariablesSlot.map(x => x.value.value)
-        }
-    } else {
-        searchVariables = knownSlots.search_variables
-    }
-
-    logger.info('\tsearch_variables: ', searchVariables)
 
     // If both slots location_type and location_name are missing
     if (slot.missing(locationTypes) && slot.missing(locationNames)) {

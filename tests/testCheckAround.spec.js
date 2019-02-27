@@ -8,6 +8,8 @@ const {
     createSearchVariableSlot
 } = require('./utils')
 
+const robustnessTestsTimeout = 60000
+
 it('should ask to configure the current coordinates of the device', async () => {
     configFactory.mock({
         locale: 'english',
@@ -26,7 +28,7 @@ it('should ask to configure the current coordinates of the device', async () => 
     // (basically the arguments passed to i18n, in serialized string form)
     const endMsg = (await session.end()).text
     expect(getMessageKey(endMsg)[0]).toBe('error.noCurrentCoordinates')
-})
+}, robustnessTestsTimeout)
 
 it('should ask the missing location name', async () => {
     configFactory.mock({
@@ -53,7 +55,7 @@ it('should ask the missing location name', async () => {
 
     const endMsg = (await session.end()).text
     expect(getMessageKey(endMsg)).toBe('places.checkAround.prominence.multipleResults')
-})
+}, robustnessTestsTimeout)
 
 it('should ask the missing location name twice and pass', async () => {
     configFactory.mock({
@@ -86,7 +88,7 @@ it('should ask the missing location name twice and pass', async () => {
 
     const endMsg = (await session.end()).text
     expect(getMessageKey(endMsg)).toBe('places.checkAround.prominence.multipleResults')
-})
+}, robustnessTestsTimeout)
 
 it('should ask the missing location name twice and fail', async () => {
     configFactory.mock({
@@ -116,7 +118,7 @@ it('should ask the missing location name twice and fail', async () => {
 
     const endMsg = (await session.end()).text
     expect(getMessageKey(endMsg)[0]).toBe('error.slotsNotRecognized')
-})
+}, robustnessTestsTimeout)
 
 it('should query the Burger King restaurants which are currently open', async () => {
     configFactory.mock({
@@ -137,7 +139,7 @@ it('should query the Burger King restaurants which are currently open', async ()
 
     const endMsg = (await session.end()).text
     expect(getMessageKey(endMsg)).toBe('places.checkAround.prominence.multipleResults')
-})
+}, robustnessTestsTimeout)
 
 it('should query the nearest Burger King restaurants', async () => {
     configFactory.mock({
@@ -159,7 +161,7 @@ it('should query the nearest Burger King restaurants', async () => {
 
     const endMsg = (await session.end()).text
     expect(getMessageKey(endMsg)).toBe('places.checkAround.distance.multipleResults')
-})
+}, robustnessTestsTimeout)
 
 it('should query the top rated Burger King restaurants', async () => {
     configFactory.mock({
@@ -182,4 +184,4 @@ it('should query the top rated Burger King restaurants', async () => {
 
     const endMsg = (await session.end()).text
     expect(getMessageKey(endMsg)).toBe('places.checkAround.prominence.oneResult')
-})
+}, robustnessTestsTimeout)

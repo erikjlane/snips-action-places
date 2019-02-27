@@ -23,7 +23,8 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
 
     const {
         locationTypes,
-        locationNames
+        locationNames,
+        searchVariables
     } = await commonHandler(msg, knownSlots)
     
     // Get contact_form specific slot

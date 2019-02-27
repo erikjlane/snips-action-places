@@ -3,10 +3,10 @@ const Session = require('./helpers/session')
 const { getMessageKey } = require('./helpers/tools')
 const { configFactory } = require('../src/factories')
 const {
-    createLocationNameSlot,
-    createLocationTypeSlot,
-    createSearchVariableSlot
+    createLocationNameSlot
 } = require('./utils')
+
+const robustnessTestsTimeout = 60000
 
 it('should ask to configure the current coordinates of the device', async () => {
     configFactory.mock({
@@ -26,7 +26,7 @@ it('should ask to configure the current coordinates of the device', async () => 
     // (basically the arguments passed to i18n, in serialized string form)
     const endMsg = (await session.end()).text
     expect(getMessageKey(endMsg)[0]).toBe('error.noCurrentCoordinates')
-})
+}, robustnessTestsTimeout)
 
 it('should ask the missing location name', async () => {
     configFactory.mock({
@@ -53,7 +53,7 @@ it('should ask the missing location name', async () => {
 
     const endMsg = (await session.end()).text
     expect(getMessageKey(endMsg)).toBe('places.checkDistance.distance')
-})
+}, robustnessTestsTimeout)
 
 it('should ask the missing location name twice and pass', async () => {
     configFactory.mock({
@@ -86,7 +86,7 @@ it('should ask the missing location name twice and pass', async () => {
 
     const endMsg = (await session.end()).text
     expect(getMessageKey(endMsg)).toBe('places.checkDistance.distance')
-})
+}, robustnessTestsTimeout)
 
 it('should ask the missing location name twice and fail', async () => {
     configFactory.mock({
@@ -116,8 +116,9 @@ it('should ask the missing location name twice and fail', async () => {
 
     const endMsg = (await session.end()).text
     expect(getMessageKey(endMsg)[0]).toBe('error.slotsNotRecognized')
-})
+}, robustnessTestsTimeout)
 
+//TODO: change endpoints to allow search variables?
 it('should query the distance to a Burger King', async () => {
     configFactory.mock({
         locale: 'english',
@@ -137,4 +138,4 @@ it('should query the distance to a Burger King', async () => {
 
     const endMsg = (await session.end()).text
     expect(getMessageKey(endMsg)).toBe('places.checkDistance.distance')
-})
+}, robustnessTestsTimeout)

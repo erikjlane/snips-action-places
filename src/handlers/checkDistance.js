@@ -23,7 +23,8 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
     // Extracting slots
     const {
         locationTypes,
-        locationNames
+        locationNames,
+        searchVariables
     } = await commonHandler(msg, knownSlots)
 
     // If the slots location_type and location_name are missing

@@ -15,7 +15,7 @@ module.exports = async function (msg, knownSlots = {}) {
         }
     }
 
-    let locationTypes, locationNames
+    let locationTypes, locationNames, searchVariables
 
     // Slot location_type
     if (!('location_types' in knownSlots)) {
@@ -43,8 +43,22 @@ module.exports = async function (msg, knownSlots = {}) {
         locationNames = knownSlots.location_names
     }
 
+    // Slot search_variable
+    if (!('search_variables' in knownSlots)) {
+        const searchVariablesSlot = message.getSlotsByName(msg, 'search_variable', {
+            threshold: SLOT_CONFIDENCE_THRESHOLD
+        })
+
+        if (searchVariablesSlot) {
+            searchVariables = searchVariablesSlot.map(x => x.value.value)
+        }
+    } else {
+        searchVariables = knownSlots.search_variables
+    }
+
     logger.info('\tlocation_types: ', locationTypes)
     logger.info('\tlocation_names: ', locationNames)
+    logger.info('\tsearch_variables: ', searchVariables)
 
-    return { locationTypes, locationNames }
+    return { locationTypes, locationNames, searchVariables }
 }

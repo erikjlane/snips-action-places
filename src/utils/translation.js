@@ -30,6 +30,7 @@ module.exports = {
 
     nearbySearchToSpeech (locationTypes, searchVariables, placesData) {
         const { randomTranslation } = module.exports
+        const i18n = i18nFactory.get()
 
         const placesNumber = placesData.results.length
         let tts = '', searchVariable = 'prominence'
@@ -102,9 +103,17 @@ module.exports = {
                 }
             }
 
-            console.log(parameters)
-
             tts += randomTranslation(`places.checkAround.${ searchVariable }.multipleResults`, parameters)
+        }
+
+        if (searchVariables.includes('open')) {
+            if (placesNumber === 1) {
+                tts += ' '
+                tts += i18n('places.open.oneResult')
+            } else if (placesNumber > 1) {
+                tts += ' '
+                tts += i18n('places.open.multipleResults')
+            }
         }
 
         return tts

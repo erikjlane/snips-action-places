@@ -72,17 +72,6 @@
                     "I found several {{ location_type }} close to your current location. The first is {{- location_name_1 }} on {{- location_street_1 }}. The second is {{- location_name_2 }} on {{- location_street_2 }}. The third is {{- location_name_3 }} on {{-location_street_3 }}.",
                     "I have a few {{ location_type }} near your location. The first is {{- location_name_1 }} on {{- location_street_1 }}. The second is {{- location_name_2 }} on {{- location_street_2 }}. The third is {{- location_name_3 }} on {{- location_street_3 }}."
                 ]
-            },
-            "open": {
-                "noResults": [
-                    "It seems that there is no {{- location }} open at the moment around."
-                ],
-                "oneResult": [
-                    "Cool, I found one currently open {{- location }} in the neighborhood."
-                ],
-                "multipleResults": [
-                    "I found {{ number }} {{- location }} around which are open at the moment."
-                ]
             }
         },
         "checkHours": {
@@ -115,6 +104,10 @@
         },
         "checkDistance": {
             "distance": "{{- location }} on {{- address }} is {{ distance }} away from your current location."
+        },
+        "open": {
+            "oneResult": "It is currently open.",
+            "multipleResults": "These places are currently open."
         }
     },
     "units": {

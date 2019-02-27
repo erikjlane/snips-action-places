@@ -133,12 +133,14 @@ it('should query the Burger King restaurants which are currently open', async ()
         intentName: 'snips-assistant:CheckAround',
         input: 'Any open Burger King around?',
         slots: [
-            createLocationNameSlot('Burger King')
+            createLocationNameSlot('Burger King'),
+            createSearchVariableSlot('open')
         ]
     })
 
     const endMsg = (await session.end()).text
-    expect(getMessageKey(endMsg)).toBe('places.checkAround.prominence.multipleResults')
+    expect(endMsg.includes('places.checkAround.prominence.multipleResults')).toBeTruthy()
+    expect(endMsg.includes('places.open.multipleResults')).toBeTruthy()
 }, robustnessTestsTimeout)
 
 it('should query the nearest Burger King restaurants', async () => {
@@ -183,5 +185,5 @@ it('should query the top rated Burger King restaurants', async () => {
     })
 
     const endMsg = (await session.end()).text
-    expect(getMessageKey(endMsg)).toBe('places.checkAround.prominence.oneResult')
+    expect(getMessageKey(endMsg)).toBe('places.checkAround.topRated.multipleResults')
 }, robustnessTestsTimeout)

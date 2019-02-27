@@ -1,5 +1,5 @@
 const { i18nFactory, httpFactory, configFactory } = require('../factories')
-const { logger, translation, slot, places, message } = require('../utils')
+const { logger, translation, slot, message } = require('../utils')
 const commonHandler = require('./common')
 const {
     SLOT_CONFIDENCE_THRESHOLD,

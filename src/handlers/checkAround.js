@@ -1,5 +1,5 @@
 const { i18nFactory, httpFactory, configFactory } = require('../factories')
-const { logger, slot, translation } = require('../utils')
+const { logger, slot, translation, places } = require('../utils')
 const commonHandler = require('./common')
 const {
     INTENT_FILTER_PROBABILITY_THRESHOLD
@@ -77,11 +77,9 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
         )
 
         // Keep the top-rated places only
-        /*
         if (searchVariables.includes('top rated')) {
             placesData.results = places.topRatedFilter(placesData)
         }
-        */
         logger.debug(placesData)
 
         let speech = ''

@@ -54,6 +54,9 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
             if (!slot.missing(locationNames)) {
                 slotsToBeSent.location_names = locationNames
             }
+            if (!slot.missing(searchVariables)) {
+                slotsToBeSent.search_variables = searchVariables
+            }
 
             return require('./index').checkAround(msg, flow, slotsToBeSent)
         })
@@ -94,9 +97,11 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
         let placesData = await httpFactory.nearbySearch(queryParameters)
 
         // Keep the top-rated places only
+        /*
         if (searchVariables.includes('top rated')) {
             placesData.results = places.topRatedFilter(placesData)
-        } 
+        }
+        */
         logger.debug(placesData)
 
         let speech = ''

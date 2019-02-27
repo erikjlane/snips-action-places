@@ -29,36 +29,62 @@ module.exports = {
     },
 
     nearbySearchToSpeech (locationTypes, searchVariables, placesData) {
-        //const { randomTranslation } = module.exports
+        const { randomTranslation } = module.exports
         const i18n = i18nFactory.get()
 
         const placesNumber = placesData.results.length
         let tts = '', searchVariable = 'prominence'
 
+        if (searchVariables.includes('popular')) {
+            searchVariable = 'prominence'
+        }
         if (searchVariables.includes('nearby')) {
             searchVariable = 'distance'
         }
+        if (searchVariables.includes('top rated')) {
+            searchVariable = 'topRated'
+        }
+
 
         if (placesNumber === 0) {
-            tts += i18n(`places.checkAround.${ searchVariable }.noResults`, {
+            tts += randomTranslation(`places.checkAround.${ searchVariable }.noResults`, {
                 location_type: locationTypes[0] || 'place like this'
             })
         } else if (placesNumber === 1) {
-            tts += i18n(`places.checkAround.${ searchVariable }.oneResult`, {
+            let parameters = {
                 location_type: locationTypes[0] || 'place like this',
                 location_name_1: placesData.results[0].name,
                 location_street_1: beautify.address(placesData.results[0].vicinity),
-            })
+            }
+
+            if (searchVariable === 'topRated') {
+                parameters = {
+                    ...parameters,
+                    rating_1: placesData.results[0].rating
+                }
+            }
+
+            tts += randomTranslation(`places.checkAround.${ searchVariable }.oneResult`, parameters)
         } else if (placesNumber === 2) {
-            tts += i18n(`places.checkAround.${ searchVariable }.twoResults`, {
+            let parameters = {
                 location_type: locationTypes[0] || 'places',
                 location_name_1: placesData.results[0].name,
                 location_street_1: beautify.address(placesData.results[0].vicinity),
                 location_name_2: placesData.results[1].name,
                 location_street_2: beautify.address(placesData.results[1].vicinity),
-            })
+            }
+
+            if (searchVariable === 'topRated') {
+                parameters = {
+                    ...parameters,
+                    rating_1: placesData.results[0].rating,
+                    rating_2: placesData.results[1].rating
+                }
+            }
+
+            tts += randomTranslation(`places.checkAround.${ searchVariable }.twoResults`, parameters)
         } else if (placesNumber > 2) {
-            tts += i18n(`places.checkAround.${ searchVariable }.multipleResults`, {
+            let parameters = {
                 location_type: locationTypes[0] || 'places',
                 location_name_1: placesData.results[0].name,
                 location_street_1: beautify.address(placesData.results[0].vicinity),
@@ -66,7 +92,20 @@ module.exports = {
                 location_street_2: beautify.address(placesData.results[1].vicinity),
                 location_name_3: placesData.results[2].name,
                 location_street_3: beautify.address(placesData.results[2].vicinity)
-            })
+            }
+
+            if (searchVariable === 'topRated') {
+                parameters = {
+                    ...parameters,
+                    rating_1: placesData.results[0].rating,
+                    rating_2: placesData.results[1].rating,
+                    rating_3: placesData.results[2].rating
+                }
+            }
+
+            console.log(parameters)
+
+            tts += randomTranslation(`places.checkAround.${ searchVariable }.multipleResults`, parameters)
         }
 
         return tts

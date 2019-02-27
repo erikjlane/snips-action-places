@@ -45,7 +45,6 @@ module.exports = {
             searchVariable = 'topRated'
         }
 
-
         if (placesNumber === 0) {
             tts += randomTranslation(`places.checkAround.${ searchVariable }.noResults`, {
                 location_type: locationTypes[0] || 'place like this'

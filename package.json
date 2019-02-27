@@ -6,14 +6,14 @@
   "scripts": {
     "start": "npm run lint && npm run test",
     "lint": "eslint .",
-    "test": "jest '^.*\\.spec\\.js$'"
+    "test": "jest --verbose '^.*\\.spec\\.js$'"
   },
   "author": "Thomas Bouvier <contact@thomas-bouvier.io>",
   "license": "MIT",
   "devDependencies": {
     "camelcase": "^5.0.0",
     "eslint": "^5.12.0",
-    "eslint-plugin-jest": "^22.1.3",
+    "eslint-plugin-jest": "^22.3.0",
     "fetch-mock": "^7.3.0",
     "jest": "^24.1.0",
     "mqtt": "^2.18.8",

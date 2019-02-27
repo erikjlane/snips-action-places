@@ -21,33 +21,36 @@ module.exports = {
     // Takes an array from the i18n and returns a random item.
     randomTranslation (key, opts) {
         const i18n = i18nFactory.get()
+
         const possibleValues = i18n(key, { returnObjects: true, ...opts })
         const randomIndex = Math.floor(Math.random() * possibleValues.length)
+
         return possibleValues[randomIndex]
     },
 
     nearbySearchToSpeech (locationTypes, searchVariables, placesData) {
         const { randomTranslation } = module.exports
+        const i18n = i18nFactory.get()
 
         const placesNumber = placesData.results.length
-        let tts = '', searchVariable = 'distance'
+        let tts = '', searchVariable = 'prominence'
 
-        if (searchVariables.includes('top rated')) {
-            searchVariable = 'prominence'
+        if (searchVariables.includes('nearby')) {
+            searchVariable = 'distance'
         }
 
         if (placesNumber === 0) {
-            tts += randomTranslation(`places.checkAround.${ searchVariable }.noResults`, {
+            tts += i18n(`places.checkAround.${ searchVariable }.noResults`, {
                 location_type: locationTypes[0] || 'place like this'
             })
         } else if (placesNumber === 1) {
-            tts += randomTranslation(`places.checkAround.${ searchVariable }.oneResult`, {
+            tts += i18n(`places.checkAround.${ searchVariable }.oneResult`, {
                 location_type: locationTypes[0] || 'place like this',
                 location_name_1: placesData.results[0].name,
                 location_street_1: beautify.address(placesData.results[0].vicinity),
             })
         } else if (placesNumber === 2) {
-            tts += randomTranslation(`places.checkAround.${ searchVariable }.twoResults`, {
+            tts += i18n(`places.checkAround.${ searchVariable }.twoResults`, {
                 location_type: locationTypes[0] || 'places',
                 location_name_1: placesData.results[0].name,
                 location_street_1: beautify.address(placesData.results[0].vicinity),
@@ -55,7 +58,7 @@ module.exports = {
                 location_street_2: beautify.address(placesData.results[1].vicinity),
             })
         } else if (placesNumber > 2) {
-            tts += randomTranslation(`places.checkAround.${ searchVariable }.multipleResults`, {
+            tts += i18n(`places.checkAround.${ searchVariable }.multipleResults`, {
                 location_type: locationTypes[0] || 'places',
                 location_name_1: placesData.results[0].name,
                 location_street_1: beautify.address(placesData.results[0].vicinity),

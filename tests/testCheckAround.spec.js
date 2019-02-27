@@ -1,11 +1,13 @@
 require('./helpers/setup').bootstrap()
 const Session = require('./helpers/session')
+const { getMessageKey } = require('./helpers/tools')
 const { configFactory } = require('../src/factories')
 const {
-    createLocationNameSlot
+    createLocationNameSlot,
+    createLocationTypeSlot,
+    createSearchVariableSlot
 } = require('./utils')
 
-/*
 it('should ask to configure the current coordinates of the device', async () => {
     configFactory.mock({
         locale: 'english',
@@ -50,9 +52,7 @@ it('should ask the missing location name', async () => {
     expect(getMessageKey(whichDestinationMsg.text)).toBe('places.dialog.noLocation')
 
     const endMsg = (await session.end()).text
-    expect(endMsg.includes('directions.directions.transit.walkToMetro')).toBeTruthy()
-    expect(endMsg.includes('directions.directions.transit.metro')).toBeTruthy()
-
+    expect(getMessageKey(endMsg)).toBe('places.checkAround.prominence.multipleResults')
 })
 
 it('should ask the missing location name twice and pass', async () => {
@@ -85,7 +85,7 @@ it('should ask the missing location name twice and pass', async () => {
     expect(getMessageKey(whichDestinationMsg2.text)).toBe('places.dialog.noLocation')
 
     const endMsg = (await session.end()).text
-    expect(endMsg).toBe('test')
+    expect(getMessageKey(endMsg)).toBe('places.checkAround.prominence.multipleResults')
 })
 
 it('should ask the missing location name twice and fail', async () => {
@@ -117,7 +117,6 @@ it('should ask the missing location name twice and fail', async () => {
     const endMsg = (await session.end()).text
     expect(getMessageKey(endMsg)[0]).toBe('error.slotsNotRecognized')
 })
-*/
 
 it('should query the Burger King restaurants which are currently open', async () => {
     configFactory.mock({
@@ -137,12 +136,9 @@ it('should query the Burger King restaurants which are currently open', async ()
     })
 
     const endMsg = (await session.end()).text
-    expect(endMsg).toBe('test')
-    expect(endMsg.includes('directions.directions.transit.walkToMetro')).toBeTruthy()
-    expect(endMsg.includes('directions.directions.transit.metro')).toBeTruthy()
+    expect(getMessageKey(endMsg)).toBe('places.checkAround.prominence.multipleResults')
 })
 
-/*
 it('should query the top rated Burger King restaurants', async () => {
     configFactory.mock({
         locale: 'english',
@@ -163,8 +159,5 @@ it('should query the top rated Burger King restaurants', async () => {
     })
 
     const endMsg = (await session.end()).text
-    expect(endMsg.includes('noTripWithTravelMode')).toBeTruthy()
-    expect(endMsg.includes('directions.directions.transit.walkToMetro')).toBeTruthy()
-    expect(endMsg.includes('directions.directions.transit.metro')).toBeTruthy()
+    expect(getMessageKey(endMsg)).toBe('places.checkAround.prominence.oneResult')
 })
-*/

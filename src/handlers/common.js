@@ -15,8 +15,6 @@ module.exports = async function (msg, knownSlots = {}) {
         }
     }
 
-    console.log(msg)
-
     let locationTypes, locationNames
 
     // Slot location_type
@@ -47,8 +45,6 @@ module.exports = async function (msg, knownSlots = {}) {
 
     logger.info('\tlocation_types: ', locationTypes)
     logger.info('\tlocation_names: ', locationNames)
-
-    console.log(locationNames)
 
     return { locationTypes, locationNames }
 }

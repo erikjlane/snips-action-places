@@ -5,6 +5,7 @@ const {
     SLOT_CONFIDENCE_THRESHOLD,
     INTENT_FILTER_PROBABILITY_THRESHOLD
 } = require('../constants')
+const { Dialog } = require('hermes-javascript')
 
 function checkCurrentCoordinates() {
     const config = configFactory.get()
@@ -37,16 +38,16 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
 
         if (dateTimeSlot) {
             // Is it an InstantTime object?
-            if (dateTimeSlot.value.value_type === 4) {
-                dateTime = new Date(dateTimeSlot.value.value.value)
+            if (dateTimeSlot.value.kind === Dialog.enums.slotType.instantTime) {
+                dateTime = new Date(dateTimeSlot.value.value)
             }
             // Or is it a TimeInterval object?
-            else if (dateTimeSlot.value.value_type === 5) {
-                const from = dateTimeSlot.value.value.from
+            else if (dateTimeSlot.value.kind === Dialog.enums.slotType.timeInterval) {
+                const from = dateTimeSlot.value.from
                 if (from) {
                     dateTime = new Date(from)
                 } else {
-                    const to = dateTimeSlot.value.value.to
+                    const to = dateTimeSlot.value.to
                     if (to) {
                         dateTime = new Date(to)
                     }

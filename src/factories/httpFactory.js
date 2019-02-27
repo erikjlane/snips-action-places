@@ -35,7 +35,7 @@ module.exports = {
         }
 
         const request = http.url('/place/findplacefromtext/json').query(query)
-        console.log(request)
+        //console.log(request)
 
         const results = await request
             .get()
@@ -74,7 +74,7 @@ module.exports = {
         }
 
         const request = http.url('/place/nearbysearch/json').query(query)
-        console.log(request)
+        //console.log(request)
 
         const results = await request
             .get()

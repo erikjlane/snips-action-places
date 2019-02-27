@@ -9,6 +9,10 @@ module.exports = {
             value: {
                 kind: 'Custom',
                 value: locationName
+            },
+            range: {
+                start: 0,
+                end: 1
             }
         }
     },
@@ -22,6 +26,10 @@ module.exports = {
             value: {
                 kind: 'Custom',
                 value: locationType
+            },
+            range: {
+                start: 0,
+                end: 1
             }
         }
     },
@@ -35,6 +43,10 @@ module.exports = {
             value: {
                 kind: 'Custom',
                 value: searchVariable
+            },
+            range: {
+                start: 0,
+                end: 1
             }
         }
     },
@@ -48,6 +60,10 @@ module.exports = {
             value: {
                 kind: 'Custom',
                 value: contactForm
+            },
+            range: {
+                start: 0,
+                end: 1
             }
         }
     },
@@ -63,6 +79,10 @@ module.exports = {
                 value: dateTime,
                 grain: 'Hour',
                 precision: 'Exact'
+            },
+            range: {
+                start: 0,
+                end: 1
             }
         }
     }

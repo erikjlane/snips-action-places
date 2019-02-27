@@ -1,5 +1,7 @@
-# snips-action-places (WIP)
+# snips-action-places
 #### Action code for the Snips local business skill
+
+[![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
 
 ## Setup
 

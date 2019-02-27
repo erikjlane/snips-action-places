@@ -29,7 +29,7 @@ module.exports = {
     },
 
     nearbySearchToSpeech (locationTypes, searchVariables, placesData) {
-        const { randomTranslation } = module.exports
+        //const { randomTranslation } = module.exports
         const i18n = i18nFactory.get()
 
         const placesNumber = placesData.results.length

@@ -139,6 +139,28 @@ it('should query the Burger King restaurants which are currently open', async ()
     expect(getMessageKey(endMsg)).toBe('places.checkAround.prominence.multipleResults')
 })
 
+it('should query the nearest Burger King restaurants', async () => {
+    configFactory.mock({
+        locale: 'english',
+        current_region: 'us',
+        current_coordinates: '40.6976637,-74.1197635',
+        unit_system: 'metric'
+    })
+
+    const session = new Session()
+    await session.start({
+        intentName: 'snips-assistant:CheckAround',
+        input: 'Any open Burger King nearby?',
+        slots: [
+            createLocationNameSlot('Burger King'),
+            createSearchVariableSlot('nearby')
+        ]
+    })
+
+    const endMsg = (await session.end()).text
+    expect(getMessageKey(endMsg)).toBe('places.checkAround.distance.multipleResults')
+})
+
 it('should query the top rated Burger King restaurants', async () => {
     configFactory.mock({
         locale: 'english',

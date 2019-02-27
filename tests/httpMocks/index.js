@@ -161,6 +161,312 @@ module.exports = {
             status: 'OK'
         })
 
+        fetchMock.mock('glob:*api/place/findplacefromtext*', {
+            candidates: [
+                {
+                    place_id: 'ChIJP6KBfqJRwokR8MHzw4fMtzk'
+                }
+            ],
+            status: 'OK'
+        })
+
+        fetchMock.mock('glob:*api/place/details*', {
+            html_attributions: [],
+            result: {
+                address_components: [
+                    {
+                        long_name: '1088',
+                        short_name: '1088',
+                        types: [
+                            'street_number'
+                        ]
+                    },
+                    {
+                        long_name: 'Broadway',
+                        short_name: 'Broadway',
+                        types: [
+                            'route'
+                        ]
+                    }
+                ],
+                adr_address: '<span class="street-address">1088 Broadway</span>, <span class="locality">Bayonne</span>, <span class="region">NJ</span> <span class="postal-code">07002</span>, <span class="country-name">USA</span>',
+                formatted_address: '1088 Broadway, Bayonne, NJ 07002, USA',
+                formatted_phone_number: '(201) 858-9055',
+                geometry: {
+                    location: {
+                        lat: 40.6851791,
+                        lng: -74.0997886
+                    },
+                    viewport: {
+                        northeast: {
+                            lat: 40.6865641302915,
+                            lng: -74.0985158197085
+                        },
+                        southwest: {
+                            lat: 40.6838661697085,
+                            lng: -74.1012137802915
+                        }
+                    }
+                },
+                icon: 'https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png',
+                id: '2e4c21b7a71d45523b137534ca1224c7525c6bd7',
+                international_phone_number: '+1 201-858-9055',
+                name: 'Burger King',
+                opening_hours: {
+                    open_now: false,
+                    periods: [
+                        {
+                            close: {
+                                day: 1,
+                                time: '0100'
+                            },
+                            open: {
+                                day: 0,
+                                time: '0600'
+                            }
+                        },
+                        {
+                            close: {
+                                day: 2,
+                                time: '0100'
+                            },
+                            open: {
+                                day: 1,
+                                time: '0600'
+                            }
+                        },
+                        {
+                            close: {
+                                day: 3,
+                                time: '0100'
+                            },
+                            open: {
+                                day: 2,
+                                time: '0600'
+                            }
+                        },
+                        {
+                            close: {
+                                day: 4,
+                                time: '0100'
+                            },
+                            open: {
+                                day: 3,
+                                time: '0600'
+                            }
+                        },
+                        {
+                            close: {
+                                day: 5,
+                                time: '0100'
+                            },
+                            open: {
+                                day: 4,
+                                time: '0600'
+                            }
+                        },
+                        {
+                            close: {
+                                day: 6,
+                                time: '0100'
+                            },
+                            open: {
+                                day: 5,
+                                time: '0600'
+                            }
+                        },
+                        {
+                            close: {
+                                day: 0,
+                                time: '0100'
+                            },
+                            open: {
+                                day: 6,
+                                time: '0600'
+                            }
+                        }
+                    ],
+                    weekday_text: [
+                        'Monday: 6:00 AM – 1:00 AM',
+                        'Tuesday: 6:00 AM – 1:00 AM',
+                        'Wednesday: 6:00 AM – 1:00 AM',
+                        'Thursday: 6:00 AM – 1:00 AM',
+                        'Friday: 6:00 AM – 1:00 AM',
+                        'Saturday: 6:00 AM – 1:00 AM',
+                        'Sunday: 6:00 AM – 1:00 AM'
+                    ]
+                },
+                photos: [
+                    {
+                        height: 1056,
+                        html_attributions: [
+                            '<a href="https://maps.google.com/maps/contrib/107181665675150471881/photos">Burger King</a>'
+                        ],
+                        photo_reference: 'CmRaAAAAQpMduymIjmkzc9B1lKUpSeI1vGyMMHTzp4O7pUvAZTOTzvVwj4AibWPWWzyWVx437j0qxyC2ofS2NwTj4qTe4i3bscC_ja-xdmcQwsxuQFdUTJ2YdXWmVRtxEbcWsZndEhAp-ZnSP_TfavdShW9nOFH6GhS0DlWQ1cWwqHhJHWa3INzLtpQmbA',
+                        width: 868
+                    },
+                    {
+                        height: 1084,
+                        html_attributions: [
+                            '<a href="https://maps.google.com/maps/contrib/107181665675150471881/photos">Burger King</a>'
+                        ],
+                        photo_reference: 'CmRaAAAAQKjikij1na3fFcqSFPjwy0STwWqfdic3C-_uPlxrczomQgQ2FzcxGR0uMeSR7vDRYHbFZBiRP4vuc1WNJM8S2Jc6f36cwyUmqmRGClsGRzGPFaCTY-J3eNiwLn8jCGa9EhDrCz6CVOhq_0ILZk5NLpZHGhSP7mjsQvFiYQFomyusa_dZvbQzEg',
+                        width: 1330
+                    }
+                ],
+                place_id: 'ChIJP6KBfqJRwokR8MHzw4fMtzk',
+                plus_code: {
+                    compound_code: 'MWP2+33 Bayonne, New Jersey, United States',
+                    global_code: '87G7MWP2+33'
+                },
+                price_level: 1,
+                rating: 3.7,
+                reference: 'ChIJP6KBfqJRwokR8MHzw4fMtzk',
+                reviews: [
+                    {
+                        author_name: 'wallnutts23',
+                        author_url: 'https://www.google.com/maps/contrib/117877403965956783415/reviews',
+                        language: 'en',
+                        profile_photo_url: 'https://lh6.googleusercontent.com/-siTbzwv4qxI/AAAAAAAAAAI/AAAAAAAAAAA/ACevoQMzZGk2_joY-fD6r_Oo4yzEdaz9Mw/s128-c0x00000000-cc-rp-mo-ba2/photo.jpg',
+                        rating: 5,
+                        relative_time_description: '2 weeks ago',
+                        text: "This is a great BK location in my opinion. The food is always hot when I ordered and they have not messed my order once since I been coming here. \nThe manager's are courteous and the location is clean ( no flies flying around tables ) \nTheir television set is in a reasonable spot to view and I don't mind channel 12 news.\n\nI prefer this location then any other one I have been to. Its not crowded when I go for lunch or early dinner. Plus sometimes there is a newspaper from the same day that someone leaves just in case someone wants to read through it. \n\nThis BK gets my 5 stars !",
+                        time: 1549596809
+                    }
+                ],
+                scope: 'GOOGLE',
+                types: [
+                    'restaurant',
+                    'point_of_interest',
+                    'food',
+                    'establishment'
+                ],
+                url: 'https://maps.google.com/?cid=4159017664380125680',
+                user_ratings_total: 414,
+                utc_offset: -300,
+                vicinity: '1088 Broadway, Bayonne',
+                website: 'https://locations.bk.com/nj/bayonne/1088-broadway.html'
+            },
+            status: 'OK'
+        })
+
+        fetchMock.mock('glob:*api/directions*', {
+            geocoded_waypoints: [
+                {
+                    geocoder_status: 'OK',
+                    place_id: 'ChIJiaL8FNVTwokRqkqftzWMQT0',
+                    types: [
+                        'route'
+                    ]
+                },
+                {
+                    geocoder_status: 'OK',
+                    place_id: 'ChIJP6KBfqJRwokR8MHzw4fMtzk',
+                    types: [
+                        'establishment',
+                        'food',
+                        'point_of_interest',
+                        'restaurant'
+                    ]
+                }
+            ],
+            routes: [
+                {
+                    bounds: {
+                        northeast: {
+                            lat: 40.7116316,
+                            lng: -74.09744649999999
+                        },
+                        southwest: {
+                            lat: 40.6836491,
+                            lng: -74.1773014
+                        }
+                    },
+                    copyrights: 'Map data ©2019 Google',
+                    legs: [
+                        {
+                            distance: {
+                                text: '8.3 mi',
+                                value: 13410
+                            },
+                            duration: {
+                                text: '12 mins',
+                                value: 735
+                            },
+                            end_address: '1088 Broadway, Bayonne, NJ 07002, USA',
+                            end_location: {
+                                lat: 40.6852512,
+                                lng: -74.09994089999999
+                            },
+                            start_address: 'Newark Bay Bridge, Newark, NJ 07114, USA',
+                            start_location: {
+                                lat: 40.6960218,
+                                lng: -74.12065079999999
+                            },
+                            steps: [
+                                {
+                                    distance: {
+                                        text: '2.1 mi',
+                                        value: 3449
+                                    },
+                                    duration: {
+                                        text: '3 mins',
+                                        value: 167
+                                    },
+                                    end_location: {
+                                        lat: 40.7090039,
+                                        lng: -74.1575834
+                                    },
+                                    html_instructions: 'Head <b>west</b> on <b>I-78 W</b><div style="font-size:0.9em">Toll road</div>',
+                                    polyline: {
+                                        points: 'cmkwF`ukcMkEpSkA|Fs@fDu@hD}@pEcAtEaAzEs@~Cm@vCg@|By@|DGZWlAEXYrAOt@YrAu@nDgAfFQ|@?@S~@ER_AlEOj@m@rCm@dCw@|Cw@dDm@|BOh@Qf@ADc@vA[z@AB}@xBAPADGT[r@m@zAa@hAk@xAi@|AMXOd@_@jAKX_@xA_AhDk@zBIZEPAFADADCHQp@CJELEPSx@ABCJI^U~@S|@Md@?@Kd@K`@I^ERKb@iAjEIZCJGX_AjDELe@nAKTUXQJi@Ti@`Cg@xBk@jC'
+                                    },
+                                    start_location: {
+                                        lat: 40.6960218,
+                                        lng: -74.12065079999999
+                                    },
+                                    travel_mode: 'DRIVING'
+                                },
+                                {
+                                    distance: {
+                                        text: '440 ft',
+                                        value: 134
+                                    },
+                                    duration: {
+                                        text: '1 min',
+                                        value: 45
+                                    },
+                                    end_location: {
+                                        lat: 40.6852512,
+                                        lng: -74.09994089999999
+                                    },
+                                    html_instructions: 'Turn <b>right</b><div style="font-size:0.9em">Destination will be on the right</div>',
+                                    maneuver: 'turn-right',
+                                    polyline: {
+                                        points: 'wciwFbugcMeByAGCGAG?C?C@A@_@t@C@?@A?A?AAA?MK'
+                                    },
+                                    start_location: {
+                                        lat: 40.6842751,
+                                        lng: -74.1001799
+                                    },
+                                    travel_mode: 'DRIVING'
+                                }
+                            ],
+                            traffic_speed_entry: [],
+                            via_waypoint: []
+                        }
+                    ],
+                    overview_polyline: {
+                        points: 'cmkwF`ukcMaK`f@wFbXwCnNgApFcGlY}@~DeBbHeBbHa@pAcA|C}@xBAPIZwCrHgBhFk@rBkBdHSz@{@fDgAtEg@zBcBvGgAdEk@|Aa@n@{@`@aDjN]~A_AhDmBtFo@`BEJgBfEg@xAYhAOn@SbAQrAEz@Aj@Ff@Bd@J|@Lf@Rl@^|@NVZ^^\\TPb@ZZZbBpA`AdA`@f@Xd@d@bAf@~AXlAJdABvAC|@CfDCvEEhDAjE@jAAn@Cz@OdFGx@Qx@Sf@YZ[Xs@VWBe@BYC_@K_@Y[e@CAE?IUI]Ca@CyD?{EH_P@aDD{DHo@ReKLqEFiAf@kJf@iGh@cGVoB`@kC\\_BfAgEj@yBJk@XqAxBcJZsAP{Ax@wDhDaOhByHVgALa@JQ~@gDPe@hAmEd@{ApAqDxEsM~AqFv@iDvByIrBeJfFkV`Oas@rBsJhDePhCkMdP{w@Jc@`CqLz@cEjBaJl@{BHS^gA~@{Bz@eBdAeBNOfCcDpBsCn@{@d@m@pA}@vA{Av@iAdBqCp@eA^_@p@i@^S\\G^?XB`@RRLn@DhB`BHVNVJJLHPHHLDL@F?LG^uBpFmB}AOAG@a@v@GBQM'
+                    },
+                    summary: 'I-78 W and I-78 E',
+                    warnings: [],
+                    waypoint_order: []
+                }
+            ],
+            status: 'OK'
+        })
+
         return fetchMock
     }
 }

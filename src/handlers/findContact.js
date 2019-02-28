@@ -79,6 +79,9 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
             if (!slot.missing(searchVariables)) {
                 slotsToBeSent.search_variables = searchVariables
             }
+            if (!slot.missing(contactForm)) {
+                slotsToBeSent.contact_form = contactForm
+            }
 
             return require('./index').findContact(msg, flow, slotsToBeSent)
         })

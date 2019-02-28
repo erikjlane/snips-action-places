@@ -33,7 +33,7 @@
                 ],
                 "multipleResults": [
                     "I found a few {{- location_type }} around. The first is {{- location_name_1 }} on {{- location_street_1 }}. The second is {{- location_name_2 }} on {{- location_street_2 }}. The third is {{- location_name_3 }} on {{- location_street_3 }}.",
-                    "I found several interesting {{- location_type }} around. The first is {{- location_name_1 }} on {{- location_street_1 }}. The second is {{- location_name_2 }} on {{- location_street_2 }}. The third is {{- location_name_3 }} on {{-location_street_3 }}.",
+                    "I found several {{- location_type }} around. The first is {{- location_name_1 }} on {{- location_street_1 }}. The second is {{- location_name_2 }} on {{- location_street_2 }}. The third is {{- location_name_3 }} on {{-location_street_3 }}.",
                     "I have a few {{- location_type }}. The first is {{- location_name_1 }} on {{- location_street_1 }}. The second is {{- location_name_2 }} on {{- location_street_2 }}. The third is {{- location_name_3 }} on {{- location_street_3 }}."
                 ]
             },
@@ -52,7 +52,7 @@
                 ],
                 "multipleResults": [
                     "I found a few well rated {{- location_type }} around. The first is {{- location_name_1 }} on {{- location_street_1 }}, with a rating of {{ rating_1 }} over 5. The second is {{- location_name_2 }} on {{- location_street_2 }}, with a rating of {{ rating_2 }} over 5. The third is {{- location_name_3 }} on {{- location_street_3 }}, with a rating of {{ rating_3 }} over 5.",
-                    "I found several interesting {{- location_type }} around. The first is {{- location_name_1 }} on {{- location_street_1 }}, with a rating of {{ rating_1 }} over 5. The second is {{- location_name_2 }} on {{- location_street_2 }}, with a rating of {{ rating_2 }} over 5. The third is {{- location_name_3 }} on {{-location_street_3 }}, with a rating of {{ rating_3 }} over 5."
+                    "I found several {{- location_type }} around. The first is {{- location_name_1 }} on {{- location_street_1 }}, with a rating of {{ rating_1 }} over 5. The second is {{- location_name_2 }} on {{- location_street_2 }}, with a rating of {{ rating_2 }} over 5. The third is {{- location_name_3 }} on {{-location_street_3 }}, with a rating of {{ rating_3 }} over 5."
                 ]
             },
             "distance": {

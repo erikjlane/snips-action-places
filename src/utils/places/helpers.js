@@ -11,11 +11,11 @@ module.exports = {
             debug(periods)
 
             for (let obj of periods) {
-                if (obj.open.day === day) {
+                if (obj.open && obj.open.day === day) {
                     openDate = new Date(date.getTime())
                     openDate.setHours(obj.open.time.substring(0, 2), obj.open.time.substring(2), 0, 0)
                 }
-                if (obj.close.day === day) {
+                if (obj.close && obj.close.day === day) {
                     closeDate = new Date(date.getTime())
                     closeDate.setHours(obj.close.time.substring(0, 2), obj.close.time.substring(2), 0, 0)
                 }

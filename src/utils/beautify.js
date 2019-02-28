@@ -62,5 +62,9 @@ module.exports = {
                 return i18n('units.distance.metric.meters', { distance: distance })
             }
         }
+    },
+
+    number: number => {
+        return number.replace(/[()]/g, '')
     }
 }

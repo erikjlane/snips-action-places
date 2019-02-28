@@ -162,7 +162,7 @@ module.exports = {
                 return i18n('places.findContact.phoneNumber', {
                     location: locationName,
                     address: beautify.address(address),
-                    phone_number: phoneNumber
+                    phone_number: beautify.number(phoneNumber)
                 })
             } else {
                 return i18n('places.findContact.noPhoneNumber', {

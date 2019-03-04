@@ -5,6 +5,7 @@ module.exports = {
     translation: require('./translation'),
     time: require('./time'),
     beautify: require('./beautify'),
+    tts: require('./tts'),
     slot: require('./slot'),
     places: require('./places')
 }

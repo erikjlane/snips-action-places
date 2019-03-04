@@ -1,5 +1,5 @@
 const { i18nFactory, httpFactory, configFactory } = require('../factories')
-const { logger, slot, message, places, translation } = require('../utils')
+const { logger, slot, message, places, translation, tts } = require('../utils')
 const commonHandler = require('./common')
 const {
     SLOT_CONFIDENCE_THRESHOLD,
@@ -115,6 +115,8 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
             return i18n('places.dialog.noHourToCheck')
         }
     } else {
+        flow.end()
+
         // Get the data from Places API
         let placesData = await httpFactory.nearbySearch(
             buildQueryParameters(locationTypes, locationNames, searchVariables)
@@ -127,7 +129,6 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
         )
         */
 
-        let speech = ''
         try {
             // Other endpoint
             /*
@@ -136,18 +137,19 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
 
             const placeId = placesData.results[0].place_id
             const placeDetailsData = await httpFactory.getDetails(placeId)
+
+            logger.debug(placeDetailsData)
             
             const locationName = placeDetailsData.result.name
             const address = placeDetailsData.result.vicinity
             const openingHours = places.extractOpeningHours(dateTime, placeDetailsData)
-            speech = translation.checkHoursToSpeech(locationName, address, dateTime, openingHours)
+            
+            tts.say(translation.checkHoursToSpeech(locationName, address, dateTime, openingHours))
         } catch (error) {
             logger.error(error)
             throw new Error('APIResponse')
         }
 
-        flow.end()
-        logger.info(speech)
-        return speech
+        return ''
     }
 }

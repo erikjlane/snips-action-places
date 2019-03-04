@@ -1,5 +1,5 @@
 const { i18nFactory, httpFactory, configFactory } = require('../factories')
-const { logger, translation, slot, message } = require('../utils')
+const { logger, slot, message, translation, tts } = require('../utils')
 const commonHandler = require('./common')
 const {
     SLOT_CONFIDENCE_THRESHOLD,
@@ -95,6 +95,8 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
         
         return i18n('places.dialog.noLocation')
     } else {
+        flow.end()
+
         // Get the data from Places API
         let placesData = await httpFactory.nearbySearch(
             buildQueryParameters(locationTypes, locationNames, searchVariables)
@@ -107,7 +109,6 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
         )
         */
 
-        let speech = ''
         try {
             // Other endpoint
             /*
@@ -120,17 +121,15 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
             logger.debug(placeDetailsData)
 
             const locationName = placeDetailsData.result.name
-
             const phoneNumber = placeDetailsData.result.formatted_phone_number
             const address = placeDetailsData.result.formatted_address
-            speech = translation.findContactToSpeech(locationName, contactForm, phoneNumber, address)
+            
+            tts.say(translation.findContactToSpeech(locationName, contactForm, phoneNumber, address))
         } catch (error) {
             logger.error(error)
             throw new Error('APIResponse')
         }
 
-        flow.end()
-        logger.info(speech)
-        return speech
+        return ''
     }
 }

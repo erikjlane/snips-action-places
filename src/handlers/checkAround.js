@@ -1,5 +1,5 @@
 const { i18nFactory, httpFactory, configFactory } = require('../factories')
-const { logger, slot, translation, places } = require('../utils')
+const { logger, slot, translation, places, tts } = require('../utils')
 const commonHandler = require('./common')
 const {
     INTENT_FILTER_PROBABILITY_THRESHOLD
@@ -71,27 +71,26 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
         
         return i18n('places.dialog.noLocation')
     } else {
+        flow.end()
+
         // Get the data from Places API
         let placesData = await httpFactory.nearbySearch(
             buildQueryParameters(locationTypes, locationNames, searchVariables)
         )
 
-        // Keep the top-rated places only
-        if (searchVariables.includes('top rated')) {
-            placesData.results = places.topRatedFilter(placesData)
-        }
-        logger.debug(placesData)
-
-        let speech = ''
         try {
-            speech = translation.nearbySearchToSpeech(locationTypes, searchVariables, placesData)
+            // Keep the top-rated places only
+            if (searchVariables.includes('top rated')) {
+                placesData.results = places.topRatedFilter(placesData)
+            }
+            logger.debug(placesData)
+            
+            tts.say(translation.nearbySearchToSpeech(locationTypes, searchVariables, placesData))
         } catch (error) {
             logger.error(error)
             throw new Error('APIResponse')
         }
-
-        flow.end()
-        logger.info(speech)
-        return speech
     }
+
+    return ''
 }

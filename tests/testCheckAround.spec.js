@@ -185,5 +185,5 @@ it('should query the top rated Burger King restaurants', async () => {
     })
 
     const endMsg = (await session.end()).text
-    expect(getMessageKey(endMsg)).toBe('places.checkAround.topRated.multipleResults')
+    expect(getMessageKey(endMsg)).toBe('places.checkAround.topRated.oneResult')
 }, robustnessTestsTimeout)

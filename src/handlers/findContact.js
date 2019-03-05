@@ -95,7 +95,7 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
         
         return i18n('places.dialog.noLocation')
     } else {
-        flow.end()
+        const now = Date.now()
 
         // Get the data from Places API
         let placesData = await httpFactory.nearbySearch(
@@ -124,12 +124,18 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
             const phoneNumber = placeDetailsData.result.formatted_phone_number
             const address = placeDetailsData.result.formatted_address
             
-            tts.say(translation.findContactToSpeech(locationName, contactForm, phoneNumber, address))
+            const speech = translation.findContactToSpeech(locationName, contactForm, phoneNumber, address)
+            logger.info(speech)
+
+            flow.end()
+            if (Date.now() - now < 4000) {
+                return speech
+            } else {
+                tts.say(speech)
+            }
         } catch (error) {
             logger.error(error)
             throw new Error('APIResponse')
         }
-
-        return ''
     }
 }

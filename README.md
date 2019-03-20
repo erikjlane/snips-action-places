@@ -45,7 +45,7 @@ npm start
 
 ## Contributing
 
-Please see the [Contribution Guidelines](https://github.com/snipsco/snips-actions-places/blob/master/CONTRIBUTING.md).
+Please see the [Contribution Guidelines](https://github.com/snipsco/snips-action-places/blob/master/CONTRIBUTING.md).
 
 ## Copyright
 

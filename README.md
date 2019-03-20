@@ -42,3 +42,11 @@ npm start
 
 - **http**: see `tests/httpMocks/index.js`
 - **i18n**: see `src/factories/i18nFactory.js`
+
+## Contributing
+
+Please see the [Contribution Guidelines](https://github.com/snipsco/snips-actions-places/blob/master/CONTRIBUTING.md).
+
+## Copyright
+
+This library is provided by [Snips](https://snips.ai) as Open Source software. See [LICENSE](https://github.com/snipsco/snips-action-places/blob/master/LICENSE) for more information.

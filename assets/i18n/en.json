@@ -13,8 +13,8 @@
     },
     "places": {
         "dialog": {
-            "noLocation": "I'm sorry, can you repeat what you are looking for?",
-            "noHourToCheck": "I'm sorry, can you repeat what time do you want to check if your location is open?"
+            "noLocation": "I'm sorry, can you repeat what location you are looking for?",
+            "noHourToCheck": "I'm sorry, can you repeat at what time you want to check if this location is open?"
         },
         "checkAround": {
             "prominence": {

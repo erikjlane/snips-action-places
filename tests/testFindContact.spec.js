@@ -20,16 +20,14 @@ it('should ask to configure the current coordinates of the device', async () => 
     const session = new Session()
     await session.start({
         intentName: 'snips-assistant:FindContact',
-        input: 'What are the opening hours for Burger King?'
+        input: 'How can I contact?'
     })
 
-    // In test mode, the i18n output is mocked as a JSON containing the i18n key and associated options.
-    // (basically the arguments passed to i18n, in serialized string form)
     const endMsg = (await session.end()).text
     expect(getMessageKey(endMsg)[0]).toBe('error.noCurrentCoordinates')
 }, robustnessTestsTimeout)
 
-it('should ask the missing location name', async () => {
+it('should break as neither the location name nor the location type is provided', async () => {
     configFactory.mock({
         locale: 'english',
         current_region: 'us',
@@ -40,23 +38,14 @@ it('should ask the missing location name', async () => {
     const session = new Session()
     await session.start({
         intentName: 'snips-assistant:FindContact',
-        input: 'What are the opening hours for Burger King?'
+        input: 'How can I contact?'
     })
-
-    const whichDestinationMsg = await session.continue({
-        intentName: 'snips-assistant:FindContact',
-        input: 'What are the opening hours for Burger King?',
-        slots: [
-            createLocationNameSlot('Burger King')
-        ]
-    })
-    expect(getMessageKey(whichDestinationMsg.text)).toBe('places.dialog.noLocation')
 
     const endMsg = (await session.end()).text
-    expect(getMessageKey(endMsg)).toBe('places.findContact.address')
+    expect(getMessageKey(endMsg)[0]).toBe('error.intentNotRecognized')
 }, robustnessTestsTimeout)
 
-it('should ask the missing location name twice and pass', async () => {
+it('should ask the missing contact form and pass', async () => {
     configFactory.mock({
         locale: 'english',
         current_region: 'us',
@@ -67,26 +56,59 @@ it('should ask the missing location name twice and pass', async () => {
     const session = new Session()
     await session.start({
         intentName: 'snips-assistant:FindContact',
-        input: 'What are the opening hours for Burger King?'
-    })
-
-    const whichDestinationMsg1 = await session.continue({
-        intentName: 'snips-assistant:FindContact',
-        input: 'What are the opening hours for Burger King?'
-    })
-    expect(getMessageKey(whichDestinationMsg1.text)).toBe('places.dialog.noLocation')
-
-    const whichDestinationMsg2 = await session.continue({
-        intentName: 'snips-assistant:FindContact',
-        input: 'What are the opening hours for Burger King?',
+        input: 'How can I contact Burger King?',
         slots: [
             createLocationNameSlot('Burger King')
         ]
     })
-    expect(getMessageKey(whichDestinationMsg2.text)).toBe('places.dialog.noLocation')
+
+    const whichContactFormMsg = await session.continue({
+        intentName: 'snips-assistant:ElicitContactForm',
+        input: 'By phone',
+        slots: [
+            createContactFormSlot('number')
+        ]
+    })
+    expect(getMessageKey(whichContactFormMsg.text)).toBe('places.dialog.noContactForm')
 
     const endMsg = (await session.end()).text
-    expect(getMessageKey(endMsg)).toBe('places.findContact.address')
+    expect(getMessageKey(endMsg)).toBe('places.findContact.phoneNumber')
+}, robustnessTestsTimeout)
+
+it('should ask the missing contact form twice and pass', async () => {
+    configFactory.mock({
+        locale: 'english',
+        current_region: 'us',
+        current_coordinates: '40.6976637,-74.1197635',
+        unit_system: 'metric'
+    })
+
+    const session = new Session()
+    await session.start({
+        intentName: 'snips-assistant:FindContact',
+        input: 'How can I contact Burger King?',
+        slots: [
+            createLocationNameSlot('Burger King')
+        ]
+    })
+
+    const whichContactFormMsg1 = await session.continue({
+        intentName: 'snips-assistant:ElicitContactForm',
+        input: 'By phone'
+    })
+    expect(getMessageKey(whichContactFormMsg1.text)).toBe('places.dialog.noContactForm')
+
+    const whichContactFormMsg2 = await session.continue({
+        intentName: 'snips-assistant:ElicitContactForm',
+        input: 'By phone',
+        slots: [
+            createContactFormSlot('number')
+        ]
+    })
+    expect(getMessageKey(whichContactFormMsg2.text)).toBe('places.dialog.noContactForm')
+
+    const endMsg = (await session.end()).text
+    expect(getMessageKey(endMsg)).toBe('places.findContact.phoneNumber')
 }, robustnessTestsTimeout)
 
 it('should ask the missing location name twice and fail', async () => {
@@ -100,20 +122,23 @@ it('should ask the missing location name twice and fail', async () => {
     const session = new Session()
     await session.start({
         intentName: 'snips-assistant:FindContact',
-        input: 'What are the opening hours for Burger King?'
+        input: 'How can I contact Burger King?',
+        slots: [
+            createLocationNameSlot('Burger King')
+        ]
     })
 
-    const whichDestinationMsg1 = await session.continue({
-        intentName: 'snips-assistant:FindContact',
-        input: 'What are the opening hours for Burger King?'
+    const whichContactFormMsg1 = await session.continue({
+        intentName: 'snips-assistant:ElicitContactForm',
+        input: 'By phone'
     })
-    expect(getMessageKey(whichDestinationMsg1.text)).toBe('places.dialog.noLocation')
+    expect(getMessageKey(whichContactFormMsg1.text)).toBe('places.dialog.noContactForm')
 
-    const whichDestinationMsg2 = await session.continue({
-        intentName: 'snips-assistant:FindContact',
-        input: 'What are the opening hours for Burger King?'
+    const whichContactFormMsg2 = await session.continue({
+        intentName: 'snips-assistant:ElicitContactForm',
+        input: 'By phone'
     })
-    expect(getMessageKey(whichDestinationMsg2.text)).toBe('places.dialog.noLocation')
+    expect(getMessageKey(whichContactFormMsg2.text)).toBe('places.dialog.noContactForm')
 
     const endMsg = (await session.end()).text
     expect(getMessageKey(endMsg)[0]).toBe('error.slotsNotRecognized')
@@ -130,9 +155,10 @@ it('should query the address of a Burger King', async () => {
     const session = new Session()
     await session.start({
         intentName: 'snips-assistant:FindContact',
-        input: 'What are the opening hours for Burger King?',
+        input: 'How can I contact Burger King?',
         slots: [
-            createLocationNameSlot('Burger King')
+            createLocationNameSlot('Burger King'),
+            createContactFormSlot('address')
         ]
     })
 

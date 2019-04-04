@@ -30,7 +30,7 @@ it('should ask to configure the current coordinates of the device', async () => 
     expect(getMessageKey(endMsg)[0]).toBe('error.noCurrentCoordinates')
 }, robustnessTestsTimeout)
 
-it('should ask the missing location name', async () => {
+it('should break as neither the location name nor the location type is provided', async () => {
     configFactory.mock({
         locale: 'english',
         current_region: 'us',
@@ -41,83 +41,11 @@ it('should ask the missing location name', async () => {
     const session = new Session()
     await session.start({
         intentName: 'snips-assistant:CheckAround',
-        input: 'Any Burger King around?'
+        input: 'How can I contact?'
     })
-
-    const whichDestinationMsg = await session.continue({
-        intentName: 'snips-assistant:CheckAround',
-        input: 'Any Burger King around?',
-        slots: [
-            createLocationNameSlot('Burger King')
-        ]
-    })
-    expect(getMessageKey(whichDestinationMsg.text)).toBe('places.dialog.noLocation')
 
     const endMsg = (await session.end()).text
-    expect(getMessageKey(endMsg)).toBe('places.checkAround.prominence.multipleResults')
-}, robustnessTestsTimeout)
-
-it('should ask the missing location name twice and pass', async () => {
-    configFactory.mock({
-        locale: 'english',
-        current_region: 'us',
-        current_coordinates: '40.6976637,-74.1197635',
-        unit_system: 'metric'
-    })
-
-    const session = new Session()
-    await session.start({
-        intentName: 'snips-assistant:CheckAround',
-        input: 'Any Burger King around?'
-    })
-
-    const whichDestinationMsg1 = await session.continue({
-        intentName: 'snips-assistant:CheckAround',
-        input: 'Any Burger King around?'
-    })
-    expect(getMessageKey(whichDestinationMsg1.text)).toBe('places.dialog.noLocation')
-
-    const whichDestinationMsg2 = await session.continue({
-        intentName: 'snips-assistant:CheckAround',
-        input: 'Any Burger King around?',
-        slots: [
-            createLocationNameSlot('Burger King')
-        ]
-    })
-    expect(getMessageKey(whichDestinationMsg2.text)).toBe('places.dialog.noLocation')
-
-    const endMsg = (await session.end()).text
-    expect(getMessageKey(endMsg)).toBe('places.checkAround.prominence.multipleResults')
-}, robustnessTestsTimeout)
-
-it('should ask the missing location name twice and fail', async () => {
-    configFactory.mock({
-        locale: 'english',
-        current_region: 'us',
-        current_coordinates: '40.6976637,-74.1197635',
-        unit_system: 'metric'
-    })
-
-    const session = new Session()
-    await session.start({
-        intentName: 'snips-assistant:CheckAround',
-        input: 'Any Burger King around?'
-    })
-
-    const whichDestinationMsg1 = await session.continue({
-        intentName: 'snips-assistant:CheckAround',
-        input: 'Any Burger King around?'
-    })
-    expect(getMessageKey(whichDestinationMsg1.text)).toBe('places.dialog.noLocation')
-
-    const whichDestinationMsg2 = await session.continue({
-        intentName: 'snips-assistant:CheckAround',
-        input: 'Any Burger King around?'
-    })
-    expect(getMessageKey(whichDestinationMsg2.text)).toBe('places.dialog.noLocation')
-
-    const endMsg = (await session.end()).text
-    expect(getMessageKey(endMsg)[0]).toBe('error.slotsNotRecognized')
+    expect(getMessageKey(endMsg)[0]).toBe('error.intentNotRecognized')
 }, robustnessTestsTimeout)
 
 it('should query the Burger King restaurants which are currently open', async () => {

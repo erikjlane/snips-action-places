@@ -39,8 +39,6 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
 
         if (contactFormSlot) {
             contactForm = contactFormSlot.value.value
-        } else {
-            contactForm = 'address'
         }
     } else {
         contactForm = knownSlots.contact_form

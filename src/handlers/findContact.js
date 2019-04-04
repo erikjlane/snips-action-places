@@ -50,6 +50,10 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
 
     // If the slots location_type and location_name are missing
     if (slot.missing(locationTypes) && slot.missing(locationNames)) {
+        throw new Error('intentNotRecognized')
+    }
+
+    if (slot.missing(contactForm)) {
         if (knownSlots.depth === 0) {
             throw new Error('slotsNotRecognized')
         }
@@ -60,7 +64,7 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
             return require('./index').findContact(msg, flow, knownSlots)
         })
         
-        flow.continue('snips-assistant:FindContact', (msg, flow) => {
+        flow.continue('snips-assistant:ElicitContactForm', (msg, flow) => {
             if (msg.intent.probability < INTENT_FILTER_PROBABILITY_THRESHOLD) {
                 throw new Error('intentNotRecognized')
             }
@@ -79,9 +83,6 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
             if (!slot.missing(searchVariables)) {
                 slotsToBeSent.search_variables = searchVariables
             }
-            if (!slot.missing(contactForm)) {
-                slotsToBeSent.contact_form = contactForm
-            }
 
             return require('./index').findContact(msg, flow, slotsToBeSent)
         })
@@ -93,49 +94,49 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
             flow.end()
         })
         
-        return i18n('places.dialog.noLocation')
-    } else {
-        const now = Date.now()
+        return i18n('places.dialog.noContactForm')
+    }
 
-        // Get the data from Places API
-        let placesData = await httpFactory.nearbySearch(
-            buildQueryParameters(locationTypes, locationNames, searchVariables)
-        )
+    const now = Date.now()
 
+    // Get the data from Places API
+    let placesData = await httpFactory.nearbySearch(
+        buildQueryParameters(locationTypes, locationNames, searchVariables)
+    )
+
+    // Other endpoint
+    /*
+    const placesData = await httpFactory.findPlace(
+        places.beautifyLocationName(locationTypes, locationNames)
+    )
+    */
+
+    try {
         // Other endpoint
         /*
-        const placesData = await httpFactory.findPlace(
-            places.beautifyLocationName(locationTypes, locationNames)
-        )
+        const placeId = placesData.candidates[0].place_id
         */
 
-        try {
-            // Other endpoint
-            /*
-            const placeId = placesData.candidates[0].place_id
-            */
+        const placeId = placesData.results[0].place_id
+        const placeDetailsData = await httpFactory.getDetails(placeId)
 
-            const placeId = placesData.results[0].place_id
-            const placeDetailsData = await httpFactory.getDetails(placeId)
+        logger.debug(placeDetailsData)
 
-            logger.debug(placeDetailsData)
+        const locationName = placeDetailsData.result.name
+        const phoneNumber = placeDetailsData.result.formatted_phone_number
+        const address = placeDetailsData.result.formatted_address
+        
+        const speech = translation.findContactToSpeech(locationName, contactForm, phoneNumber, address)
+        logger.info(speech)
 
-            const locationName = placeDetailsData.result.name
-            const phoneNumber = placeDetailsData.result.formatted_phone_number
-            const address = placeDetailsData.result.formatted_address
-            
-            const speech = translation.findContactToSpeech(locationName, contactForm, phoneNumber, address)
-            logger.info(speech)
-
-            flow.end()
-            if (Date.now() - now < 4000) {
-                return speech
-            } else {
-                tts.say(speech)
-            }
-        } catch (error) {
-            logger.error(error)
-            throw new Error('APIResponse')
+        flow.end()
+        if (Date.now() - now < 4000) {
+            return speech
+        } else {
+            tts.say(speech)
         }
+    } catch (error) {
+        logger.error(error)
+        throw new Error('APIResponse')
     }
 }

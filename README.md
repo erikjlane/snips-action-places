@@ -1,13 +1,17 @@
 # snips-action-places
-#### Snips action code for the Local business app
+#### Snips action code for the Local businesses app
 
 [![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
 
 ## Setup
 
 ```
-npm install
+sh setup.sh
 ```
+
+Don't forget to edit the `config.ini` file.
+
+To be able to make calls to the API, you must have a [Google Places API key](https://developers.google.com/places/web-service/get-api-key).
 
 ## Run
 

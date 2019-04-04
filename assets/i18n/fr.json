@@ -14,7 +14,8 @@
     "places": {
         "dialog": {
             "noLocation": "Désolé, pouvez-vous répéter le lieu concerné par votre requête ?",
-            "noHourToCheck": "Désolé, pouvez-vous répéter à quelle heure vous souhaitez savoir si ce lieu est ouvert ?"
+            "noHourToCheck": "Désolé, pouvez-vous répéter à quelle heure vous souhaitez savoir si ce lieu est ouvert ?",
+            "noContactForm": "Désolé, pouvez-vous répéter si vous voulez leur adresse ou leur numéro de téléphone ?"
         },
         "checkAround": {
             "prominence": {

@@ -1,9 +1,8 @@
-const { i18nFactory, httpFactory, configFactory } = require('../factories')
+const { httpFactory, configFactory } = require('../factories')
 const { logger, slot, message, places, translation, tts } = require('../utils')
 const commonHandler = require('./common')
 const {
-    SLOT_CONFIDENCE_THRESHOLD,
-    INTENT_FILTER_PROBABILITY_THRESHOLD
+    SLOT_CONFIDENCE_THRESHOLD
 } = require('../constants')
 const { Dialog } = require('hermes-javascript')
 const { buildQueryParameters } = require('./utils')
@@ -17,8 +16,6 @@ function checkCurrentCoordinates() {
 }
 
 module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
-    const i18n = i18nFactory.get()
-
     logger.info('CheckHours')
 
     checkCurrentCoordinates()
@@ -64,98 +61,50 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
 
     logger.info('\tdate_time: ', dateTime)
 
-    // If the slots location_type and location_name are missing
-    if ((slot.missing(locationTypes) && slot.missing(locationNames))) {
-        if (knownSlots.depth === 0) {
-            throw new Error('slotsNotRecognized')
-        }
+    if (slot.missing(locationTypes) && slot.missing(locationNames)) {
+        throw new Error('intentNotRecognized')
+    }
 
-        flow.notRecognized((msg, flow) => {
-            knownSlots.depth -= 1
-            msg.slots = []
-            return require('./index').checkHours(msg, flow, knownSlots)
-        })
-        
-        flow.continue('snips-assistant:CheckHours', (msg, flow) => {
-            if (msg.intent.probability < INTENT_FILTER_PROBABILITY_THRESHOLD) {
-                throw new Error('intentNotRecognized')
-            }
-            
-            const slotsToBeSent = {
-                depth: knownSlots.depth - 1
-            }
+    const now = Date.now()
 
-            // Adding the known slots, if more
-            if (!slot.missing(locationTypes)) {
-                slotsToBeSent.location_types = locationTypes
-            }
-            if (!slot.missing(locationNames)) {
-                slotsToBeSent.location_names = locationNames
-            }
-            if (!slot.missing(searchVariables)) {
-                slotsToBeSent.search_variables = searchVariables
-            }
-            if (!slot.missing(dateTime)) {
-                slotsToBeSent.date_time = dateTime
-            }
+    // Get the data from Places API
+    let placesData = await httpFactory.nearbySearch(
+        buildQueryParameters(locationTypes, locationNames, searchVariables)
+    )
 
-            return require('./index').checkHours(msg, flow, slotsToBeSent)
-        })
+    // Other endpoint
+    /*
+    const placesData = await httpFactory.findPlace(
+        places.beautifyLocationName(locationTypes, locationNames)
+    )
+    */
 
-        flow.continue('snips-assistant:Cancel', (_, flow) => {
-            flow.end()
-        })
-        flow.continue('snips-assistant:Stop', (_, flow) => {
-            flow.end()
-        })
-
-        if (slot.missing(locationTypes) && slot.missing(locationNames)) {
-            return i18n('places.dialog.noLocation')
-        } else {
-            return i18n('places.dialog.noHourToCheck')
-        }
-    } else {
-        const now = Date.now()
-
-        // Get the data from Places API
-        let placesData = await httpFactory.nearbySearch(
-            buildQueryParameters(locationTypes, locationNames, searchVariables)
-        )
-
+    try {
         // Other endpoint
         /*
-        const placesData = await httpFactory.findPlace(
-            places.beautifyLocationName(locationTypes, locationNames)
-        )
+        const placeId = placesData.candidates[0].place_id
         */
 
-        try {
-            // Other endpoint
-            /*
-            const placeId = placesData.candidates[0].place_id
-            */
+        const placeId = placesData.results[0].place_id
+        const placeDetailsData = await httpFactory.getDetails(placeId)
 
-            const placeId = placesData.results[0].place_id
-            const placeDetailsData = await httpFactory.getDetails(placeId)
+        logger.debug(placeDetailsData)
+        
+        const locationName = placeDetailsData.result.name
+        const address = placeDetailsData.result.vicinity
+        const openingHours = places.extractOpeningHours(dateTime, placeDetailsData)
+        
+        const speech = translation.checkHoursToSpeech(locationName, address, dateTime, openingHours)
+        logger.info(speech)
 
-            logger.debug(placeDetailsData)
-            
-            const locationName = placeDetailsData.result.name
-            const address = placeDetailsData.result.vicinity
-            const openingHours = places.extractOpeningHours(dateTime, placeDetailsData)
-            
-            const speech = translation.checkHoursToSpeech(locationName, address, dateTime, openingHours)
-            logger.info(speech)
-
-            flow.end()
-            if (Date.now() - now < 4000) {
-                return speech
-            } else {
-                tts.say(speech)
-            }
-        } catch (error) {
-            logger.error(error)
-            throw new Error('APIResponse')
+        flow.end()
+        if (Date.now() - now < 4000) {
+            return speech
+        } else {
+            tts.say(speech)
         }
+    } catch (error) {
+        logger.error(error)
+        throw new Error('APIResponse')
     }
 }

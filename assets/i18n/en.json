@@ -14,7 +14,8 @@
     "places": {
         "dialog": {
             "noLocation": "I'm sorry, can you repeat what location you are looking for?",
-            "noHourToCheck": "I'm sorry, can you repeat at what time you want to check if this location is open?"
+            "noHourToCheck": "I'm sorry, can you repeat at what time you want to check if this location is open?",
+            "noContactForm": "I'm sorry, can you repeat if you want their address or phone number?"
         },
         "checkAround": {
             "prominence": {

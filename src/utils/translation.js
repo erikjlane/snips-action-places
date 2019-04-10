@@ -38,13 +38,13 @@ module.exports = {
         const placesNumber = placesData.results.length
         let tts = '', searchVariable = 'prominence'
 
-        if (searchVariables.includes('popular')) {
+        if (require('../handlers/utils').containsFlag('popular', searchVariables)) {
             searchVariable = 'prominence'
         }
-        if (searchVariables.includes('nearby')) {
+        if (require('../handlers/utils').containsFlag('nearby', searchVariables)) {
             searchVariable = 'distance'
         }
-        if (searchVariables.includes('top rated')) {
+        if (require('../handlers/utils').containsFlag('top rated', searchVariables)) {
             searchVariable = 'topRated'
         }
 

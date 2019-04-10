@@ -25,17 +25,17 @@
                     "Malheureusement, on dirait quil n'y a pas de {{- location_type }} à proximité."
                 ],
                 "oneResult": [
-                    "Parfait, j'ai trouvé un {{- location_type }} dans le quartier. {{- location_name_1 }} au {{- location_street_1 }}.",
-                    "On dirait qu'il y a un {{- location_type }} dans le quartier. {{- location_name_1 }} au {{- location_street_1 }}."
+                    "Parfait, j'ai trouvé un {{- location_type }} dans le quartier. C'est {{- location_name_1 }} au {{- location_street_1 }}.",
+                    "On dirait qu'il y a un {{- location_type }} dans le quartier. C'est {{- location_name_1 }} au {{- location_street_1 }}."
                 ],
                 "twoResults": [
-                    "Parfait, j'ai trouvé deux {{- location_type }} dans le quartier. Le premier {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième {{- location_name_2 }} au {{- location_street_2 }}.",
-                    "On dirait qu'il y a deux {{- location_type }} dans le quartier. Le premier {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième {{- location_name_2 }} au {{- location_street_2 }}."
+                    "Parfait, j'ai trouvé deux {{- location_type }} dans le quartier. Le premier est {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}.",
+                    "On dirait qu'il y a deux {{- location_type }} dans le quartier. Le premier est {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}."
                 ],
                 "multipleResults": [
-                    "J'ai trouvé plusieurs {{- location_type }} à proximité. Le premier {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième {{- location_name_2 }} au {{- location_street_2 }}. Le troisième {{- location_name_3 }} au {{- location_street_3 }}.",
-                    "J'ai trouvé plusieurs {{- location_type }} dans le coin. Le premier {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième {{- location_name_2 }} au {{- location_street_2 }}. Le troisième {{- location_name_3 }} au {{-location_street_3 }}.",
-                    "Il y a plusieurs {{- location_type }} dans les environs. Le premier {{- location_name_1 }} se trouve au {{- location_street_1 }}. Le deuxième {{- location_name_2 }} se trouve au {{- location_street_2 }}. Le troisième {{- location_name_3 }} se trouve au {{- location_street_3 }}."
+                    "J'ai trouvé plusieurs {{- location_type }} à proximité. Le premier est {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}. Le troisième est {{- location_name_3 }} au {{- location_street_3 }}.",
+                    "J'ai trouvé plusieurs {{- location_type }} dans le coin. Le premier est {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}. Le troisième est {{- location_name_3 }} au {{-location_street_3 }}.",
+                    "Il y a plusieurs {{- location_type }} dans les environs. Le premier est {{- location_name_1 }} se trouve au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} se trouve au {{- location_street_2 }}. Le troisième est {{- location_name_3 }} se trouve au {{- location_street_3 }}."
                 ]
             },
             "topRated": {
@@ -48,12 +48,12 @@
                     "On dirait qu'il y a un {{- location_type }} dans le quartier. {{- location_name_1 }} au {{- location_street_1 }} avec une note de {{ rating_1 }} sur 5."
                 ],
                 "twoResults": [
-                    "Parfait, j'ai trouvé deux {{- location_type }} bien notés dans le quartier. Le premier {{- location_name_1 }} situé au {{- location_street_1 }}, avec une note de {{ rating_1 }} sur 5. Le deuxième {{- location_name_2 }} au {{- location_street_2 }}, avec une note de {{ rating_2 }} sur 5.",
-                    "On dirait qu'il y a deux {{- location_type }} bien notés dans le quartier. Le premier {{- location_name_1 }} au {{- location_street_1 }}, avec une note de {{ rating_1 }} sur 5. Le deuxième {{- location_name_2 }} au {{- location_street_2 }}, avec une note de {{ rating_2 }} sur 5."
+                    "Parfait, j'ai trouvé deux {{- location_type }} bien notés dans le quartier. Le premier est {{- location_name_1 }} situé au {{- location_street_1 }}, avec une note de {{ rating_1 }} sur 5. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}, avec une note de {{ rating_2 }} sur 5.",
+                    "On dirait qu'il y a deux {{- location_type }} bien notés dans le quartier. Le premier est {{- location_name_1 }} au {{- location_street_1 }}, avec une note de {{ rating_1 }} sur 5. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}, avec une note de {{ rating_2 }} sur 5."
                 ],
                 "multipleResults": [
-                    "J'ai trouvé plusieurs {{- location_type }} bien notés à proximité. Le premier {{- location_name_1 }} au {{- location_street_1 }}, avec une note de {{ rating_1 }} sur 5. Le deuxième {{- location_name_2 }} au {{- location_street_2 }}, avec une note de {{ rating_2 }} sur 5. Le troisième {{- location_name_3 }} au {{- location_street_3 }}, avec une note de {{ rating_3 }} sur 5.",
-                    "J'ai trouvé plusieurs {{- location_type }} dans le quartier. Le premier {{- location_name_1 }} au {{- location_street_1 }}, avec une note de {{ rating_1 }} sur 5. Le deuxième {{- location_name_2 }} au {{- location_street_2 }}, avec une note de {{ rating_2 }} sur 5. Le troisième {{- location_name_3 }} au {{-location_street_3 }}, avec une note de {{ rating_3 }} sur 5."
+                    "J'ai trouvé plusieurs {{- location_type }} bien notés à proximité. Le premier est {{- location_name_1 }} au {{- location_street_1 }}, avec une note de {{ rating_1 }} sur 5. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}, avec une note de {{ rating_2 }} sur 5. Le troisième est {{- location_name_3 }} au {{- location_street_3 }}, avec une note de {{ rating_3 }} sur 5.",
+                    "J'ai trouvé plusieurs {{- location_type }} dans le quartier. Le premier est {{- location_name_1 }} au {{- location_street_1 }}, avec une note de {{ rating_1 }} sur 5. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}, avec une note de {{ rating_2 }} sur 5. Le troisième est {{- location_name_3 }} au {{-location_street_3 }}, avec une note de {{ rating_3 }} sur 5."
                 ]
             },
             "distance": {
@@ -65,13 +65,13 @@
                     "Parfait, j'ai trouvé un {{- location_type }} à proximité. {{- location_name_1 }} au {{- location_street_1 }}."
                 ],
                 "twoResults": [
-                    "Parfait, j'ai trouvé deux {{- location_type }} dans le quartier. Le premier {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième {{- location_name_2 }} au {{- location_street_2 }}.",
-                    "On dirait qu'il y a deux {{- location_type }} dans le quartier. Le premier {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième {{- location_name_2 }} au {{- location_street_2 }}."
+                    "Parfait, j'ai trouvé deux {{- location_type }} dans le quartier. Le premier est {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}.",
+                    "On dirait qu'il y a deux {{- location_type }} dans le quartier. Le premier est {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}."
                 ],
                 "multipleResults": [
-                    "J'ai trouvé plusieurs {{ location_type }} à proximité. Le premier {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième {{- location_name_2 }} au {{- location_street_2 }}. Le troisième {{- location_name_3 }} au {{- location_street_3 }}.",
-                    "J'ai trouvé différents {{ location_type }} proches de votre position actuelle. Le premier {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième {{- location_name_2 }} au {{- location_street_2 }}. Le troisième {{- location_name_3 }} au {{-location_street_3 }}.",
-                    "Il y a plusieurs {{ location_type }} près de là où vous vous trouvez. Le premier {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième {{- location_name_2 }} au {{- location_street_2 }}. Le troisième {{- location_name_3 }} au {{- location_street_3 }}."
+                    "J'ai trouvé plusieurs {{ location_type }} à proximité. Le premier est {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}. Le troisième est {{- location_name_3 }} au {{- location_street_3 }}.",
+                    "J'ai trouvé différents {{ location_type }} proches de votre position actuelle. Le premier est {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}. Le troisième est {{- location_name_3 }} au {{-location_street_3 }}.",
+                    "Il y a plusieurs {{ location_type }} près de là où vous vous trouvez. Le premier est {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}. Le troisième est {{- location_name_3 }} au {{- location_street_3 }}."
                 ]
             }
         },

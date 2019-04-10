@@ -9,6 +9,18 @@ module.exports = {
         english: 'en',
         french: 'fr'
     },
+    SEARCH_VARIABLES: {
+        en: {
+            top_rated: 'top rated',
+            nearby: 'nearby',
+            open: 'open'
+        },
+        fr: {
+            top_rated: 'mieux noté',
+            nearby: 'à proximité',
+            open: 'ouvert'
+        }
+    },
     TOP_RATED_THRESHOLD: 4.0,
     DAY_MILLISECONDS: 1000 * 60 * 60 * 24,
     WEEK_MILLISECONDS: 1000 * 60 * 60 * 24 * 7,

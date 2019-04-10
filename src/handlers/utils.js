@@ -1,21 +1,35 @@
 const { places } = require('../utils')
+const { configFactory } = require('../factories')
+const {
+    LANGUAGE_MAPPINGS,
+    SEARCH_VARIABLES
+} = require ('../constants')
 
 module.exports = {
+    containsFlag: (flag, searchVariables) => {
+        const config = configFactory.get()
+        const key = LANGUAGE_MAPPINGS[config.locale]
+
+        return SEARCH_VARIABLES[key] && searchVariables.includes(SEARCH_VARIABLES[key][flag])
+    },
+
     buildQueryParameters: (locationTypes, locationNames, searchVariables) => {
+        const { containsFlag } = module.exports
+
         // Top rated is the stronger choice
         let rankby
-        if (searchVariables.includes('popular')) {
+        if (containsFlag('popular', searchVariables)) {
             rankby = 'prominence'
         }
-        if (searchVariables.includes('nearby')) {
+        if (containsFlag('nearby', searchVariables)) {
             rankby = 'distance'
         }
-        if (searchVariables.includes('top rated')) {
+        if (containsFlag('top rated', searchVariables)) {
             rankby = 'prominence'
         }
 
         let opennow = false
-        if (searchVariables.includes('open')) {
+        if (containsFlag('open', searchVariables)) {
             opennow = true
         }
 

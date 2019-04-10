@@ -25,5 +25,6 @@ module.exports = {
     findContact: handlerWrapper(require('./findContact')),
     checkDistance: handlerWrapper(require('./checkDistance')),
     checkHours: handlerWrapper(require('./checkHours')),
+    containsFlag: require('./utils').containsFlag,
     buildQueryParameters: require('./utils').buildQueryParameters
 }

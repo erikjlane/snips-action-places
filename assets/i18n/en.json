@@ -25,11 +25,11 @@
                     "Unfortunately, it seems that there is no {{- location_type }} around."
                 ],
                 "oneResult": [
-                    "Cool, I found one {{- location_type }} in the neighborhood. It is {{- location_name_1 }} on {{- location_street_1 }}.",
+                    "I found one {{- location_type }} in the neighborhood. It is {{- location_name_1 }} on {{- location_street_1 }}.",
                     "It seems that there is a {{- location_type }} in the neighborhood. It is {{- location_name_1 }} on {{- location_street_1 }}."
                 ],
                 "twoResults": [
-                    "Cool, I found two {{- location_type }} in the neighborhood. The first is {{- location_name_1 }} on {{- location_street_1 }}. The other is {{- location_name_2 }} on {{- location_street_2 }}.",
+                    "I found two {{- location_type }} in the neighborhood. The first is {{- location_name_1 }} on {{- location_street_1 }}. The other is {{- location_name_2 }} on {{- location_street_2 }}.",
                     "It seems that there are two {{- location_type }} in the neighborhood. The first is {{- location_name_1 }} on {{- location_street_1 }}. The other is {{- location_name_2 }} on {{- location_street_2 }}."
                 ],
                 "multipleResults": [
@@ -48,7 +48,7 @@
                     "It seems that there is a {{- location_type }} in the neighborhood. It is {{- location_name_1 }} on {{- location_street_1 }}. It has a rating of {{ rating_1 }} over 5."
                 ],
                 "twoResults": [
-                    "Cool, I found two well rated {{- location_type }} in the neighborhood. The first is {{- location_name_1 }} on {{- location_street_1 }}, with a rating of {{ rating_1 }} over 5. The other is {{- location_name_2 }} on {{- location_street_2 }}, with a rating of {{ rating_2 }} over 5.",
+                    "I found two well rated {{- location_type }} in the neighborhood. The first is {{- location_name_1 }} on {{- location_street_1 }}, with a rating of {{ rating_1 }} over 5. The other is {{- location_name_2 }} on {{- location_street_2 }}, with a rating of {{ rating_2 }} over 5.",
                     "It seems that there are two {{- location_type }} which are well rated in the neighborhood. The first is {{- location_name_1 }} on {{- location_street_1 }}, with a rating of {{ rating_1 }} over 5. The other is {{- location_name_2 }} on {{- location_street_2 }}, with a rating of {{ rating_2 }} over 5."
                 ],
                 "multipleResults": [
@@ -62,10 +62,10 @@
                     "Unfortunately, I found no {{- location_type }} nearby."
                 ],
                 "oneResult": [
-                    "Cool, I found one {{- location_type }} closeby. It is {{- location_name_1 }} on {{- location_street_1 }}."
+                    "I found one {{- location_type }} closeby. It is {{- location_name_1 }} on {{- location_street_1 }}."
                 ],
                 "twoResults": [
-                    "Cool, I found two {{- location_type }} in the neighborhood. The first is {{- location_name_1 }} on {{- location_street_1 }}. The other is {{- location_name_2 }} on {{- location_street_2 }}.",
+                    "I found two {{- location_type }} in the neighborhood. The first is {{- location_name_1 }} on {{- location_street_1 }}. The other is {{- location_name_2 }} on {{- location_street_2 }}.",
                     "It seems that there are two {{- location_type }} in the neighborhood. The first is {{- location_name_1 }} on {{- location_street_1 }}. The other is {{- location_name_2 }} on {{- location_street_2 }}."
                 ],
                 "multipleResults": [
@@ -76,9 +76,9 @@
             }
         },
         "checkHours": {
-            "noOpeningHours": "Sorry, this location has not provided its opening hours.",
+            "noOpeningHours": "Sorry, this place did not enter its opening hours in Google.",
             "currentState": {
-                "openNow": "{{- location }} is currently opened!",
+                "openNow": "{{- location }} is currently opened.",
                 "notOpenNow": "{{- location }} is currently closed."
             },
             "openingHours": {

@@ -25,11 +25,11 @@
                     "Malheureusement, on dirait quil n'y a pas de {{- location_type }} à proximité."
                 ],
                 "oneResult": [
-                    "Parfait, j'ai trouvé un {{- location_type }} dans le quartier. C'est {{- location_name_1 }} au {{- location_street_1 }}.",
+                    "J'ai trouvé un {{- location_type }} dans le quartier. C'est {{- location_name_1 }} au {{- location_street_1 }}.",
                     "On dirait qu'il y a un {{- location_type }} dans le quartier. C'est {{- location_name_1 }} au {{- location_street_1 }}."
                 ],
                 "twoResults": [
-                    "Parfait, j'ai trouvé deux {{- location_type }} dans le quartier. Le premier est {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}.",
+                    "J'ai trouvé deux {{- location_type }} dans le quartier. Le premier est {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}.",
                     "On dirait qu'il y a deux {{- location_type }} dans le quartier. Le premier est {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}."
                 ],
                 "multipleResults": [
@@ -41,14 +41,14 @@
             "topRated": {
                 "noResults": [
                     "On dirait qu'il n'y a pas de {{- location_type }} à proximité.",
-                    "Malheureusement, je n'ai as trouvé de {{- location_type }} dans le quartier.",
+                    "Malheureusement, je n'ai pas trouvé de {{- location_type }} dans le quartier.",
                     "Malheureusement, on dirait qu'il n'y a pas de {{- location_type }} à proximité."                
                 ],
                 "oneResult": [
-                    "On dirait qu'il y a un {{- location_type }} dans le quartier. {{- location_name_1 }} au {{- location_street_1 }} avec une note de {{ rating_1 }} sur 5."
+                    "On dirait qu'il n'y a qu'un {{- location_type }} dans le quartier. {{- location_name_1 }} au {{- location_street_1 }} avec une note de {{ rating_1 }} sur 5."
                 ],
                 "twoResults": [
-                    "Parfait, j'ai trouvé deux {{- location_type }} bien notés dans le quartier. Le premier est {{- location_name_1 }} situé au {{- location_street_1 }}, avec une note de {{ rating_1 }} sur 5. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}, avec une note de {{ rating_2 }} sur 5.",
+                    "J'ai trouvé deux {{- location_type }} bien notés dans le quartier. Le premier est {{- location_name_1 }} situé au {{- location_street_1 }}, avec une note de {{ rating_1 }} sur 5. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}, avec une note de {{ rating_2 }} sur 5.",
                     "On dirait qu'il y a deux {{- location_type }} bien notés dans le quartier. Le premier est {{- location_name_1 }} au {{- location_street_1 }}, avec une note de {{ rating_1 }} sur 5. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}, avec une note de {{ rating_2 }} sur 5."
                 ],
                 "multipleResults": [
@@ -62,23 +62,23 @@
                     "Malheureusement, je n'ai pas trouvé de {{- location_type }} près de vous."
                 ],
                 "oneResult": [
-                    "Parfait, j'ai trouvé un {{- location_type }} à proximité. {{- location_name_1 }} au {{- location_street_1 }}."
+                    "J'ai trouvé un {{- location_type }} à proximité. {{- location_name_1 }} au {{- location_street_1 }}."
                 ],
                 "twoResults": [
-                    "Parfait, j'ai trouvé deux {{- location_type }} dans le quartier. Le premier est {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}.",
+                    "J'ai trouvé deux {{- location_type }} dans le quartier. Le premier est {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}.",
                     "On dirait qu'il y a deux {{- location_type }} dans le quartier. Le premier est {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}."
                 ],
                 "multipleResults": [
                     "J'ai trouvé plusieurs {{ location_type }} à proximité. Le premier est {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}. Le troisième est {{- location_name_3 }} au {{- location_street_3 }}.",
-                    "J'ai trouvé différents {{ location_type }} proches de votre position actuelle. Le premier est {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}. Le troisième est {{- location_name_3 }} au {{-location_street_3 }}.",
+                    "J'ai trouvé plusieurs {{ location_type }} proches de votre position actuelle. Le premier est {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}. Le troisième est {{- location_name_3 }} au {{-location_street_3 }}.",
                     "Il y a plusieurs {{ location_type }} près de là où vous vous trouvez. Le premier est {{- location_name_1 }} au {{- location_street_1 }}. Le deuxième est {{- location_name_2 }} au {{- location_street_2 }}. Le troisième est {{- location_name_3 }} au {{- location_street_3 }}."
                 ]
             }
         },
         "checkHours": {
-            "noOpeningHours": "Désolé, ce lieu n'a pas fourni ses horaires d'ouverture.",
+            "noOpeningHours": "Désolé, ce lieu n'a pas renseigné ses horaires d'ouverture dans Google.",
             "currentState": {
-                "openNow": "{{- location }} est actuellement ouvert",
+                "openNow": "{{- location }} est actuellement ouvert.",
                 "notOpenNow": "{{- location }} est actuellement fermé."
             },
             "openingHours": {

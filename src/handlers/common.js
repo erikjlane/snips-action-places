@@ -24,11 +24,12 @@ module.exports = async function (msg, knownSlots = {}) {
         })
 
         if (locationTypesSlot) {
-            locationTypes = locationTypesSlot.map(x => x.value.value)
+            // Keeping only first item for now
+            locationTypes = locationTypesSlot.slice(0, 1).map(x => x.value.value)
         }
     } else {
         locationTypes = knownSlots.location_types
-    }
+    }    
 
     // Slot location_name
     if (!('location_names' in knownSlots)) {
@@ -37,7 +38,8 @@ module.exports = async function (msg, knownSlots = {}) {
         })
 
         if (locationNamesSlot) {
-            locationNames = locationNamesSlot.map(x => x.value.value)
+            // Keeping only 2 first items for now
+            locationNames = locationNamesSlot.slice(0, 2).map(x => x.value.value)
         }
     } else {
         locationNames = knownSlots.location_names

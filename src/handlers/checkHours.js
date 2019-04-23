@@ -15,7 +15,7 @@ function checkCurrentCoordinates() {
     }
 }
 
-module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
+module.exports = async function(msg, flow, hermes, knownSlots = { depth: 2 }) {
     logger.info('CheckHours')
 
     checkCurrentCoordinates()
@@ -101,7 +101,7 @@ module.exports = async function(msg, flow, knownSlots = { depth: 2 }) {
         if (Date.now() - now < 4000) {
             return speech
         } else {
-            tts.say(speech)
+            tts.say(hermes, speech)
         }
     } catch (error) {
         logger.error(error)

@@ -12,25 +12,24 @@ module.exports = function ({
         try {
             // Bootstrap config, locale, i18n…
             await bootstrap(bootstrapOptions)
-
             const dialog = hermes.dialog()
 
             dialog.flows([
                 {
                     intent: 'snips-assistant:CheckAround',
-                    action: handlers.checkAround
+                    action: (msg, flow) => handlers.checkAround(msg, flow, hermes)
                 },
                 {
                     intent: 'snips-assistant:FindContact',
-                    action: handlers.findContact
+                    action: (msg, flow) => handlers.findContact(msg, flow, hermes)
                 },
                 {
                     intent: 'snips-assistant:CheckDistance',
-                    action: handlers.checkDistance
+                    action: (msg, flow) => handlers.checkDistance(msg, flow, hermes)
                 },
                 {
                     intent: 'snips-assistant:CheckHours',
-                    action: handlers.checkHours
+                    action: (msg, flow) => handlers.checkHours(msg, flow, hermes)
                 }
             ])
         } catch (error) {

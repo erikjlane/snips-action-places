@@ -15,7 +15,7 @@ function checkCurrentCoordinates() {
     }
 }
 
-module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
+module.exports = async function (msg, flow, hermes, knownSlots = { depth: 2 }) {
     const i18n = i18nFactory.get()
 
     logger.info('FindContact')
@@ -59,7 +59,7 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
         flow.notRecognized((msg, flow) => {
             knownSlots.depth -= 1
             msg.slots = []
-            return require('./index').findContact(msg, flow, knownSlots)
+            return require('./index').findContact(msg, flow, hermes, knownSlots)
         })
         
         flow.continue('snips-assistant:ElicitContactForm', (msg, flow) => {
@@ -82,7 +82,7 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
                 slotsToBeSent.search_variables = searchVariables
             }
 
-            return require('./index').findContact(msg, flow, slotsToBeSent)
+            return require('./index').findContact(msg, flow, hermes, slotsToBeSent)
         })
 
         flow.continue('snips-assistant:Cancel', (_, flow) => {
@@ -131,7 +131,7 @@ module.exports = async function (msg, flow, knownSlots = { depth: 2 }) {
         if (Date.now() - now < 4000) {
             return speech
         } else {
-            tts.say(speech)
+            tts.say(hermes, speech)
         }
     } catch (error) {
         logger.error(error)

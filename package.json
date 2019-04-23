@@ -1,7 +1,7 @@
 {
   "name": "snips-action-places",
   "version": "1.0.0",
-  "description": "Snips action code for the Local businesses app",
+  "description": "Snips action code for the Places app",
   "main": "src/index.js",
   "scripts": {
     "start": "npm run lint && npm run test",

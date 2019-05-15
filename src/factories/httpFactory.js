@@ -34,10 +34,8 @@ module.exports = {
             locationbias: `circle:${ SEARCH_RADIUS }@${ config.currentCoordinates }`
         }
 
-        const request = http.url('/place/findplacefromtext/json').query(query)
-        //console.log(request)
-
-        const results = await request
+        const results = await http.url('/place/findplacefromtext/json')
+            .query(query)
             .get()
             .json()
             .catch(error => {
@@ -73,10 +71,8 @@ module.exports = {
             }
         }
 
-        const request = http.url('/place/nearbysearch/json').query(query)
-        console.log(request)
-
-        const results = await request
+        const results = await http.url('/place/nearbysearch/json')
+            .query(query)
             .get()
             .json()
             .catch(error => {

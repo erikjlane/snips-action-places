@@ -9,8 +9,9 @@ module.exports = {
     containsFlag: (flag, searchVariables) => {
         const config = configFactory.get()
         const key = LANGUAGE_MAPPINGS[config.locale]
+        const lang = SEARCH_VARIABLES[key]
 
-        return SEARCH_VARIABLES[key] && searchVariables.includes(SEARCH_VARIABLES[key][flag])
+        return lang && lang[flag] && searchVariables.includes(lang[flag])
     },
 
     buildQueryParameters: (locationTypes, locationNames, searchVariables) => {

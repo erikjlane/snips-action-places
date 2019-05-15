@@ -1,9 +1,8 @@
-const { i18nFactory, httpFactory, configFactory } = require('../factories')
+const { httpFactory, configFactory } = require('../factories')
 const { logger, slot, message, translation, tts } = require('../utils')
 const commonHandler = require('./common')
 const {
-    SLOT_CONFIDENCE_THRESHOLD,
-    INTENT_FILTER_PROBABILITY_THRESHOLD
+    SLOT_CONFIDENCE_THRESHOLD
 } = require('../constants')
 const { buildQueryParameters } = require('./utils')
 
@@ -16,8 +15,6 @@ function checkCurrentCoordinates() {
 }
 
 module.exports = async function (msg, flow, hermes, knownSlots = { depth: 2 }) {
-    const i18n = i18nFactory.get()
-
     logger.info('FindContact')
 
     checkCurrentCoordinates()
@@ -52,47 +49,7 @@ module.exports = async function (msg, flow, hermes, knownSlots = { depth: 2 }) {
     }
 
     if (slot.missing(contactForm)) {
-        if (knownSlots.depth === 0) {
-            throw new Error('slotsNotRecognized')
-        }
-
-        flow.notRecognized((msg, flow) => {
-            knownSlots.depth -= 1
-            msg.slots = []
-            return require('./index').findContact(msg, flow, hermes, knownSlots)
-        })
-        
-        flow.continue('snips-assistant:ElicitContactForm', (msg, flow) => {
-            if (msg.intent.probability < INTENT_FILTER_PROBABILITY_THRESHOLD) {
-                throw new Error('intentNotRecognized')
-            }
-            
-            const slotsToBeSent = {
-                depth: knownSlots.depth - 1
-            }
-
-            // Adding the known slots, if more
-            if (!slot.missing(locationTypes)) {
-                slotsToBeSent.location_types = locationTypes
-            }
-            if (!slot.missing(locationNames)) {
-                slotsToBeSent.location_names = locationNames
-            }
-            if (!slot.missing(searchVariables)) {
-                slotsToBeSent.search_variables = searchVariables
-            }
-
-            return require('./index').findContact(msg, flow, hermes, slotsToBeSent)
-        })
-
-        flow.continue('snips-assistant:Cancel', (_, flow) => {
-            flow.end()
-        })
-        flow.continue('snips-assistant:Stop', (_, flow) => {
-            flow.end()
-        })
-        
-        return i18n('places.dialog.noContactForm')
+        contactForm = 'number'
     }
 
     const now = Date.now()

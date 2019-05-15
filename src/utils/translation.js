@@ -44,9 +44,12 @@ module.exports = {
         if (require('../handlers/utils').containsFlag('nearby', searchVariables)) {
             searchVariable = 'distance'
         }
-        if (require('../handlers/utils').containsFlag('top rated', searchVariables)) {
+        if (require('../handlers/utils').containsFlag('top_rated', searchVariables)) {
             searchVariable = 'topRated'
         }
+
+        console.log(searchVariables)
+        console.log(searchVariable)
 
         if (placesNumber === 0) {
             tts += randomTranslation(`places.checkAround.${ searchVariable }.noResults`, {

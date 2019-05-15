@@ -93,7 +93,7 @@ it('should query the nearest Burger King restaurants', async () => {
     expect(getMessageKey(endMsg)).toBe('places.checkAround.distance.multipleResults')
 }, robustnessTestsTimeout)
 
-it('should query the top rated Burger King restaurants', async () => {
+it.only('should query the top rated Burger King restaurants', async () => {
     configFactory.mock({
         locale: 'english',
         current_region: 'us',

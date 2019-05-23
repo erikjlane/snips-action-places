@@ -1,13 +1,13 @@
 dependencies:
   hermes-javascript: 0.3.11
-  snips-toolkit: 0.1.4
+  snips-toolkit: 0.1.5
 devDependencies:
   '@types/jest': 24.0.13
   '@types/node': 12.0.2
   '@typescript-eslint/eslint-plugin': 1.9.0
   '@typescript-eslint/parser': 1.9.0
   eslint: 5.16.0
-  eslint-plugin-jest: 22.5.1
+  eslint-plugin-jest: 22.6.4
   typescript: 3.4.5
 lockfileVersion: 5
 packages:
@@ -2463,14 +2463,14 @@ packages:
       source-map: 0.6.1
     resolution:
       integrity: sha512-JwiqFD9KdGVVpeuRa68yU3zZnBEOcPs0nKW7wZzXky8Z7tffdYUHbe11bPCV5jYlK6DVdKLWLm0f5I/QlL0Kmw==
-  /eslint-plugin-jest/22.5.1:
+  /eslint-plugin-jest/22.6.4:
     dev: true
     engines:
       node: '>=6'
     peerDependencies:
       eslint: '>=5'
     resolution:
-      integrity: sha512-c3WjZR/HBoi4GedJRwo2OGHa8Pzo1EbSVwQ2HFzJ+4t2OoYM7Alx646EH/aaxZ+9eGcPiq0FT0UGkRuFFx2FHg==
+      integrity: sha512-36OqnZR/uMCDxXGmTsqU4RwllR0IiB/XF8GW3ODmhsjiITKuI0GpgultWFt193ipN3HARkaIcKowpE6HBvRHNg==
   /eslint-scope/4.0.3:
     dependencies:
       esrecurse: 4.2.1
@@ -5800,7 +5800,7 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-FtyOnWN/wCHTVXOMwvSv26d+ko5vWlIDD6zoUJ7LW8vh+ZBC8QdljveRP+crNrtBwioEUWy/4dMtbBjA4ioNlg==
-  /snips-toolkit/0.1.4:
+  /snips-toolkit/0.1.5:
     dependencies:
       '@babel/core': 7.4.5
       '@babel/plugin-proposal-class-properties': 7.4.4_@babel+core@7.4.5
@@ -5833,7 +5833,7 @@ packages:
     dev: false
     hasBin: true
     resolution:
-      integrity: sha512-10hr/TU5+TNVMbmonOKxELIt81ygwNBDH2ahU1qTkaSWr2Np/f9onjIOS4YSfzgoNQrWekLfk9mtLV+LtgmhIQ==
+      integrity: sha512-7jdhI90hAaGLWnO2qUo66QjHg5aLa5BzCczZf5T81sazKbt2stMQg2UV3dcb7NBVHvun8hGtC+2YRcIvYX96QQ==
   /source-list-map/2.0.1:
     dev: false
     resolution:
@@ -6875,6 +6875,7 @@ packages:
     name: ffi
     requiresBuild: true
     resolution:
+      registry: 'https://registry.npmjs.org/'
       tarball: 'https://codeload.github.com/node-ffi/node-ffi/tar.gz/d9b843c03b35b99f205d001ebcbedd1b6c63b3d0'
     version: 2.3.0
 specifiers:
@@ -6885,5 +6886,5 @@ specifiers:
   eslint: ^5.12.0
   eslint-plugin-jest: ^22.5.1
   hermes-javascript: ^0.3.11
-  snips-toolkit: ^0.1.4
+  snips-toolkit: ^0.1.5
   typescript: ^3.3.3

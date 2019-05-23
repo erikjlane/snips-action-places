@@ -1,15 +1,19 @@
-const { configFactory, i18nFactory } = require('../factories')
+import { config, i18n } from 'snips-toolkit'
 
-function metersToFeet(distance) {
+function metersToFeet(distance: number): number {
     return distance * 3.28084
 }
 
-module.exports = {
-    time: date => {
-        const config = configFactory.get()
+function round(value: number, precision: number = 0) {
+    const multiplier = Math.pow(10, precision)
+    return Math.round(value * multiplier) / multiplier
+}
+
+export const beautify = {
+    time: (date: Date): string => {
         const options = { hour: 'numeric', minute: 'numeric' }
 
-        if (config.locale === 'french') {
+        if (config.get().locale === 'fr') {
             // French
             return date.toLocaleString('fr-FR', {
                 ...options,
@@ -24,10 +28,8 @@ module.exports = {
         }
     },
     
-    address: address => {
-        const config = configFactory.get()
-
-        if (config.locale === 'english') {
+    address: (address: string): string => {
+        if (config.get().locale === 'en') {
             address = address.replace(/(.*)( Av| AV| Av\.| Ave)(\/|$|-|,| )(.*)/g, '$1 Avenue$3$4')
             address = address.replace(/(.*)( Rd)(\/|$|-|,| )(.*)/g, '$1 Road$3$4')
             address = address.replace(/(.*)( St| ST)(\/|$|-|,| )(.*)/g, '$1 Street$3$4')
@@ -39,19 +41,16 @@ module.exports = {
         return address
     },
 
-    distance: distance => {
-        const i18n = i18nFactory.get()
-        const config = configFactory.get()
-    
-        if (config.unitSystem === 'imperial') {
+    distance: (distance: number): string => {
+        if (config.get().unitSystem === 'imperial') {
             distance = metersToFeet(distance)
     
             if (distance > 5280) {
-                distance = +(Math.round(distance / 5280 + 'e+1') + 'e-1')
-                return i18n('units.distance.imperial.miles', { distance: distance })
+                distance = round(distance / 5280, 1)
+                return i18n.translate('units.distance.imperial.miles', { distance })
             } else {
                 distance = 100 * Math.floor(distance / 100)
-                return i18n('units.distance.imperial.feet', { distance: distance })
+                return i18n.translate('units.distance.imperial.feet', { distance })
             }
         } else {
             if (distance > 999) {
@@ -60,13 +59,13 @@ module.exports = {
                 if (distance > 20) {
                     distance = Math.round(distance)
                 } else {
-                    distance = +(Math.round(distance + 'e+1') + 'e-1')
+                    distance = round(distance, 1)
                 }
 
-                return i18n('units.distance.metric.kilometers', { distance: distance })
+                return i18n.translate('units.distance.metric.kilometers', { distance })
             } else {
                 distance = 10 * Math.floor(distance / 10)
-                return i18n('units.distance.metric.meters', { distance: distance })
+                return i18n.translate('units.distance.metric.meters', { distance })
             }
         }
     },

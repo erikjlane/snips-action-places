@@ -1,25 +1,22 @@
-const { message, logger } = require('../utils')
-const {
-    INTENT_PROBABILITY_THRESHOLD,
-    SLOT_CONFIDENCE_THRESHOLD,
-    ASR_UTTERANCE_CONFIDENCE_THRESHOLD
-} = require('../constants')
+import { message, logger } from 'snips-toolkit'
+import { NluSlot, slotType } from 'hermes-javascript/types'
+import { SLOT_CONFIDENCE_THRESHOLD } from '../constants'
 
-module.exports = async function (msg, knownSlots = {}) {
-    if (msg.intent) {
-        if (msg.intent.confidenceScore < INTENT_PROBABILITY_THRESHOLD) {
-            throw new Error('intentNotRecognized')
-        }
-        if (message.getAsrConfidence(msg) < ASR_UTTERANCE_CONFIDENCE_THRESHOLD) {
-            throw new Error('intentNotRecognized')
-        }
-    }
+export type KnownSlots = {
+    depth: number,
+    location_types?: string[],
+    location_names?: string[],
+    search_variables?: string[],
+    date_time?: Date,
+    contact_form?: string
+}
 
+export default async function (msg, knownSlots: KnownSlots) {
     let locationTypes, locationNames, searchVariables
 
     // Slot location_type
     if (!('location_types' in knownSlots)) {
-        const locationTypesSlot = message.getSlotsByName(msg, 'location_type', {
+        const locationTypesSlot: NluSlot<slotType.custom>[] | null = message.getSlotsByName(msg, 'location_type', {
             threshold: SLOT_CONFIDENCE_THRESHOLD
         })
 
@@ -33,7 +30,7 @@ module.exports = async function (msg, knownSlots = {}) {
 
     // Slot location_name
     if (!('location_names' in knownSlots)) {
-        const locationNamesSlot = message.getSlotsByName(msg, 'location_name', {
+        const locationNamesSlot: NluSlot<slotType.custom>[] | null = message.getSlotsByName(msg, 'location_name', {
             threshold: SLOT_CONFIDENCE_THRESHOLD
         })
 
@@ -47,7 +44,7 @@ module.exports = async function (msg, knownSlots = {}) {
 
     // Slot search_variable
     if (!('search_variables' in knownSlots)) {
-        const searchVariablesSlot = message.getSlotsByName(msg, 'search_variable', {
+        const searchVariablesSlot: NluSlot<slotType.custom>[] | null = message.getSlotsByName(msg, 'search_variable', {
             threshold: SLOT_CONFIDENCE_THRESHOLD
         })
 

@@ -1,20 +1,12 @@
-const { httpFactory, configFactory } = require('../factories')
-const { logger, slot, message, translation, tts } = require('../utils')
-const commonHandler = require('./common')
-const {
-    SLOT_CONFIDENCE_THRESHOLD
-} = require('../constants')
-const { buildQueryParameters } = require('./utils')
+import { logger, message, Handler } from 'snips-toolkit'
+import { slot, translation, tts } from '../utils'
+import commonHandler, { KnownSlots } from './common'
+import { SLOT_CONFIDENCE_THRESHOLD } from '../constants'
+import { buildQueryParameters, checkCurrentCoordinates } from './utils'
+import { nearbySearch, getDetails } from '../api'
+import { NluSlot, slotType } from 'hermes-javascript/types'
 
-function checkCurrentCoordinates() {
-    const config = configFactory.get()
-
-    if (!config.currentCoordinates) {
-        throw new Error('noCurrentCoordinates')
-    }
-}
-
-module.exports = async function (msg, flow, hermes, knownSlots = { depth: 2 }) {
+export const findContactHandler: Handler =  async function (msg, flow, hermes, knownSlots: KnownSlots = { depth: 2 }) {
     logger.info('FindContact')
 
     checkCurrentCoordinates()
@@ -29,7 +21,7 @@ module.exports = async function (msg, flow, hermes, knownSlots = { depth: 2 }) {
     let contactForm
 
     if (!('contact_form' in knownSlots)) {
-        const contactFormSlot = message.getSlotsByName(msg, 'contact_form', {
+        const contactFormSlot: NluSlot<slotType.custom> | null = message.getSlotsByName(msg, 'contact_form', {
             onlyMostConfident: true,
             threshold: SLOT_CONFIDENCE_THRESHOLD
         })
@@ -55,9 +47,8 @@ module.exports = async function (msg, flow, hermes, knownSlots = { depth: 2 }) {
     const now = Date.now()
 
     // Get the data from Places API
-    let placesData = await httpFactory.nearbySearch(
-        buildQueryParameters(locationTypes, locationNames, searchVariables)
-    )
+    const parameters = buildQueryParameters(locationTypes, locationNames, searchVariables)
+    const placesData = await nearbySearch(parameters.keyword, parameters.rankby, parameters.opennow)
 
     // Other endpoint
     /*
@@ -73,7 +64,7 @@ module.exports = async function (msg, flow, hermes, knownSlots = { depth: 2 }) {
         */
 
         const placeId = placesData.results[0].place_id
-        const placeDetailsData = await httpFactory.getDetails(placeId)
+        const placeDetailsData = await getDetails(placeId)
 
         logger.debug(placeDetailsData)
 

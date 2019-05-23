@@ -1,17 +1,11 @@
-const { httpFactory, configFactory } = require('../factories')
-const { logger, translation, slot, places, tts } = require('../utils')
-const commonHandler = require('./common')
-const { buildQueryParameters } = require('./utils')
+import { logger, Handler } from 'snips-toolkit'
+import { translation, slot, tts } from '../utils'
+import commonHandler, { KnownSlots } from './common'
+import { buildQueryParameters, checkCurrentCoordinates } from './utils'
+import { topRatedFilter } from '../utils'
+import { nearbySearch } from '../api'
 
-function checkCurrentCoordinates() {
-    const config = configFactory.get()
-
-    if (!config.currentCoordinates) {
-        throw new Error('noCurrentCoordinates')
-    }
-}
-
-module.exports = async function(msg, flow, hermes, knownSlots = { depth: 2 }) {
+export const checkAroundHandler: Handler = async function(msg, flow, hermes, knownSlots: KnownSlots = { depth: 2 }) {
     logger.info('CheckAround')
 
     checkCurrentCoordinates()
@@ -30,14 +24,13 @@ module.exports = async function(msg, flow, hermes, knownSlots = { depth: 2 }) {
     const now = Date.now()
 
     // Get the data from Places API
-    let placesData = await httpFactory.nearbySearch(
-        buildQueryParameters(locationTypes, locationNames, searchVariables)
-    )
+    const parameters = buildQueryParameters(locationTypes, locationNames, searchVariables)
+    let placesData = await nearbySearch(parameters.keyword, parameters.rankby, parameters.opennow)
 
     try {
         // Keep the top-rated places only
         if (searchVariables.includes('top rated')) {
-            placesData.results = places.topRatedFilter(placesData)
+            placesData.results = topRatedFilter(placesData)
         }
         logger.debug(placesData)
         

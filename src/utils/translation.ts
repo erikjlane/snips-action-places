@@ -1,62 +1,42 @@
-const i18nFactory = require('../factories/i18nFactory')
-const beautify = require('./beautify')
-const time = require('./time')
+import { i18n } from 'snips-toolkit'
+import { beautify } from './beautify'
+import { time } from './time'
+import { containsFlag } from '../handlers/utils'
 
-module.exports = {
-    // Outputs an error message based on the error object, or a default message if not found.
-    errorMessage: async error => {
-        let i18n = i18nFactory.get()
-
-        if(!i18n) {
-            await i18nFactory.init()
-            i18n = i18nFactory.get()
-        }
-
-        if(i18n) {
-            return i18n([`error.${error.message}`, 'error.unspecific'])
-        } else {
-            return 'Oops, something went wrong.'
-        }
-    },
-    // Takes an array from the i18n and returns a random item.
-    randomTranslation (key, opts) {
-        const i18n = i18nFactory.get()
-
-        const possibleValues = i18n(key, { returnObjects: true, ...opts })
-        if (typeof possibleValues === 'string') {
-            return possibleValues
-        }
-
-        const randomIndex = Math.floor(Math.random() * possibleValues.length)
-        return possibleValues[randomIndex]
-    },
-
+export const translation = {
     nearbySearchToSpeech (locationTypes, searchVariables, placesData) {
-        const { randomTranslation } = module.exports
-        const i18n = i18nFactory.get()
-
         const placesNumber = placesData.results.length
         let tts = '', searchVariable = 'prominence'
 
-        if (require('../handlers/utils').containsFlag('popular', searchVariables)) {
+        if (containsFlag('popular', searchVariables)) {
             searchVariable = 'prominence'
         }
-        if (require('../handlers/utils').containsFlag('nearby', searchVariables)) {
+        if (containsFlag('nearby', searchVariables)) {
             searchVariable = 'distance'
         }
-        if (require('../handlers/utils').containsFlag('top_rated', searchVariables)) {
+        if (containsFlag('top_rated', searchVariables)) {
             searchVariable = 'topRated'
         }
 
-        console.log(searchVariables)
-        console.log(searchVariable)
+        type Parameters = {
+            location_type: string
+            location_name_1: string
+            location_name_2?: string
+            location_name_3?: string
+            location_street_1: string
+            location_street_2?: string
+            location_street_3?: string
+            rating_1?: number
+            rating_2?: number
+            rating_3?: number
+        }
 
         if (placesNumber === 0) {
-            tts += randomTranslation(`places.checkAround.${ searchVariable }.noResults`, {
+            tts += i18n.randomTranslation(`places.checkAround.${ searchVariable }.noResults`, {
                 location_type: locationTypes[0] || 'place like this'
             })
         } else if (placesNumber === 1) {
-            let parameters = {
+            let parameters: Parameters = {
                 location_type: locationTypes[0] || 'place like this',
                 location_name_1: placesData.results[0].name,
                 location_street_1: beautify.address(placesData.results[0].vicinity),
@@ -69,9 +49,9 @@ module.exports = {
                 }
             }
 
-            tts += randomTranslation(`places.checkAround.${ searchVariable }.oneResult`, parameters)
+            tts += i18n.randomTranslation(`places.checkAround.${ searchVariable }.oneResult`, parameters)
         } else if (placesNumber === 2) {
-            let parameters = {
+            let parameters: Parameters = {
                 location_type: locationTypes[0] || 'places',
                 location_name_1: placesData.results[0].name,
                 location_street_1: beautify.address(placesData.results[0].vicinity),
@@ -87,9 +67,9 @@ module.exports = {
                 }
             }
 
-            tts += randomTranslation(`places.checkAround.${ searchVariable }.twoResults`, parameters)
+            tts += i18n.randomTranslation(`places.checkAround.${ searchVariable }.twoResults`, parameters)
         } else if (placesNumber > 2) {
-            let parameters = {
+            let parameters: Parameters = {
                 location_type: locationTypes[0] || 'places',
                 location_name_1: placesData.results[0].name,
                 location_street_1: beautify.address(placesData.results[0].vicinity),
@@ -108,16 +88,15 @@ module.exports = {
                 }
             }
 
-            tts += randomTranslation(`places.checkAround.${ searchVariable }.multipleResults`, parameters)
+            tts += i18n.randomTranslation(`places.checkAround.${ searchVariable }.multipleResults`, parameters)
         }
 
         if (searchVariables.includes('open')) {
+            tts += ' '
             if (placesNumber === 1) {
-                tts += ' '
-                tts += i18n('places.open.oneResult')
+                tts += i18n.translate('places.open.oneResult')
             } else if (placesNumber > 1) {
-                tts += ' '
-                tts += i18n('places.open.multipleResults')
+                tts += i18n.translate('places.open.multipleResults')
             }
         }
 
@@ -125,18 +104,16 @@ module.exports = {
     },
 
     checkHoursToSpeech (locationName, address, dateTime, openingHours) {
-        const i18n = i18nFactory.get()
-
         if (openingHours.openDate && openingHours.closeDate) {
             if (time.isToday(dateTime)) {
-                return i18n('places.checkHours.openingHours.openRangeToday', {
+                return i18n.translate('places.checkHours.openingHours.openRangeToday', {
                     location: locationName,
                     address: beautify.address(address),
                     open_date: beautify.time(openingHours.openDate),
                     close_date: beautify.time(openingHours.closeDate)
                 })
             } else if (!time.moreThanAWeek(dateTime)) {
-                return i18n('places.checkHours.nearFutureOpeningHours.openRangeToday', {
+                return i18n.translate('places.checkHours.nearFutureOpeningHours.openRangeToday', {
                     location: locationName,
                     address: beautify.address(address),
                     open_date: beautify.time(openingHours.openDate),
@@ -144,7 +121,7 @@ module.exports = {
                     day_in_week: time.dayToText(dateTime.getDay())
                 })
             } else {
-                return i18n('places.checkHours.futureOpeningHours.openRangeToday', {
+                return i18n.translate('places.checkHours.futureOpeningHours.openRangeToday', {
                     location: locationName,
                     address: beautify.address(address),
                     open_date: beautify.time(openingHours.openDate),
@@ -153,7 +130,7 @@ module.exports = {
                 })
             }
         } else {
-            return i18n('places.checkHours.noOpeningHours', {
+            return i18n.translate('places.checkHours.noOpeningHours', {
                 location: locationName,
                 address: beautify.address(address)
             })
@@ -161,23 +138,21 @@ module.exports = {
     },
 
     findContactToSpeech (locationName, contactForm, phoneNumber, address) {
-        const i18n = i18nFactory.get()
-
         if (contactForm === 'number') {
             if (phoneNumber) {
-                return i18n('places.findContact.phoneNumber', {
+                return i18n.translate('places.findContact.phoneNumber', {
                     location: locationName,
                     address: beautify.address(address),
                     phone_number: beautify.number(phoneNumber)
                 })
             } else {
-                return i18n('places.findContact.noPhoneNumber', {
+                return i18n.translate('places.findContact.noPhoneNumber', {
                     location: locationName,
                     address: beautify.address(address)
                 })
             }
         } else {
-            return i18n('places.findContact.address', {
+            return i18n.translate('places.findContact.address', {
                 location: locationName,
                 address: address
             })
@@ -185,9 +160,7 @@ module.exports = {
     },
 
     checkDistanceToSpeech (locationName, address, distance) {
-        const i18n = i18nFactory.get()
-
-        return i18n('places.checkDistance.distance', {
+        return i18n.translate('places.checkDistance.distance', {
             location: locationName,
             address: beautify.address(address),
             distance: beautify.distance(distance)

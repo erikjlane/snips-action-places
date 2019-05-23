@@ -1,17 +1,10 @@
-const { httpFactory, configFactory } = require('../factories')
-const { logger, translation, slot, tts } = require('../utils')
-const commonHandler = require('./common')
-const { buildQueryParameters } = require('./utils')
+import { logger, Handler, config } from 'snips-toolkit'
+import { translation, slot, tts } from '../utils'
+import commonHandler, { KnownSlots } from './common'
+import { buildQueryParameters, checkCurrentCoordinates } from './utils'
+import { nearbySearch, getDetails, calculateRoute } from '../api'
 
-function checkCurrentCoordinates() {
-    const config = configFactory.get()
-
-    if (!config.currentCoordinates) {
-        throw new Error('noCurrentCoordinates')
-    }
-}
-
-module.exports = async function(msg, flow, hermes, knownSlots = { depth: 2 }) {
+export const checkDistanceHandler: Handler = async function(msg, flow, hermes, knownSlots: KnownSlots = { depth: 2 }) {
     logger.info('CheckDistance')
 
     checkCurrentCoordinates()
@@ -30,28 +23,25 @@ module.exports = async function(msg, flow, hermes, knownSlots = { depth: 2 }) {
     const now = Date.now()
 
     // Get the data from Places API
-    let placesData = await httpFactory.nearbySearch(
-        buildQueryParameters(locationTypes, locationNames, searchVariables)
-    )
+    const parameters = buildQueryParameters(locationTypes, locationNames, searchVariables)
+    const placesData = await nearbySearch(parameters.keyword, parameters.rankby, parameters.opennow)
 
     // Other endpoint
     /*
-    const placesData = await httpFactory.findPlace(
+    const placesData = await findPlace(
         places.beautifyLocationName(locationTypes, locationNames)
     )
     */
 
     try {
-        const config = configFactory.get()
-
         // Other endpoint
         /*
         const placeId = placesData.candidates[0].place_id
         */
         
         const placeId = placesData.results[0].place_id
-        const placeDetailsData = await httpFactory.getDetails(placeId)
-        const directionsData = await httpFactory.calculateRoute(config.currentCoordinates, placeId)
+        const placeDetailsData = await getDetails(placeId)
+        const directionsData = await calculateRoute(config.get().currentCoordinates, placeId)
 
         const locationName = placeDetailsData.result.name
         const address = placeDetailsData.result.vicinity

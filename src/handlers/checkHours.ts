@@ -1,21 +1,13 @@
-const { httpFactory, configFactory } = require('../factories')
-const { logger, slot, message, places, translation, tts } = require('../utils')
-const commonHandler = require('./common')
-const {
-    SLOT_CONFIDENCE_THRESHOLD
-} = require('../constants')
-const { Dialog } = require('hermes-javascript')
-const { buildQueryParameters } = require('./utils')
+import { logger, message, Handler } from 'snips-toolkit'
+import { slot, translation, tts } from '../utils'
+import commonHandler, { KnownSlots } from './common'
+import { SLOT_CONFIDENCE_THRESHOLD } from '../constants'
+import { Enums } from 'hermes-javascript/types'
+import { buildQueryParameters, checkCurrentCoordinates } from './utils'
+import { extractOpeningHours } from '../utils'
+import { nearbySearch, getDetails } from '../api'
 
-function checkCurrentCoordinates() {
-    const config = configFactory.get()
-
-    if (!config.currentCoordinates) {
-        throw new Error('noCurrentCoordinates')
-    }
-}
-
-module.exports = async function(msg, flow, hermes, knownSlots = { depth: 2 }) {
+export const checkHoursHandler: Handler = async function(msg, flow, hermes, knownSlots: KnownSlots = { depth: 2 }) {
     logger.info('CheckHours')
 
     checkCurrentCoordinates()
@@ -37,11 +29,11 @@ module.exports = async function(msg, flow, hermes, knownSlots = { depth: 2 }) {
 
         if (dateTimeSlot) {
             // Is it an InstantTime object?
-            if (dateTimeSlot.value.kind === Dialog.enums.slotType.instantTime) {
+            if (dateTimeSlot.value.kind === Enums.slotType.instantTime) {
                 dateTime = new Date(dateTimeSlot.value.value)
             }
             // Or is it a TimeInterval object?
-            else if (dateTimeSlot.value.kind === Dialog.enums.slotType.timeInterval) {
+            else if (dateTimeSlot.value.kind === Enums.slotType.timeInterval) {
                 const from = dateTimeSlot.value.from
                 if (from) {
                     dateTime = new Date(from)
@@ -68,13 +60,12 @@ module.exports = async function(msg, flow, hermes, knownSlots = { depth: 2 }) {
     const now = Date.now()
 
     // Get the data from Places API
-    let placesData = await httpFactory.nearbySearch(
-        buildQueryParameters(locationTypes, locationNames, searchVariables)
-    )
+    const parameters = buildQueryParameters(locationTypes, locationNames, searchVariables)
+    const placesData = await nearbySearch(parameters.keyword, parameters.rankby, parameters.opennow)
 
     // Other endpoint
     /*
-    const placesData = await httpFactory.findPlace(
+    const placesData = await findPlace(
         places.beautifyLocationName(locationTypes, locationNames)
     )
     */
@@ -86,13 +77,13 @@ module.exports = async function(msg, flow, hermes, knownSlots = { depth: 2 }) {
         */
 
         const placeId = placesData.results[0].place_id
-        const placeDetailsData = await httpFactory.getDetails(placeId)
+        const placeDetailsData = await getDetails(placeId)
 
         logger.debug(placeDetailsData)
         
         const locationName = placeDetailsData.result.name
         const address = placeDetailsData.result.vicinity
-        const openingHours = places.extractOpeningHours(dateTime, placeDetailsData)
+        const openingHours = extractOpeningHours(dateTime, placeDetailsData)
         
         const speech = translation.checkHoursToSpeech(locationName, address, dateTime, openingHours)
         logger.info(speech)

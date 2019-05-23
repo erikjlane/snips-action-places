@@ -1,17 +1,20 @@
-require('./helpers/setup').bootstrap()
-const Session = require('./helpers/session')
-const { getMessageKey } = require('./helpers/tools')
-const { configFactory } = require('../src/factories')
-const {
+import { Test } from 'snips-toolkit'
+import {
     createLocationNameSlot,
     createLocationTypeSlot,
-    createSearchVariableSlot
-} = require('./utils')
+    createSearchVariableSlot,
+    mockConfig
+} from './utils'
+
+const { Session, Tools} = Test
+const { getMessageKey } = Tools
+
+import './mocks/http'
 
 const robustnessTestsTimeout = 60000
 
 it('should ask to configure the current coordinates of the device', async () => {
-    configFactory.mock({
+    mockConfig({
         locale: 'english',
         current_region: 'us',
         current_coordinates: '',
@@ -26,12 +29,12 @@ it('should ask to configure the current coordinates of the device', async () => 
 
     // In test mode, the i18n output is mocked as a JSON containing the i18n key and associated options.
     // (basically the arguments passed to i18n, in serialized string form)
-    const endMsg = (await session.end()).text
+    const endMsg = await session.end()
     expect(getMessageKey(endMsg)[0]).toBe('error.noCurrentCoordinates')
 }, robustnessTestsTimeout)
 
 it('should break as neither the location name nor the location type is provided', async () => {
-    configFactory.mock({
+    mockConfig({
         locale: 'english',
         current_region: 'us',
         current_coordinates: '40.6976637,-74.1197635',
@@ -44,12 +47,12 @@ it('should break as neither the location name nor the location type is provided'
         input: 'How can I contact?'
     })
 
-    const endMsg = (await session.end()).text
+    const endMsg = await session.end()
     expect(getMessageKey(endMsg)[0]).toBe('error.intentNotRecognized')
 }, robustnessTestsTimeout)
 
 it('should query the Burger King restaurants which are currently open', async () => {
-    configFactory.mock({
+    mockConfig({
         locale: 'english',
         current_region: 'us',
         current_coordinates: '40.6976637,-74.1197635',
@@ -66,13 +69,13 @@ it('should query the Burger King restaurants which are currently open', async ()
         ]
     })
 
-    const endMsg = (await session.end()).text
-    expect(endMsg.includes('places.checkAround.prominence.multipleResults')).toBeTruthy()
-    expect(endMsg.includes('places.open.multipleResults')).toBeTruthy()
+    const endMsg = await session.end()
+    expect(endMsg.text && endMsg.text.includes('places.checkAround.prominence.multipleResults')).toBeTruthy()
+    expect(endMsg.text && endMsg.text.includes('places.open.multipleResults')).toBeTruthy()
 }, robustnessTestsTimeout)
 
 it('should query the nearest Burger King restaurants', async () => {
-    configFactory.mock({
+    mockConfig({
         locale: 'english',
         current_region: 'us',
         current_coordinates: '40.6976637,-74.1197635',
@@ -89,12 +92,12 @@ it('should query the nearest Burger King restaurants', async () => {
         ]
     })
 
-    const endMsg = (await session.end()).text
+    const endMsg = await session.end()
     expect(getMessageKey(endMsg)).toBe('places.checkAround.distance.multipleResults')
 }, robustnessTestsTimeout)
 
-it.only('should query the top rated Burger King restaurants', async () => {
-    configFactory.mock({
+it('should query the top rated Burger King restaurants', async () => {
+    mockConfig({
         locale: 'english',
         current_region: 'us',
         current_coordinates: '40.6976637,-74.1197635',
@@ -112,6 +115,6 @@ it.only('should query the top rated Burger King restaurants', async () => {
         ]
     })
 
-    const endMsg = (await session.end()).text
+    const endMsg = await session.end()
     expect(getMessageKey(endMsg)).toBe('places.checkAround.topRated.oneResult')
 }, robustnessTestsTimeout)

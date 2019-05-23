@@ -9,8 +9,8 @@ export function checkCurrentCoordinates() {
 }
 
 export function containsFlag(flag, searchVariables) {
-    const lang = SEARCH_VARIABLES[config.get().locale]
-    return lang && lang[flag] && searchVariables.includes(lang[flag])
+    const flags = SEARCH_VARIABLES[config.get().locale]
+    return flags && flags[flag] && searchVariables.includes(flags[flag])
 }
 
 export function buildQueryParameters(locationTypes, locationNames, searchVariables) {
@@ -22,7 +22,7 @@ export function buildQueryParameters(locationTypes, locationNames, searchVariabl
     if (containsFlag('nearby', searchVariables)) {
         rankby = 'distance'
     }
-    if (containsFlag('top rated', searchVariables)) {
+    if (containsFlag('top_rated', searchVariables)) {
         rankby = 'prominence'
     }
 

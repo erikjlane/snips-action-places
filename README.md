@@ -18,8 +18,20 @@ An assistant containing the intents listed below must be installed on your syste
 
 ## Run
 
+- Dev mode:
+
 ```sh
-node action-places.js
+# Dev mode watches for file changes and restarts the action.
+npm run dev
+```
+
+- Prod mode:
+
+```sh
+# 1) Lint, transpile and test.
+npm start
+# 2) Run the action.
+npm run launch
 ```
 
 ## Test & Demo cases
@@ -60,17 +72,11 @@ Get the opening hours of the given place
 
 ## Debug
 
-In the `action-places.js` file:
+In the `src/index.ts` file:
 
 ```js
 // Uncomment this line to print everything
 // debug.enable(name + ':*')
-```
-
-When running from the terminal, to enable full depth object printing:
-
-```bash
-env DEBUG_DEPTH=null node action-places.js
 ```
 
 ## Test & Lint

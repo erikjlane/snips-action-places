@@ -1,7 +1,7 @@
 import { logger, Handler } from 'snips-toolkit'
 import { translation, slot, tts } from '../utils'
 import commonHandler, { KnownSlots } from './common'
-import { buildQueryParameters, checkCurrentCoordinates } from './utils'
+import { buildQueryParameters, checkCurrentCoordinates, containsFlag } from './utils'
 import { topRatedFilter } from '../utils'
 import { nearbySearch } from '../api'
 
@@ -29,7 +29,7 @@ export const checkAroundHandler: Handler = async function(msg, flow, hermes, kno
 
     try {
         // Keep the top-rated places only
-        if (searchVariables.includes('top rated')) {
+        if (containsFlag('top_rated', searchVariables)) {
             placesData.results = topRatedFilter(placesData)
         }
         logger.debug(placesData)

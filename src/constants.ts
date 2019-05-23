@@ -8,12 +8,14 @@ export const INTENT_FILTER_PROBABILITY_THRESHOLD = 0.5
 export const SLOT_CONFIDENCE_THRESHOLD = 0.4
 export const ASR_UTTERANCE_CONFIDENCE_THRESHOLD = 0.5
 export const SEARCH_VARIABLES = {
-    en: {
+    english: {
+        popular: 'popular',
         top_rated: 'top rated',
         nearby: 'nearby',
         open: 'open'
     },
     fr: {
+        popular: 'populaire',
         top_rated: 'mieux noté',
         nearby: 'à proximité',
         open: 'ouvert'

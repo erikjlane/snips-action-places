@@ -15,7 +15,7 @@ const robustnessTestsTimeout = 60000
 
 it('should ask to configure the current coordinates of the device', async () => {
     mockConfig({
-        locale: 'english',
+        locale: 'en',
         current_region: 'us',
         current_coordinates: '',
         unit_system: 'metric'
@@ -35,7 +35,7 @@ it('should ask to configure the current coordinates of the device', async () => 
 
 it('should break as neither the location name nor the location type is provided', async () => {
     mockConfig({
-        locale: 'english',
+        locale: 'en',
         current_region: 'us',
         current_coordinates: '40.6976637,-74.1197635',
         unit_system: 'metric'
@@ -53,7 +53,7 @@ it('should break as neither the location name nor the location type is provided'
 
 it('should query the Burger King restaurants which are currently open', async () => {
     mockConfig({
-        locale: 'english',
+        locale: 'en',
         current_region: 'us',
         current_coordinates: '40.6976637,-74.1197635',
         unit_system: 'metric'
@@ -76,7 +76,7 @@ it('should query the Burger King restaurants which are currently open', async ()
 
 it('should query the nearest Burger King restaurants', async () => {
     mockConfig({
-        locale: 'english',
+        locale: 'en',
         current_region: 'us',
         current_coordinates: '40.6976637,-74.1197635',
         unit_system: 'metric'
@@ -98,7 +98,7 @@ it('should query the nearest Burger King restaurants', async () => {
 
 it('should query the top rated Burger King restaurants', async () => {
     mockConfig({
-        locale: 'english',
+        locale: 'en',
         current_region: 'us',
         current_coordinates: '40.6976637,-74.1197635',
         unit_system: 'metric'

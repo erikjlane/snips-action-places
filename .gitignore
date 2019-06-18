@@ -5,7 +5,6 @@ config.ini
 logs
 *.log
 npm-debug.log*
-pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
@@ -41,7 +40,7 @@ node_modules/
 jspm_packages/
 
 # TypeScript dist
-#dist/
+dist/
 
 # TypeScript v1 declaration files
 typings/

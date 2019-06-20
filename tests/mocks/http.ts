@@ -157,7 +157,8 @@ SnipsToolkit.mock.http(fetchMock => {
                 vicinity: '185-187 E 22nd St, Bayonne'
             }
         ],
-        status: 'OK'
+        //status: 'OK'
+        status: 200
     })
 
     fetchMock.mock('glob:*api/place/findplacefromtext*', {
@@ -166,8 +167,8 @@ SnipsToolkit.mock.http(fetchMock => {
                 place_id: 'ChIJP6KBfqJRwokR8MHzw4fMtzk'
             }
         ],
-        status: 'OK'
-    })
+        //status: 'OK'
+        status: 200    })
 
     fetchMock.mock('glob:*api/place/details*', {
         html_attributions: [],
@@ -346,8 +347,8 @@ SnipsToolkit.mock.http(fetchMock => {
             vicinity: '1088 Broadway, Bayonne',
             website: 'https://locations.bk.com/nj/bayonne/1088-broadway.html'
         },
-        status: 'OK'
-    })
+        //status: 'OK'
+        status: 200    })
 
     fetchMock.mock('glob:*api/directions*', {
         geocoded_waypoints: [
@@ -463,8 +464,8 @@ SnipsToolkit.mock.http(fetchMock => {
                 waypoint_order: []
             }
         ],
-        status: 'OK'
-    })
+        //status: 'OK'
+        status: 200    })
 
     return fetchMock
 })

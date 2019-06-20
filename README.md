@@ -2,7 +2,7 @@
 
 Snips action code for the Places app
 
-[![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
+[![Build Status](https://travis-ci.org/snipsco/snips-action-places.svg?branch=master)](https://travis-ci.org/snipsco/snips-action-places)
 
 ## Setup
 
@@ -89,8 +89,8 @@ npm start
 
 **In test mode, i18n output and http calls are mocked.**
 
-- **http**: see `tests/httpMocks/index.js`
-- **i18n**: see `src/factories/i18nFactory.js`
+- **http**: mocks are written in `tests/httpMocks/index.ts`
+- **i18n**: mocked by `snips-toolkit`, see the [documentation](https://github.com/snipsco/snips-javascript-toolkit#i18n).
 
 ## Contributing
 

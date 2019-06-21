@@ -6,7 +6,7 @@ export function extractOpeningHours(date, placeData) {
     if (placeData.result && placeData.result.opening_hours && placeData.result.opening_hours.periods) {
         const periods = placeData.result.opening_hours.periods
         const day = date.getDay()
-        
+
         logger.debug(periods)
 
         for (let obj of periods) {

@@ -16,7 +16,7 @@ export const findContactHandler: Handler =  async function (msg, flow, hermes, k
         locationNames,
         searchVariables
     } = await commonHandler(msg, knownSlots)
-    
+
     // Get contact_form specific slot
     let contactForm
 
@@ -71,7 +71,7 @@ export const findContactHandler: Handler =  async function (msg, flow, hermes, k
         const locationName = placeDetailsData.result.name
         const phoneNumber = placeDetailsData.result.formatted_phone_number
         const address = placeDetailsData.result.formatted_address
-        
+
         const speech = translation.findContactToSpeech(locationName, contactForm, phoneNumber, address)
         logger.info(speech)
 

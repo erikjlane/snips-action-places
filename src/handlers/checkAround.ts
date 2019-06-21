@@ -33,7 +33,7 @@ export const checkAroundHandler: Handler = async function(msg, flow, hermes, kno
             placesData.results = topRatedFilter(placesData)
         }
         logger.debug(placesData)
-        
+
         const speech = translation.nearbySearchToSpeech(locationTypes, searchVariables, placesData)
         logger.info(speech)
 

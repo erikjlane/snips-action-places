@@ -80,11 +80,11 @@ export const checkHoursHandler: Handler = async function(msg, flow, hermes, know
         const placeDetailsData = await getDetails(placeId)
 
         logger.debug(placeDetailsData)
-        
+
         const locationName = placeDetailsData.result.name
         const address = placeDetailsData.result.vicinity
         const openingHours = extractOpeningHours(dateTime, placeDetailsData)
-        
+
         const speech = translation.checkHoursToSpeech(locationName, address, dateTime, openingHours)
         logger.info(speech)
 

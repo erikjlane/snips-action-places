@@ -27,7 +27,7 @@ export const beautify = {
             }).replace(':', ' ').replace(' 00','')
         }
     },
-    
+
     address: (address: string): string => {
         if (config.get().locale === 'en') {
             address = address.replace(/(.*)( Av| AV| Av\.| Ave)(\/|$|-|,| )(.*)/g, '$1 Avenue$3$4')
@@ -44,7 +44,7 @@ export const beautify = {
     distance: (distance: number): string => {
         if (config.get().unitSystem === 'imperial') {
             distance = metersToFeet(distance)
-    
+
             if (distance > 5280) {
                 distance = round(distance / 5280, 1)
                 return i18n.translate('units.distance.imperial.miles', { distance })

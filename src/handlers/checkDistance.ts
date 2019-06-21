@@ -38,7 +38,7 @@ export const checkDistanceHandler: Handler = async function(msg, flow, hermes, k
         /*
         const placeId = placesData.candidates[0].place_id
         */
-        
+
         const placeId = placesData.results[0].place_id
         const placeDetailsData = await getDetails(placeId)
         const directionsData = await calculateRoute(config.get().currentCoordinates, placeId)
@@ -46,7 +46,7 @@ export const checkDistanceHandler: Handler = async function(msg, flow, hermes, k
         const locationName = placeDetailsData.result.name
         const address = placeDetailsData.result.vicinity
         const distance = directionsData.routes[0].legs[0].distance.value
-        
+
         const speech = translation.checkDistanceToSpeech(locationName, address, distance)
         logger.info(speech)
 

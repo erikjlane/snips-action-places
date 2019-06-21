@@ -26,7 +26,7 @@ export default async function (msg, knownSlots: KnownSlots) {
         }
     } else {
         locationTypes = knownSlots.location_types
-    }    
+    }
 
     // Slot location_name
     if (!('location_names' in knownSlots)) {

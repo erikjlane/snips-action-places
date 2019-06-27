@@ -6,3 +6,4 @@ current_region=us
 current_coordinates=40.6976637,-74.1197635
 unit_system=metric
 api_key=
+assistant_prefix=snips-assistant

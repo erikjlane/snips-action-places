@@ -28,19 +28,19 @@ export default async function ({
         // Subscribe to the app intents
         dialog.flows([
             {
-                intent: 'snips-assistant:CheckAround',
+                intent: `${ config.get().assistantPrefix }:CheckAround`,
                 action: (msg, flow) => handlers.checkAround(msg, flow, hermes)
             },
             {
-                intent: 'snips-assistant:FindContact',
+                intent: `${ config.get().assistantPrefix }:FindContact`,
                 action: (msg, flow) => handlers.findContact(msg, flow, hermes)
             },
             {
-                intent: 'snips-assistant:CheckDistance',
+                intent: `${ config.get().assistantPrefix }:CheckDistance`,
                 action: (msg, flow) => handlers.checkDistance(msg, flow, hermes)
             },
             {
-                intent: 'snips-assistant:CheckHours',
+                intent: `${ config.get().assistantPrefix }:CheckHours`,
                 action: (msg, flow) => handlers.checkHours(msg, flow, hermes)
             }
         ])

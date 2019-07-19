@@ -12,6 +12,10 @@ import './mocks/http'
 
 const robustnessTestsTimeout = 60000
 
+SnipsToolkit.mock.config(config => {
+    config.apiKey = 'fake_api_key'
+})
+
 it('should ask to configure the current coordinates of the device', async () => {
     mockConfig({
         locale: 'en',
